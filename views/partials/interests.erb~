@@ -1,0 +1,9 @@
+<%= erb :partials/phone %>
+<%= erb :partials/interests %>
+<%= erb :partials/impression %>
+<fieldset>
+<legend class='material-icons'>play_arrow</legend>
+<button type='submit' class='btn' name='do' value='start' style='font-size: larger'>
+<span style='vertical-align: middle;'>BEGIN</span>
+</button>
+</div>
