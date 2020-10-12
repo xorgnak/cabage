@@ -1,0 +1,8 @@
+<input type='text' name='icon'><label>icon name</label>
+<input type='text' name='title'><label>title</label>
+<input type='text' name='name'><label>name</label>
+<input type='text' name='nick'><label>nickname</label>
+<input type='text' name='desc'><label>description</label>
+<input type='text' name='perk_1'><label>perk 1</label>
+<input type='text' name='perk_2'><label>perk 2</label>
+<input type='text' name='perk_3'><label>perk 3</label>

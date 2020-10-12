@@ -1,0 +1,50 @@
+<style>
+#cycler{position:relative;}
+#cycler img{position:absolute;z-index:1}
+#cycler img.active{z-index:3}
+</style>
+<fieldset>
+<legend>
+<span class='material-icons' style='padding: 0 1% 0 1%; vertical-align: middle;'><%= @attr['icon'] %></span>
+<span style='vertical-align: middle;'><%= @attr['title'] %></span></legend>
+<div style='width: 100%; text-align: center;'>
+<div>
+<h3><%= @attr['desc'] %></h3>
+<ul>
+<li><%= @attr['perk_1'] %></li>
+<li><%= @attr['perk_2'] %></li>
+<li><%= @attr['perk_3'] %></li>
+</ul>
+<div id="qrcode"></div>
+</div>
+<div id="cycler">
+<img class='active' src='/image0.png'>
+<img src='/image1.png'>
+<img src='/image2.png'>
+<img src='/image3.png'>
+<img src='/image4.png'>
+<img src='/image5.png'>
+<img src='/image6.png'>
+<img src='/image7.png'>
+<img src='/image8.png'> 
+<img src='/image9.png'> 
+<div>
+</div>
+<h1><%= @attr['name'] %></h1>
+<h3><%= @attr['nick'] %></h3>
+</fieldset>
+<script>
+function cycleImages(){
+      var $active = $('#cycler .active');
+      var $next = ($active.next().length > 0) ? $active.next() : $('#cycler img:first');
+      $next.css('z-index',2);//move the next image up the pile
+      $active.fadeOut(1500,function(){//fade out the top image
+	  $active.css('z-index',1).show().removeClass('active');//reset the z-index and unhide the image
+          $next.css('z-index',3).addClass('active');//make the next image the top one
+      });
+    }
+$(function() {
+jquery('#qrcode').qrcode("https://vango.me/ui?id=<%= params[:id] %>");
+setInterval('cycleImages()', 6000);
+});
+</script>

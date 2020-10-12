@@ -1,0 +1,59 @@
+<% if params[:id] %>
+<style>
+#cycler{position:relative;}
+#cycler img{position:absolute;z-index:1}
+#cycler img.active{z-index:3}
+</style>
+<fieldset>
+<legend>
+<span class='material-icons' style='padding: 0 1% 0 1%; vertical-align: middle;'><%= @attr['icon'] %></span>
+<span style='vertical-align: middle;'><%= @attr['title'] %></span></legend>
+<div style='width: 100%; text-align: center;'>
+<div id="cycler" style='width: 60%; float: right;'>
+<img class='active' src='/stock0'>
+<% @id.images.each do |i| %>
+<img src='<%= i %>'>
+<% end %>
+</div> 
+<div style='width: 40%;'>
+<h3><%= @attr['desc'] %></h3>
+<ul>
+<li><%= @attr['perk_1'] %></li>
+<li><%= @attr['perk_2'] %></li>
+<li><%= @attr['perk_3'] %></li>
+</ul>
+<div id="qrcode"></div>
+</div>
+</div>
+<h1><%= @attr['name'] %></h1>
+<h3><%= @attr['nick'] %></h3>
+</fieldset>
+<fieldset>
+<legend><span class='material-icons' style='padding: 0 2% 0 2%; vertical-align: middle'>military_tech</span><span style='vertical-align: middle;'>badges</legend>
+<h1>
+<% @id.groups.members.each do |g| %>
+<%= Group.new(g).badge %>
+<% end %>
+</h1>
+</fieldset>
+<script>
+function cycleImages(){
+      var $active = $('#cycler .active');
+      var $next = ($active.next().length > 0) ? $active.next() : $('#cycler img:first');
+      $next.css('z-index',2);//move the next image up the pile
+      $active.fadeOut(1500,function(){//fade out the top image
+	  $active.css('z-index',1).show().removeClass('active');//reset the z-index and unhide the image
+          $next.css('z-index',3).addClass('active');//make the next image the top one
+      });
+    }
+$(function() {
+$('#qrcode').qrcode("https://vango.me/ui?id=<%= params[:id] %>");
+setInterval('cycleImages()', 6000);
+});
+</script>
+<% else %>
+<fieldset>                                                                             
+<legend><span class='material-icons' style='padding: 0 2% 0 2%; vertical-align: middle'>fingerprint</span><span style='vertical-align: middle;'>profile</legend>
+<input type='tel' name='id' placeholder='(   )    -    '><button type='submit' name='do' value='make'>SHOW</button>
+</fieldset> 
+<% end %>

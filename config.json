@@ -1,0 +1,10 @@
+{
+    "network": "vango",
+    "mqtt": {
+	"broker": "vango.me",
+	"port": 8083
+    },
+    "google": {
+	"key":"AIzaSyAwpEbYQnUeJfdKrsqBmmoGLMWlA3EfErI"
+    }
+}

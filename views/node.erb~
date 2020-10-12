@@ -1,0 +1,9 @@
+<fieldset>
+<legend><span clas='material-icons'>bike_scooter</span><span>pedicabber</span></legend>
+<h1>Erik Olson</h1>
+<h3>constant gardener</h3>
+</fieldset>
+<fieldset>                                                                             
+<legend><span clas='material-icons'>scanner</span><span>connect</span></legend>
+<img src='/qrcode'>                                                             
+</fieldset> 

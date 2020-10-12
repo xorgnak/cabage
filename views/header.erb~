@@ -1,0 +1,5 @@
+<h1 style='text-align: center;'>
+<button type='submit' class='btn' name='go' value='' style=''><-</button>
+<span style='font-size: large; margin: 0 10% 0 10%;'>cabgo 2020</span>
+<button type='submit' class='btn' name='go' value='' style=''>-></button>
+</h1>

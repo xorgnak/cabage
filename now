@@ -1,0 +1,6 @@
+#!/bin/sh
+ls
+rm lib/*~
+rm bin/*~
+
+ruby bin/init.rb
