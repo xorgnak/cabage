@@ -1,3 +1,4 @@
+<!-- cab interface -->
 <% if params[:id] %>
 <style>
 #cycler{position:relative;}
@@ -11,9 +12,9 @@
 <div style='width: 100%; text-align: center;'>
 <div id="cycler" style='width: 60%; float: right;'>
 <img class='active' src='/stock0'>
-<% @id.images.each do |i| %>
-<img src='<%= i %>'>
-<% end %>
+<img src='<%= @attr['image_1'] %>'>
+<img src='<%= @attr['image_2'] %>'>
+<img src='<%= @attr['image_3'] %>'>
 </div> 
 <div style='width: 40%;'>
 <h3><%= @attr['desc'] %></h3>
@@ -28,7 +29,7 @@
 <h1><%= @attr['name'] %></h1>
 <h3><%= @attr['nick'] %></h3>
 </fieldset>
-<fieldset>
+<fieldset style='position: absolute; bottom: 0;'>
 <legend><span class='material-icons' style='padding: 0 2% 0 2%; vertical-align: middle'>military_tech</span><span style='vertical-align: middle;'>badges</legend>
 <h1>
 <% @id.groups.members.each do |g| %>
@@ -47,13 +48,14 @@ function cycleImages(){
       });
     }
 $(function() {
-$('#qrcode').qrcode("https://vango.me/ui?id=<%= params[:id] %>");
+$('#qrcode').qrcode("https://vango.me/user?id=<%= params[:id] %>");
 setInterval('cycleImages()', 6000);
 });
 </script>
 <% else %>
 <fieldset>                                                                             
 <legend><span class='material-icons' style='padding: 0 2% 0 2%; vertical-align: middle'>fingerprint</span><span style='vertical-align: middle;'>profile</legend>
-<input type='tel' name='id' placeholder='(   )    -    '><button type='submit' name='do' value='make'>SHOW</button>
+<input type='hidden' name='params[id]' value='id'>
+<input type='tel' name='id' placeholder='(   )    -    '><button type='submit' name='do' value='badge_make'>SHOW</button>
 </fieldset> 
 <% end %>

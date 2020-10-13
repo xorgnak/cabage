@@ -1,9 +1,41 @@
-<p><input type='text' name='icon' placeholder='icon name'></p>
-<p><input type='text' name='title' placeholder='title'></p>
+<fieldset>
+<legend>icon</legend>
+<p>which icon best represents your general focus of work?</p>
+<% [ 'loyalty', 'work', 'fastfood', 'people', 'local_bar', 'explore', 'local_cafe', 'cake', 'music_note', 'deck', 'wifi_tethering', 'emoji_transportation' ].each do |e| %>
+<input type='radio' name='icon' value='<%= e %>'>
+<label class='material-icons'><%= e %></label>
+<% end %>
+</fieldset> 
+<fieldset>
+<legend>basics</legend>
+<p>a bit more about you...</p>
+<datalist id='titles'>
+<% [ 'pedicabber', 'pathfinder', 'show-off', 'specialist', 'operator'].each do |e| %>
+<option value='<%= e %>'>  
+<% end %>
+</datalist>
+<p><input type='text' name='title' list='titles' placeholder='title' ></p>
+<p><input type='tel' name='venmo' placeholder='venmo'></p> 
 <p><input type='text' name='name' placeholder='name'></p>
 <p><input type='text' name='nick' placeholder='nickname'></p>
 <p><input type='text' name='desc' placeholder='description'></p>
+</fieldset>
+<fieldset>
+<legend>pitchlines</legend>
+<p>What sells your product?</p>
 <p><input type='text' name='perk_1' placeholder='perk 1'></p>
 <p><input type='text' name='perk_2' placeholder='perk 2'></p>
 <p><input type='text' name='perk_3' placeholder='perk 3'></p>
-<p><button type='submit' name='do' value='make'>JOIN</button></p>
+</fieldset>
+<fieldset>
+<legend>images</legend>
+<p>Provide some external image links...</p>
+<p><input type='text' name='image_1' placeholder='image 1'></p>
+<p><input type='text' name='image_2' placeholder='image 2'></p>
+<p><input type='text' name='image_3' placeholder='image 3'></p>
+</fieldset>
+<div style='text-align: center;'>
+<p>and...</p>
+<p><button type='submit' name='go' value='/badge'>GO TO<br>WORK</button></p>
+</div>
+

@@ -1,6 +1,6 @@
 class Profile
   include Redis::Objects
-  hash_key :attr
+  hash_key :attr, marshal: true
   sorted_set :stat
   set :groups
   list :images
