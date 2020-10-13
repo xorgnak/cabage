@@ -2,49 +2,53 @@
 <% if params[:id] %>
 <style>
 #cycler{position:relative;}
-#cycler img{position:absolute;z-index:1}
-#cycler img.active{z-index:3}
+#cycler img{position:absolute;z-index:-10;}
+#cycler img.active{z-index:-1;}
+img { }
 </style>
-<fieldset>
-<legend>
-<span class='material-icons' style='padding: 0 1% 0 1%; vertical-align: middle;'><%= @attr['icon'] %></span>
-<span style='vertical-align: middle;'><%= @attr['title'] %></span></legend>
-<div style='width: 100%; text-align: center;'>
-<div id="cycler" style='width: 60%; float: right;'>
-<img class='active' src='/stock0'>
-<img src='<%= @attr['image_1'] %>'>
-<img src='<%= @attr['image_2'] %>'>
-<img src='<%= @attr['image_3'] %>'>
-</div> 
-<div style='width: 40%;'>
-<h3><%= @attr['desc'] %></h3>
-<ul>
-<li><%= @attr['perk_1'] %></li>
-<li><%= @attr['perk_2'] %></li>
-<li><%= @attr['perk_3'] %></li>
-</ul>
-<div id="qrcode"></div>
+<div id="cycler" style='min-width: 100%; min-height: 100%; z-index: -10;'>                                    
+  <img src='<%= @attr['image_1'] %>' class='active'>                                   
+  <img src='<%= @attr['image_2'] %>'>                                                  
+  <img src='<%= @attr['image_3'] %>'>                                                  
 </div>
-</div>
-<h1><%= @attr['name'] %></h1>
-<h3><%= @attr['nick'] %></h3>
-</fieldset>
-<fieldset style='position: absolute; bottom: 0;'>
-<legend><span class='material-icons' style='padding: 0 2% 0 2%; vertical-align: middle'>military_tech</span><span style='vertical-align: middle;'>badges</legend>
-<h1>
-<% @id.groups.members.each do |g| %>
-<%= Group.new(g).badge %>
-<% end %>
-</h1>
-</fieldset>
+
+  <div style='padding: 2%; position: absolute; bottom: 0;'>
+    <fieldset style='width: 60%; background-color: white;'>
+      <legend style='background-color: white;'>
+        <span class='material-icons leg'><%= @attr['icon'] %></span>
+        <span class='leg' style='font-weight: bold;'><%= @attr['name'] %></span> - <span class='leg'><%= @attr['title'] %></span>
+        <span class='leg' style='font-style: oblique;'><%= @attr['nick'] %></span>
+      </legend>
+      <div style='text-align: center;'>
+        <h3><%= @attr['desc'] %></h3>
+         <div id="qrcode"></div>
+         <ul>
+           <li><%= @attr['perk_1'] %></li>
+	   <li><%= @attr['perk_2'] %></li>
+	   <li><%= @attr['perk_3'] %></li>
+         </ul>
+      </div>
+    </fieldset>
+
+    <% if @id.groups.members.length > 0 %>
+    <fieldset style='position: absolute; bottom: 0;'>
+      <legend><span class='material-icons leg'>military_tech</span><span class='leg'>badges</legend>
+      <h1>
+        <% @id.groups.members.each do |g| %>
+          <%= Group.new(g).badge %>
+        <% end %>
+      </h1>
+    </fieldset>
+    <% end %>
+  </div>
 <script>
 function cycleImages(){
       var $active = $('#cycler .active');
       var $next = ($active.next().length > 0) ? $active.next() : $('#cycler img:first');
       $next.css('z-index',2);//move the next image up the pile
       $active.fadeOut(1500,function(){//fade out the top image
-	  $active.css('z-index',1).show().removeClass('active');//reset the z-index and unhide the image
-          $next.css('z-index',3).addClass('active');//make the next image the top one
+	  $active.css('z-index',-10).show().removeClass('active');//reset the z-index and unhide the image
+          $next.css('z-index',-1).addClass('active');//make the next image the top one
       });
     }
 $(function() {

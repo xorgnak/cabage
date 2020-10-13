@@ -2,6 +2,7 @@ require 'json'
 require 'mqtt'
 require 'redis-objects'
 require 'sinatra/base'
+require 'thin'
 require 'pry'
 def log t, m
   if m.class == String

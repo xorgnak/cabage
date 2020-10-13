@@ -6,7 +6,7 @@ module Handle
       @h = h
       @mode = :index
       @oh = { time: Time.now.to_f }
-      u = Profile.new(@h[:id])
+      u = Profile.new(@h.delete(:id))
       @h.each_pair {|k,v| u.attr[k] = v}
       @r, @o = [], []
       @go = false

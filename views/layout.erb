@@ -12,7 +12,7 @@
     border-radius: 15px;
     padding: 0 2% 0 2%;
       }
-      
+      .leg { padding: 0 2% 0 2%; vertical-align: middle; }
       .btn {
 	  border: thick outset grey;
 	     border-radius: 10px;
@@ -27,7 +27,7 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.qrcode/1.0/jquery.qrcode.min.js"></script>                                                           
     <script src="https://cdnjs.cloudflare.com/ajax/libs/paho-mqtt/1.0.1/mqttws31.min.js" type="text/javascript"></script>
 </head>
-<body>
+<body style='width: 100%; margin: 0;'>
   <form action='/' method='post'>
     <%= yield %>
     </form>
