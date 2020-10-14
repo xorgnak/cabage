@@ -25,6 +25,7 @@ class App < Sinatra::Base
 
   end
   get('/:app') do
+    log("#{params}", 'post')
     if params[:id]
     @id = Profile.new(params[:id])
     @attr = @id.attr.all
