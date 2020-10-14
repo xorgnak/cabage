@@ -64,7 +64,7 @@ $(function() {
  user = '<%= params[:id] %>';
  $(document).on('click', '#snd', function(ev) {
   ev.preventDefault();
-  sendMQTT($('#msg').val());
+  sendMQTT();
   $('#msg').val('')
  });
  $(document).on('click', '.view', function(ev) {
@@ -72,6 +72,10 @@ $(function() {
   $('.views').hide();
   $("#" + $(this).val()).show();
  });
+  $(document).on('click', '.view', function(ev) {
+  ev.preventDefault();
+  sendMQTT();
+  });
  $('.views').hide();
  $('#feed').show();
 }); 
