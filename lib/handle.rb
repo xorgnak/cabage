@@ -6,11 +6,11 @@ module Handle
       @h = h
       @mode = :index
       @oh = { time: Time.now.to_f }
-      u = Profile.new(@h.delete(:id))
+      u = Profile.new(@h.delete('id'))
       @h.each_pair {|k,v| u.attr[k] = v}
       @r, @o = [], []
       @go = false
-      if h[:go]
+      if h['go']
         packRoute
         @go = true
       end
@@ -26,18 +26,18 @@ module Handle
       @o.join('')
     end
     def packRoute
-      @r << @h[:go]
+      @r << @h['go']
       @r << '?'
-      if @h.has_key? :params
-        @h[:params].each_pair {|k,v| @r << %[#{k}=#{@h[v.to_sym]}&] }
+      if @h.has_key? 'params'
+        @h['params'].each_pair {|k,v| @r << %[#{k}=#{@h[v]}&] }
       end
-      @r << %[id=#{@h[:id]}]
+      @r << %[id=#{@h['id']}]
       return @r.join('')
     end
     def packErb
       @o << "<code style='width: 100%; background-color: black; color: orange;'>#{@h}</code>"
-      @o << "<input type='hidden' name='id' value='#{@h[:id]}'>"
-      @o << "<%= erb :#{@h[:do] || 'index'} %>"
+      @o << "<input type='hidden' name='id' value='#{@h['id']}'>"
+      @o << "<%= erb :#{@h['do'] || 'index'} %>"
 #      @o << "<%= erb :footer %>"
     end
   end
