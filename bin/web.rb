@@ -10,6 +10,7 @@ class App < Sinatra::Base
     set :public_dir, 'public'
   end
   post('/') do
+    log('post', "#{params}") 
     x = Handle::Post.new(params)
     if x.go?
       redirect x.route
@@ -25,7 +26,7 @@ class App < Sinatra::Base
 
   end
   get('/:app') do
-    log("#{params}", 'post')
+    log('app', "#{params}")
     if params[:id]
     @id = Profile.new(params[:id])
     @attr = @id.attr.all
