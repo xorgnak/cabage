@@ -21,6 +21,9 @@ class App < Sinatra::Base
     Handle::Get.new(params)
     erb :index
   end
+  get('/favicon.ico') do
+
+  end
   get('/:app') do
     if params[:id]
     @id = Profile.new(params[:id])
