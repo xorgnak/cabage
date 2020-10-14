@@ -1,0 +1,31 @@
+<div id='user'>
+<input type='tel' id='usr'><button id='go' class='material-icons'>bike_scooter</button>
+</div>
+
+<div id='ui' style='display: none;'>
+<a href='tel:<%= params[:id] %>' class='material-icons'>call</a>
+<a href='<%= @js.venmo_tip(@attr['venmo']) %>' class='material-icons'>payments</a>
+</nav>
+<h1><%= @attr['nickname'] %></h1>
+<h3><%= @attr['nickname'] %></h3>
+<button class='material-icons ui' value='1'>thumb_up</button>
+<button class='material-icons ui' value='0'>stars</button>
+<button class='material-icons ui' value='-1'>thumb_down</button>
+</div>
+<script>
+<%= @js.venmo %>
+<%= @js.mqtt_lib %>
+$(function() {
+<%= @js.mqtt_init %>
+$(document).on('click', '.ui', function(ev) {
+ev.preventDefault();
+sendMQTT();
+});
+$(document).on('click', '#go', function(ev) {
+ev.preventDefault();
+user = $('#usr').val();
+$('#user').hide();
+$('#ui').show();
+});
+});
+</script>

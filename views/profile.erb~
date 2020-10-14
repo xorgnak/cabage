@@ -1,0 +1,3 @@
+<a href='/sign?id=<%= params[:id] %>'>
+<a href='/hud?id=<%= params[:id] %>'>
+<a href='/ui?id=<%= params[:id] %>'>

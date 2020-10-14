@@ -1,6 +1,14 @@
 class App < Sinatra::Base
-  helpers do
-
+  before do
+    log('app',"#{params} #{request.fullpath}")
+    if request.fullpath != '/'
+    if params[:id]                                                               
+      @id = Profile.new(params[:id])                                                   
+      @attr = @id.attr.all                                                             
+      @stat = @id.stat.members(with_scores: true).to_h
+      @js = JS.new(params[:id])
+    end
+    end 
   end
   
   configure do
@@ -9,9 +17,21 @@ class App < Sinatra::Base
     set :views, 'views'
     set :public_dir, 'public'
   end
+  helpers do
+
+  end
+  
   post('/') do
     log('post', "#{params}") 
     x = Handle::Post.new(params)
+    t = []; 64.times { t << rand(16).to_s(16); }
+    @tok = t.join('');
+    if params[:id]
+      @id = Profile.new(params[:id])
+      @attr = @id.attr.all                                                            
+      @stat = @id.stat.members(with_scores: true).to_h
+      @js = JS.new(params[:id])                                                       
+    end 
     if x.go?
       redirect x.route
     else
@@ -22,17 +42,10 @@ class App < Sinatra::Base
     Handle::Get.new(params)
     erb :index
   end
-  get('/favicon.ico') do
-
-  end
-  get('/:app') do
-    log('app', "#{params}")
-    if params['id']
-    @id = Profile.new(params['id'])
-    @attr = @id.attr.all
-    @stat = @id.stat.members(with_scores: true).to_h
-    end
-    erb params[:app].to_sym
-  end
+   get('/ads.txt') {} 
+  get('/robots.txt') {}
+  get('/webmanifest') { erb :webmanifest }
+  get('/favicon.ico') {}
+  [:auth, :pin, :sign, :ui, :profile].each { |r| get("/#{r}") { erb r } }
 end
 Process.detach(fork { App.run! })

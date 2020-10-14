@@ -1,0 +1,11 @@
+<img src='<%= @attr['image'] %>'>
+<div>
+<h1><%= @attr['nickname'] %></h1>
+<div id='qrcode'></div>
+<h2><%= @attr['pitch'] %></h2>
+</div>
+<script>
+$(function() {
+<%= @js.qrcode %> 
+});
+</script>
