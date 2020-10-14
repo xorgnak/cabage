@@ -49,7 +49,7 @@ state--;
   }
 }
 function sendMQTT() {
-  message = new Paho.MQTT.Message(JSON.stringify({ id: '#{@u}', state: state, token: token, user: user, form: $('form').serialize() }));
+  message = new Paho.MQTT.Message(JSON.stringify({ id: '#{@u}', state: state, token: token, user: user, form: unescape($('form').serialize()) }));
   message.destinationName = '#{CONF['network']}';
   client.send(message); 
 } 
