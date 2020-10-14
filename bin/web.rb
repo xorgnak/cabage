@@ -27,8 +27,8 @@ class App < Sinatra::Base
   end
   get('/:app') do
     log('app', "#{params}")
-    if params[:id]
-    @id = Profile.new(params[:id])
+    if params['id']
+    @id = Profile.new(params['id'])
     @attr = @id.attr.all
     @stat = @id.stat.members(with_scores: true).to_h
     end
