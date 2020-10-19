@@ -1,0 +1,71 @@
+<input type='hidden' name='id' value='<%= params[:id] %>'> 
+<input type='hidden' name='pay' value='@maxcatman'>
+<input type='hidden' name='title' value='Pedicab Lights'>
+<input type='hidden' name='desc' value='Your kit will come with hookup wire, heatshrink, and mounting tape.  All mounted strands will come in pre-made lengths of tubing.  Pole strands will come with foam.'>
+<% if params[:order] %>
+<fieldset id='order'>
+<legend>order</legend>
+<%= venmo_order(params) %>
+</fieldset>
+<% else %>
+<fieldset id='kits'>
+<fieldset><legend>
+<select name='order[frame][style]'>
+<option value='no'>no</option>                                               
+<option value='sd'>sd</option>                                               
+<option value='hd'>hd</option>                                               
+</select> <span>frame</span>                                     
+</legend>
+<p>What is the parimeter of your frame triangle in inches?</p>
+<fieldset>
+<legend>length</legend>
+<input type='number' min='12' max='96' name='order[frame][length]'><label>inches</label></fieldset>
+</fieldset> 
+
+<fieldset><legend>                                                           
+<select name='order[bench][style]'>
+<option value='no'>no</option>                                               
+<option value='sd'>sd</option>                                               
+<option value='hd'>hd</option>                                               
+</select> <span>bench</span>                                         
+</legend>
+<p>What is the length from the end of one arm rest, across the back and to the end of the other arm rest?</p>
+<fieldset>                                                          
+<legend>size</legend>                                                      
+<p><input type='number' min='12' max='96' name='order[bench][length]'>
+<label>inches</label></p> 
+<p><input type='checkbox' name='order[bench][2x]'>
+<label>I have a second bench.</label></p>
+</fieldset>
+</fieldset>
+
+<fieldset>
+<legend>
+<select name='order[underglow][style]'>
+<option value='no'>no</option>                                               
+<option value='sd'>sd</option>                                               
+<option value='hd'>hd</option>                                               
+</select> <span>undergow</span>
+</legend>  
+<p>Add a special touch!</p>
+<p>
+<input type='checkbox' name='order[underglow][2x]'>
+<label>I have a second bench.</label>
+</p>
+</fieldset> 
+
+
+<fieldset>                                                                   
+<legend>                                                                     
+<select name='order[pole][style]'>
+<option value='no'>no</option>
+<option value='sd'>sd</option>
+<option value='hd'>hd</option> 
+</select> <span>pole</span></legend> 
+<p>Be seen from blocks around!</p>
+</fieldset>
+<p><input type='checkbox' name='order[install][please]'><label>I need help installing my kit.</label></p>
+<p><input type='checkbox' name='order[install][now]'><label>...and I need it now!</label></p>
+<button type='submit' name='do' value='shop'>CHECKOUT</button>
+</fieldset>
+<% end %>

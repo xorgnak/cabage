@@ -7,7 +7,14 @@ module Handle
       @mode = :index
       @oh = { time: Time.now.to_f }
       u = Profile.new(@h[:id])
-      @h.each_pair {|k,v| if k != :id; u.attr[k] = v; end }
+      if @h[:product]
+        x = Product.new()
+        xx = Product.new(id: x); 
+        @h.each_pair {|k,v| if k != :id; xx.attr[k] = JSON.generate(v); end }
+        u.products << x
+      else
+        @h.each_pair {|k,v| if k != :id; u.attr[k] = v; end }
+      end
       @r, @o = [], []
       @go = false
       if h[:go]
@@ -41,7 +48,7 @@ module Handle
       @o << "<%= erb :#{@h[:do]} %>"
     end
   end
-  class Get                                                                       
+  class Get     
     def initialize h
       mqttSend("cabgo/get", "#{JSON.generate(h)}")
     end
