@@ -82,7 +82,7 @@
 </h1>
 </fieldset> 
 <script>
-<%= @js.mqtt_lib('$("#feed msgs").prepend(message);') %>       
+<%= @js.mqtt_lib('$("#feed msgs").prepend("<code>" + j + </code>);') %>       
 $(function() {
  <%= @js.mqtt_init %>
  user = '<%= params[:id] %>';
