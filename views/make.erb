@@ -1,5 +1,5 @@
 <input type='hidden' name='id' value='<%= params[:id] %>'>
-<% [ :pin, :name, :venmo, :msg, :image ].each do |e| %>
+<% [ :pin, :name, :venmo, :message, :image ].each do |e| %>
 <p><label><%= e %></label><input type='text' name='<%= e %>'></p>
 <% end %>
-<p><button type='submit' name='do' value='make'>MAKE</button></p>
+<p><button type='submit' name='do' value='profile'>MAKE</button></p>

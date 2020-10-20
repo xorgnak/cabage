@@ -12,12 +12,14 @@ module Handle
         xx = Product.new(id: x); 
         @h.each_pair {|k,v| if k != :id; xx.attr[k] = JSON.generate(v); end }
         u.products << x
+      elsif @h[:do]  == 'pin' && !u.attr.has_key?('pin')
+        @h[:go] = '/make'
       else
         @h.each_pair {|k,v| if k != :id; u.attr[k] = v; end }
       end
       @r, @o = [], []
       @go = false
-      if h[:go]
+      if @h[:go]
         packRoute
         @go = true
       end
