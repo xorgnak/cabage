@@ -1,10 +1,18 @@
 def handleMqtt t,m
+  j = JSON.parse(m)
+  puts "handleMqtt #{j}"
+  if j.has_key?(:do) && HandleMqtt.blocks.include?(j[:do])
+    d = j[:do]
+  else
+    d = 'ping'
+  end
+  HandleMqtt.do(d, j)
   Redis.new.publish(t, m) 
 end
 
 Process.detach( fork {                                                                 
                   MQTT::Client.connect('localhost') do |client|                        
-                    client.get('#') do |topic, message|
+                    client.get('#') do |message, topic|
                       handleMqtt(topic, message)
                     end                                 
                   end                                                                  

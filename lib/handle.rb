@@ -1,7 +1,6 @@
 module Handle
   class Post
     def initialize h
-      mqttSend("cabgo/#{h[:id]}/post", "#{h}")
       log('Handle::Post', "#{h}")
       @h = h
       @mode = :index
@@ -27,6 +26,7 @@ module Handle
         packRoute
         @go = true
       end
+      mqttSend("cabgo/#{h[:id]}/post", "#{JSON.generate(@h)}") 
       packErb
     end
     def go?

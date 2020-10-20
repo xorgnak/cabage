@@ -43,7 +43,14 @@
 <legend>feed</legend>
 <div id='msgs' style='width: 100%;'></div> 
 <h1 style='position: absolute; bottom: 0; max-width: 100%;'>
-<button class='material-icons btn update' value='feed' name='update' style='width: 15%; vertical-align: middle;'>send</button>
+<select name='group' style='width: 15%; vertical-align: middle; font-size: larger;'>
+<option value='<%= CONF['network'] %>' selected disabled>team</option> 
+<% @id.groups.each do |grp| %>
+<% g = Group.new(grp) %>
+   <option value='<%= CONF['network'] %>/<%= grp %>'><%= g.attr['name'] %></option>
+<% end %>
+<option value='add' class='material-icons'>add</option> 
+</select>
 <datalist id='feed_msgs'>
 <option value="group ride at">
 <option value="does anyone have a">
@@ -51,7 +58,8 @@
 <option value="in alley">
 <option value="out of alley"> 
 </datalist>
-<input list='feed_msgs' name='msg[feed]' id='feed_msg' placeholder='status' style='width: 75%; font-size: larger; vertical-align: middle; border-radius: 50px;'>
+<input list='feed_msgs' name='msg[feed]' id='feed_msg' placeholder='status' style='width: 60%; font-size: larger; vertical-align: middle; border-radius: 50px;'>
+<button class='material-icons btn update' value='feed' name='update' style='width: 15%; vertical-align: middle; font-size: larger;'>send</button> 
 </h1>
 </fieldset>
 
@@ -78,7 +86,7 @@
 <span>pov matrix</span>                                                                 
 </p> 
 <h1 style='position: absolute; bottom: 0; width: 100%;'> 
-<button class='material-icons btn update' value='leds' name='update' style='width: 15%;/'>send</button>
+<button class='material-icons btn update' value='leds' name='update' style='width: 15%; font-size: larger;'>send</button>
 </h1>
 </fieldset> 
 <script>

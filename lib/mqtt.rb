@@ -7,4 +7,17 @@ def mqttSend(o, t)
     end                                                                                
     client.publish(t, oo)                                                              
   end                                                                                  
-end 
+end
+
+module HandleMqtt
+  @@BLOCKS = {}
+  def self.mk n, &b
+    @@BLOCKS[n] = b
+  end
+  def self.do n, j
+    @@BLOCKS[n].call(j)
+  end
+  def self.blocks
+    @@BLOCKS.keys
+  end
+end
