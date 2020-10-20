@@ -46,6 +46,6 @@ class App < Sinatra::Base
   get('/robots.txt') {}
   get('/webmanifest') { erb :webmanifest }
   get('/favicon.ico') {}
-  [:shop, :auth, :sign, :ui, :theatre].each { |r| get("/#{r}") { erb r } }
+  [:shop, :auth, :make, :sign, :ui, :theatre].each { |r| get("/#{r}") { erb r } }
 end
 Process.detach(fork { App.run! })
