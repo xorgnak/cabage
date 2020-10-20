@@ -1,40 +1,62 @@
 <style>
-.btn { border: thin solid black; border-radius: 20px; backgroumd-color: lightgrey; color: black; }
+.btn { border: thin solid black; border-radius: 20px; background-color: white; color: black; }
 .view { padding: 0 2% 0 2%; }
+.views > legend { font-size: x-large; }
 </style>
-<h1>
-<a href='/sign?id=<%= params[:id] %>' class='material-icons btn' style='float: right; vertical-align: middle; text-decoration: none; color: black;'>follow_the_signs</a>
+<h1 style='margin:0;'>
+<a href='/sign?id=<%= params[:id] %>' class='material-icons btn' style='float: right; vertical-align: middle; text-decoration: none; color: black; padding: 0 2% 0 2%;'>follow_the_signs</a>
 <nav style='right: 0; vertical-align: middle;'>
-<button class='material-icons btn view' value='feed'>insert_comment</button> 
-<button class='material-icons btn view' value='tour'>explore</button>
+<button class='material-icons btn view' value='feed' style='background-color: orange;'>insert_comment</button> 
+<!-- <button class='material-icons btn view' value='tour'>explore</button> -->
 <button class='material-icons btn view' value='leds'>emoji_objects</button>
 <button class='material-icons btn view' value='sign'>tv</button>
 </nav>
 </h1>
+
+<!--
 <fieldset id='tour' class='views'>                                                     
 <legend>tour</legend>
 <div id='map'></div>
 <button class='material-icons btn update' value='tour'>send</button>  
-</fieldset> 
-<fieldset id='sign' class='views'>                                                     
-<legend>sign</legend>                                                                  
-<button class='material-icons btn update' value='sign'>send</button>
-<datalist id='msgs'>                                                                   
+</fieldset>
+-->
+
+
+<fieldset id='sign' class='views' style='display: none;'>                                                     
+<legend>sign</legend>
+<div id='msgs' style='width: 100%;'></div>
+<h1 style='position: absolute; bottom: 0; max-width: 100%;'>
+<button class='material-icons btn update' name='update' value='sign' style='width: 15%; vertical-align: middle;'>send</button>
+<datalist id='sign_msgs'>
 <option value="how's my driving?">                                                     
-<option value="hungry?">                                                               
+<option value="hungry?">
+<option value="drinks?">
+<option value="Make it a unicorn!"> 
 </datalist>                                                                            
-<input list='msgs' id='msg' placeholder='status'>                                      
-</fieldset> 
+<input list='sign_msgs' name='msg[feed]' id='sign_msg' placeholder='status' style='width: 75%; font-size: larger; vertical-align: middle; border-radius: 50px;'>
+</h1>
+</fieldset>
+
+
+
 <fieldset id='feed' class='views'>
 <legend>feed</legend>
-<button class='material-icons btn update' value='feed'>send</button>
-<datalist id='msgs'>
-<option value="how's my driving?">
-<option value="hungry?"> 
+<div id='msgs' style='width: 100%;'></div> 
+<h1 style='position: absolute; bottom: 0; max-width: 100%;'>
+<button class='material-icons btn update' value='feed' name='update' style='width: 15%; vertical-align: middle;'>send</button>
+<datalist id='feed_msgs'>
+<option value="group ride at">
+<option value="does anyone have a">
+<option value="where is">
+<option value="in alley">
+<option value="out of alley"> 
 </datalist>
-<input list='msgs' id='msg' placeholder='status'>
+<input list='feed_msgs' name='msg[feed]' id='feed_msg' placeholder='status' style='width: 75%; font-size: larger; vertical-align: middle; border-radius: 50px;'>
+</h1>
 </fieldset>
-<fieldset id='leds' class='views'>
+
+
+<fieldset id='leds' class='views' style='display: none;'>
 <legend>leds</legend>                                                                  
 <p>                                                                                    
 <input type='color' id='color' name='leds[0a4b2cc][0][color]'>                         
@@ -43,7 +65,7 @@
 <option class='material-icons' value='flash'>blur_circular</option>                    
 <option class='material-icons' value='snake'>motion_photos_on</option>              
 <option class='material-icons' value='scroll'>adjust</option>                           </select>                                                                             
-<span>0a4b2cc 1</span>                                                                 
+<span>top light</span>                                                                 
 </p>                                                                                   
 <p>                                                                                    
 <input type='color' id='color' name='leds[0a4b2cc][1][color]'>
@@ -53,12 +75,14 @@
 <option class='material-icons' value='snake'>motion_photos_on</option>                 
 <option class='material-icons' value='scroll'>adjust</option>                          
  </select>                                                                             
-<span>0a4b2cc 1</span>                                                                 
-</p>
-<button class='material-icons btn update' value='leds'>send</button>
+<span>pov matrix</span>                                                                 
+</p> 
+<h1 style='position: absolute; bottom: 0; width: 100%;'> 
+<button class='material-icons btn update' value='leds' name='update' style='width: 15%;/'>send</button>
+</h1>
 </fieldset> 
 <script>
-<%= @js.mqtt_lib %>       
+<%= @js.mqtt_lib('$("#feed msgs").prepend(message);') %>       
 $(function() {
  <%= @js.mqtt_init %>
  user = '<%= params[:id] %>';
@@ -70,9 +94,11 @@ $(function() {
  $(document).on('click', '.view', function(ev) {
   ev.preventDefault();
   $('.views').hide();
+  $('.view').css('background-color', 'white');
+  $(this).css('background-color', 'orange');
   $("#" + $(this).val()).show();
  });
-  $(document).on('click', '.view', function(ev) {
+  $(document).on('click', '.update', function(ev) {
   ev.preventDefault();
   sendMQTT();
   });

@@ -1,3 +1,5 @@
+
+
 class JS
 
   def initialize u
@@ -25,20 +27,22 @@ class JS
   def mqtt_init 
       return %[client = new Paho.MQTT.Client('#{CONF['mqtt']['broker']}', Number(#{CONF['mqtt']['port']}), "#{@u}"); client.onConnectionLost = onConnectionLost; client.onMessageArrived = onMessageArrived; client.connect({onSuccess:onConnect, useSSL: true});]
     end
-  def mqtt_lib
+  def mqtt_lib *arv
     t = []; 64.times { t << rand(16).to_s(16) }
     @tok = t.join('');
+    ch = %[client.subscribe('#{CONF['network']}/#{@u}'); ]
 return %[var token = '#{@tok}';                                                              var state = 0; 
 var user;
 function onMessageArrived(message) {
+  #{arv[0]}
   console.log("onMessageArrived", message);
 }
 function onConnect() {
   // Once a connection has been made, make a subscription and send a message.
   console.log("onConnect");
   state++;
-  client.subscribe('#{CONF['network']}'); 
-  client.subscribe('#{@u}');
+  client.subscribe('#');
+  #{ch}
   setInterval(function() {sendMQTT();}, 5000);
 }
 // called when the client loses its connection                                         
@@ -49,9 +53,11 @@ state--;
   }
 }
 function sendMQTT() {
-  message = new Paho.MQTT.Message(JSON.stringify({ id: '#{@u}', state: state, token: token, user: user, form: unescape($('form').serialize()) }));
+  j = JSON.stringify({ id: '#{@u}', state: state, token: token, user: user, form: unescape($('form').serialize()) });
+  console.log('sendMQTT', j);
+  message = new Paho.MQTT.Message(j);
   message.destinationName = '#{CONF['network']}';
-  client.send(message); 
+  client.send(message);
 } 
 
 ]

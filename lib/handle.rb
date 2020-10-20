@@ -14,6 +14,10 @@ module Handle
         u.products << x
       elsif @h[:do]  == 'pin' && !u.attr.has_key?('pin')
         @h[:go] = '/make'
+      elsif @h[:do]  == 'profile' && u.attr.has_key?('pin')
+        if u.attr['pin'] != @h[:pin]
+          @h[:go] = '/auth'
+        end
       else
         @h.each_pair {|k,v| if k != :id; u.attr[k] = v; end }
       end
@@ -44,8 +48,8 @@ module Handle
       return @r.join('')
     end
     def packErb
-      @o << "<h1><code style='width: 100%; background-color: black; color: orange;'>#{@h}</code></h1>"
-       @o << "<input type='hidden' name='id' value='<%= @tok %>'>"
+#      @o << "<h1><code style='width: 100%; background-color: black; color: orange;'>#{@h}</code></h1>"
+       @o << "<input type='hidden' name='token' value='<%= @tok %>'>"
       @o << "<input type='hidden' name='id' value='#{@h[:id]}'>"
       @o << "<%= erb :#{@h[:do]} %>"
     end
