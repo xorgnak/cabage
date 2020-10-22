@@ -5,8 +5,10 @@
 }
 </style>
 
-<div id='user'>
-<input type='tel' id='usr'><button id='go' class='material-icons'>bike_scooter</button>
+<div id='user' style='width: 100%; text-align: center;'>
+<h1>phone number</h1>
+<h1><input type='tel' id='usr'></h1>
+<h1><button id='go' class='material-icons'>bike_scooter</button><h1>
 </div>
 
 <div id='ui' style='display: none;'>
@@ -26,7 +28,7 @@
 <button class='material-icons ui' value='0'>stars</button>
 <button class='material-icons ui' value='-1'>thumb_down</button>
 </div>
-<h3><% @attr['content'] || 'Let us know how you're enjoying your ride and leave stars behind you for others to find.' %></h3>
+<h3><% @attr['content'] %></h3>
 </div>
 <% elsif @attr['mode'] == 'card' %>
 <img src='<%= @attr['image'] %>'><h3><%= @attr['content'] %></h3>
@@ -34,7 +36,7 @@
 <%= @arrt['content'] %>
 <% elsif @attr['mode'] == 'rewards' %>
 <%# some mechanism to tick rewards in a simillar vein as the feedback mode %>
-<% else %>
+<% end %>
 </div>
 <script>
 <%= @js.venmo %>
