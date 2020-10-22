@@ -11,11 +11,11 @@ module Handle
         xx = Product.new(id: x); 
         @h.each_pair {|k,v| if k != :id; xx.attr[k] = JSON.generate(v); end }
         u.products << x
-      elsif @h[:do]  == 'pin' && !u.attr.has_key?('pin')
+      elsif @h[:do]  == 'index' && !u.attr.has_key?('pin')
         @h[:go] = '/make'
       elsif @h[:do]  == 'profile' && u.attr.has_key?('pin')
         if u.attr['pin'] != @h[:pin]
-          @h[:go] = '/auth'
+          @h[:go] = '/404'
         end
       else
         @h.each_pair {|k,v| if k != :id; u.attr[k] = v; end }

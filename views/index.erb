@@ -1,7 +1,15 @@
 <img src='/vango.jpg' style='width: 100%; position: absolute; z-index: -1;'>
 <h1 style='width: 100%; text-align: center;'>Ready?</h1>
 <div style='position: absolute; bottom: 20%; left: 20%; right: 20%; text-align: center; background-color: white; padding: 2%;'>
+<% if params[:id] %>
+<input type='hidden' name='id' value='<%= params[:id] %>'>
+<h3>pin</h3>
+<h3><input type='password' name='pin' placeholder='****' style='width: 100%'></h3>
+<h3><button type='submit' name='do' value='profile'>SIGN IN</button></h3>
+<% else %>
 <h3>phone number</h3>
 <h3><input type='tel' name='id' placeholder='(___)___-____' style='width: 100%;'></h3>
-<h3><button type='submit' name='do' value='pin' >login</button></h3>
+<h3><button type='submit' name='do' value='index' >GO</button></h3>
+<% end %>
+
 </div>

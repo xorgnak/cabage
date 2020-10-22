@@ -1,69 +1,57 @@
+<style>
+.x { padding: 0 2% 0 2%; border: thin solid black; border-radius: 50px; margin: 0 1% 0 0; }
+</style>
+
 <input type='hidden' name='id' value='<%= params[:id] %>'> 
 <input type='hidden' name='pay' value='@maxcatman'>
 <input type='hidden' name='title' value='Pedicab Lights'>
-<input type='hidden' name='desc' value='Your kit will come with hookup wire, heatshrink, and mounting tape.  All mounted strands will come in pre-made lengths of tubing.  Pole strands will come with foam.'>
+<input type='hidden' name='desc' value='Your order'>
 <% if params[:order] %>
 <fieldset id='order'>
 <legend>order</legend>
 <%= venmo_order(params) %>
 </fieldset>
 <% else %>
-<fieldset id='kits'>
-<fieldset><legend>
-<select name='order[frame][style]'>
-<option value='no'>no</option>                                               
-<option value='sd'>sd</option>                                               
-<option value='hd'>hd</option>                                               
-</select> <span>frame</span>                                     
-</legend>
-<p>What is the parimeter of your frame triangle in inches?</p>
+<fieldset>                                                                             
+<legend>light kit</legend>                                                             
+<p>All light kit harnesses are made to order.  Every kit comes ready to install, with a
+ll the necessary mounting materials.</p>
+ <details closed>
+  <summary>how it all works...</summary>
+  <p>Kits are made up of components which all interact via a simple intuitive web app.  These components all connect to the system over a wifi connection.  They can then be controlled via the webapp individually or in groups.</p>
+  <ul>
+    <li><span class='x'>screen</span><span>a customer visible interface to the system.  We sell two size options, both of which we integrate into our power system.  Simply put, it's a digital bilboard displaying content through our system.</span></li>
+    <li><span class='x'>hub</span><span>used for directly controlling nodes and screens.  Can attach to any HDMI display or projector and provide a screen interface.  A hub may also provide a standalone version of the system for offline use.</span></li>
+    <li><span class='x'>node</span><span>used for interfacing with lights and other devices.</span></li> 
+  </ul>
+  <p>Hubs and nodes establish a connection to our servers.  They then wait for input and respond when called.  Our webapp provides various interfaces and routes.</p>
+  <p>The sign interface is populated by an image which may also be animated, a name, a pitch message, and a qrcode which links to the customer user interface attached to the profile..</p>
+  <p>The customer user interface can be added to the homepage for easy saving and provides the ability to display content or feedback interfacing as well as an easy callback or text back link and a venmo tip-jar.</p>
+  <p>The profile interface controls the attached devices and recieves feedback from the customer user interface.  It also maintains the information in the profile and provides link to the sign interface.</p>
+  <p>Full documentation for the system and available public apis are available <a href='https://github.com/xorgnak/cabage'>here</a>.</p>
+</details>
+<p>Please fill out the wizard below to customize and  configure your kit.</p>
+<details closed>
+<summary>2 wheel</summary>
 <fieldset>
-<legend>length</legend>
-<input type='number' min='12' max='96' name='order[frame][length]'><label>inches</label></fieldset>
-</fieldset> 
-
-<fieldset><legend>                                                           
-<select name='order[bench][style]'>
-<option value='no'>no</option>                                               
-<option value='sd'>sd</option>                                               
-<option value='hd'>hd</option>                                               
-</select> <span>bench</span>                                         
-</legend>
-<p>What is the length from the end of one arm rest, across the back and to the end of the other arm rest?</p>
-<fieldset>                                                          
-<legend>size</legend>                                                      
-<p><input type='number' min='12' max='96' name='order[bench][length]'>
-<label>inches</label></p> 
-<p><input type='checkbox' name='order[bench][2x]'>
-<label>I have a second bench.</label></p>
+<legend>2 wheel</legend> 
+<%# erb :shop_bike %>
 </fieldset>
-</fieldset>
-
+</details>
+<details closed>
+<summary>3 wheel</summary>
 <fieldset>
-<legend>
-<select name='order[underglow][style]'>
-<option value='no'>no</option>                                               
-<option value='sd'>sd</option>                                               
-<option value='hd'>hd</option>                                               
-</select> <span>undergow</span>
-</legend>  
-<p>Add a special touch!</p>
-<p>
-<input type='checkbox' name='order[underglow][2x]'>
-<label>I have a second bench.</label>
-</p>
-</fieldset> 
-
-
-<fieldset>                                                                   
-<legend>                                                                     
-<select name='order[pole][style]'>
-<option value='no'>no</option>
-<option value='sd'>sd</option>
-<option value='hd'>hd</option> 
-</select> <span>pole</span></legend> 
-<p>Be seen from blocks around!</p>
+<legend>3 wheel</legend>
+<%= erb :shop_pedicab %>
 </fieldset>
+</details>
+<details closed>
+<summary>4 wheel</summary>
+<fieldset>                                                                             
+<legend>4 wheel</legend> 
+<%# erb :shop_van %>
+</fieldset>
+</details>
 <p><input type='checkbox' name='order[install][please]'><label>I need help installing my kit.</label></p>
 <p><input type='checkbox' name='order[install][now]'><label>...and I need it now!</label></p>
 <button type='submit' name='do' value='shop'>CHECKOUT</button>

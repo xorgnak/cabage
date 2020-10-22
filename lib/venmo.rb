@@ -24,7 +24,7 @@ def venmo_add_line_item k,v
       elsif v['style'] == 'hd'
         x = 0.80
       end 
-      i += (v['length'].to_i * x).to_i
+      i += (v['length'].to_i || 1 * x).to_i
     else
       if v['style'] == 'sd'
         i += 50

@@ -17,13 +17,24 @@
 </nav>
 <h1><%= @attr['name'] %></h1>
 <h3 style='color: red;'>Add to your homescreen for easy callbacks!</h3>
-<h3><%= @attr['msg'] || "Have fun!" %></h3>
+<h3><%= @attr['message'] || "Have fun!" %></h3>
+<div id='content'>
+
+<% if @attr['mode'] == 'feedback' %>
 <div style='width: 100%; height: 30vh; text-align: center;'>
 <button class='material-icons ui' value='1'>thumb_up</button>
 <button class='material-icons ui' value='0'>stars</button>
 <button class='material-icons ui' value='-1'>thumb_down</button>
 </div>
-<h3>Let us know how you're enjoying your ride and leave stars behind you for others to find.</h3>
+<h3><% @attr['content'] || 'Let us know how you're enjoying your ride and leave stars behind you for others to find.' %></h3>
+</div>
+<% elsif @attr['mode'] == 'card' %>
+<img src='<%= @attr['image'] %>'><h3><%= @attr['content'] %></h3>
+<% elsif @attr['mode'] == 'embed' %>
+<%= @arrt['content'] %>
+<% elsif @attr['mode'] == 'rewards' %>
+<%# some mechanism to tick rewards in a simillar vein as the feedback mode %>
+<% else %>
 </div>
 <script>
 <%= @js.venmo %>

@@ -15,7 +15,12 @@ module HandleMqtt
     @@BLOCKS[n] = b
   end
   def self.do n, j
-    @@BLOCKS[n].call(j)
+    if @@BLOCKS.has_key? n
+      @@BLOCKS[n].call(j)
+    else
+      b = lambda { |h| log("mqtt", "#{h}" ) }
+      b.call(j)
+    end
   end
   def self.blocks
     @@BLOCKS.keys

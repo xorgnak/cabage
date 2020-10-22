@@ -1,5 +1,20 @@
+<style>
+.r { float: right; vertical-align: middle; }
+p > label { font-size: larger; vertical-align: middle; }
+</style>
 <input type='hidden' name='id' value='<%= params[:id] %>'>
-<% [ :pin, :name, :venmo, :message, :image ].each do |e| %>
-<p><label><%= e %></label><input type='text' name='<%= e %>'></p>
+<% [ :pin, :name, :venmo, :pitch, :message, :image ].each do |e| %>
+<p><label><%= e %></label><input class='r' type='text' name='<%= e %>' placeholder='<%= @attr[e] || "your #{e}" %>'></p>
 <% end %>
-<p><button type='submit' name='do' value='profile'>MAKE</button></p>
+<p><label>I need this tool for</label><select name='mode' class='r'>
+<option selected disabled>select...</option>
+<option value='feedback'>colecting customer feedback.</option>
+<option value='embed'>sharing an imbed or iframe.</option>
+<option value='card'>/a digital business card.</option>
+<option value='rewards'>tracking customer rewards.</option>
+</select></p>
+<label>content</label>
+<textarea name='content' style='width: 100%;' placeholder='<%= @attr['content'] || 'customer interface content...' %>'></textarea>
+<div style='text-align: center;'>
+<p><button type='submit' name='do' value='profile'>GO TO<br>MY<br>PROFILE</button></p>
+</div>
