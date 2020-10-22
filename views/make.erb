@@ -4,7 +4,7 @@ p > label { font-size: larger; vertical-align: middle; }
 </style>
 <input type='hidden' name='id' value='<%= params[:id] %>'>
 <% [ :pin, :name, :venmo, :pitch, :message, :image ].each do |e| %>
-<p><label><%= e %></label><input class='r' type='text' name='<%= e %>' placeholder='<%= @attr[e] || "your #{e}" %>'></p>
+<p><label><%= e %></label><input class='r' type='text' name='<%= e %>' placeholder='<%= @attr[e] || "your " + e %>'></p>
 <% end %>
 <p><label>I need this tool for</label><select name='mode' class='r'>
 <option selected disabled>select...</option>
