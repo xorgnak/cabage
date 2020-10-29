@@ -33,9 +33,11 @@
 <% elsif @attr['mode'] == 'card' %>
 <img src='<%= @attr['image'] %>'><h3><%= @attr['content'] %></h3>
 <% elsif @attr['mode'] == 'embed' %>
-<%= @arrt['content'] %>
+<%= @attr['content'] %>
 <% elsif @attr['mode'] == 'rewards' %>
 <%# some mechanism to tick rewards in a simillar vein as the feedback mode %>
+<% elsif @attr['mode'] == 'script' %>
+<%= Script.new(@attr['content']) %> 
 <% end %>
 </div>
 <script>

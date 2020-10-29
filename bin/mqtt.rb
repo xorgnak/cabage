@@ -1,4 +1,4 @@
-def handleMqtt t,m
+def handleMqtt m,t
   j = JSON.parse(m)
   puts "handleMqtt #{j}"
   if j.has_key?(:do) && HandleMqtt.blocks.include?(j[:do])
@@ -18,3 +18,13 @@ Process.detach( fork {
                   end                                                                  
                 })
 
+Process.detach(fork {
+
+                 loop do
+                   t = Time.now
+                   tx = t.to_datetime
+                   mqttSend({ to_i: t.to_i, utc: tx }, "time")
+                   sleep 10
+                 end
+
+               })
