@@ -17,6 +17,7 @@ class Group
   hash_key :attr
   sorted_set :stat
   set :profiles
+  set :tasks
   def initialize i
     @id = i
   end

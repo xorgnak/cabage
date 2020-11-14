@@ -1,102 +1,40 @@
 <style>
-.btn { border: thin solid black; border-radius: 20px; background-color: white; color: black; }
+.ui { float: right; vertical-align: middle; text-decoration: none; color: black; padding: 0 2% 0 2%; }
+.btn { border: thick solid black; border-radius: 20px; background-color: white; color: black; vertical-align: middle; font-size: large; }
 .view { padding: 0 2% 0 2%; }
 .views > legend { font-size: x-large; }
 </style>
 <h1 style='margin:0;'>
-<a href='/sign?id=<%= params[:id] %>' class='material-icons btn' style='float: right; vertical-align: middle; text-decoration: none; color: black; padding: 0 2% 0 2%;'>follow_the_signs</a>
-<nav style='right: 0; vertical-align: middle;'>
-<a href='/make?id=<%= params[:id] %>' class='material-icons btn'>settings</a>
-<button class='material-icons btn view' value='feed' style='background-color: orange;'>insert_comment</button> 
-<!-- <button class='material-icons btn view' value='tour'>explore</button> -->
-<button class='material-icons btn view' value='leds'>emoji_objects</button>
-<button class='material-icons btn view' value='sign'>tv</button>
-</nav>
+  <a href='/sign?id=<%= params[:id] %>' class='material-icons btn ui'>follow_the_signs</a>
+  <a href='/ui?id=<%= params[:id] %>' class='material-icons btn ui'>devices</a> 
+  <a href='/make?id=<%= params[:id] %>' class='material-icons btn ui'>settings</a>
+  <datalist id='msgs'>
+    <option value='thank you for your business!'>
+  </datalist>
+  <input class='btn ui' name='msg' list='msgs' placeholder='display...' style='width: 35%;'> 
+  <button class='material-icons btn' id='menu'>menu</button>
 </h1>
-<!--
-<fieldset id='make' class='views' style='display: none;'>
-<legend>settings</legend>
-<div id='msgs' style='width: 100%;'>
-<%= erb :make %>
-</div>
-</fieldset> 
--->
-<!--
-<fieldset id='tour' class='views'>                                                     
-<legend>tour</legend>
-<div id='map'></div>
-<button class='material-icons btn update' value='tour'>send</button>  
-</fieldset>
--->
-
-
-<fieldset id='sign' class='views' style='display: none;'>                                                     
-<legend>sign</legend>
-<div id='msgs' style='width: 100%;'></div>
-<h1 style='position: absolute; bottom: 0; max-width: 100%;'>
-<button class='material-icons btn update' name='update' value='sign' style='width: 15%; vertical-align: middle;'>send</button>
-<datalist id='sign_msgs'>
-<option value="how's my driving?">                                                     
-<option value="hungry?">
-<option value="drinks?">
-<option value="Make it a unicorn!"> 
-</datalist>                                                                            
-<input list='sign_msgs' name='msg[feed]' id='sign_msg' placeholder='status' style='width: 75%; font-size: larger; vertical-align: middle; border-radius: 50px;'>
-</h1>
-</fieldset>
-
-
-
 <fieldset id='feed' class='views'>
-<legend>feed</legend>
-<div id='msgs' style='width: 100%;'></div> 
-<h1 style='position: absolute; bottom: 0; max-width: 100%;'>
-<select name='group' style='width: 15%; vertical-align: middle; font-size: larger;'>
-<option value='<%= CONF['network'] %>' selected disabled>team</option> 
-<% @id.groups.each do |grp| %>
-<% g = Group.new(grp) %>
-   <option value='<%= CONF['network'] %>/<%= grp %>'><%= g.attr['name'] %></option>
-<% end %>
-<option value='add' class='material-icons'>add</option> 
-</select>
-<datalist id='feed_msgs'>
-<option value="group ride at">
-<option value="does anyone have a">
-<option value="where is">
-<option value="in alley">
-<option value="out of alley"> 
-</datalist>
-<input list='feed_msgs' name='msg[feed]' id='feed_msg' placeholder='status' style='width: 60%; font-size: larger; vertical-align: middle; border-radius: 50px;'>
-<button class='material-icons btn update' value='feed' name='update' style='width: 15%; vertical-align: middle; font-size: larger;'>send</button> 
+  <legend><span class='material-icons' style='color: <%= @attr['team'] %>; background: black; border-radius: 0 0 25px 25px;'>circle</span></legend>
+  <div id='msgs' style='width: 100%;'></div>
+</fieldset>  
+<h1 style='position: absolute; bottom: 0; max-width: 100%; text-align: center;'>
+  <datalist id='feed_msgs'>
+    <option value="group ride at ">
+    <option value="does anyone have a ">
+    <option value="where is ">
+    <option value="*** in alley">
+    <option value="*** out of alley"> 
+  </datalist>
+  <select id='mode' class='material-icons btn' style='font-size: larger; width: 15%;' name='leds[0a4b2cc][mode]'>
+    <option class='material-icons' value='off'>lens</option>
+    <option class='material-icons' value='on'>blur_circular</option>
+    <option class='material-icons' value='working'>motion_photos_on</option>
+    <option class='material-icons' value='playing'>adjust</option>
+  </select>
+  <input list='feed_msgs' name='msg[feed]' id='feed_msg' placeholder='status' class='btn' style='font-size: larger; width: 65%;'>
+<button class='material-icons btn update' value='feed' name='update' style='width: 15%; font-size: larger;'>send</button> 
 </h1>
-</fieldset>
-
-
-<fieldset id='leds' class='views' style='display: none;'>
-<legend>leds</legend>                                                                  
-<p>                                                                                    
-<input type='color' id='color' name='leds[0a4b2cc][0][color]'>                         
-<select id='mode' class='material-icons' name='leds[0a4b2cc][0][mode]'>                
-<option class='material-icons' value='solid'>lens</option>                             
-<option class='material-icons' value='flash'>blur_circular</option>                    
-<option class='material-icons' value='snake'>motion_photos_on</option>              
-<option class='material-icons' value='scroll'>adjust</option>                           </select>                                                                             
-<span>top light</span>                                                                 
-</p>                                                                                   
-<p>                                                                                    
-<input type='color' id='color' name='leds[0a4b2cc][1][color]'>
-<select id='mode' class='material-icons' name='leds[0a4b2cc][1][mode]'>                
-<option class='material-icons' value='solid'>lens</option>                            
-<option class='material-icons' value='flash'>blur_circular</option>                    
-<option class='material-icons' value='snake'>motion_photos_on</option>                 
-<option class='material-icons' value='scroll'>adjust</option>                          
- </select>                                                                             
-<span>pov matrix</span>                                                                 
-</p> 
-<h1 style='position: absolute; bottom: 0; width: 100%;'> 
-<button class='material-icons btn update' value='leds' name='update' style='width: 15%; font-size: larger;'>send</button>
-</h1>
-</fieldset> 
 <script>
 <%= @js.mqtt_lib('$("#feed msgs").prepend("<code>" + j + "</code>");') %>       
 $(function() {
