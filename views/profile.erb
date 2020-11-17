@@ -19,7 +19,7 @@ fieldset { height: inherit; }
 <legend>menu</legend>
 <ul>
 <li><button type='button' class='material-icons btn' onclick='$(".views").hide(); $("#org-div").show();'>content_paste</button><span>organizer</span></li>
-<li><button type='button' class='material-icons btn' onclick='$(".views").hide(); $("#fm-div").show();'>folder</button><span>google drive</span></li>
+<li><button type='button' class='material-icons btn' onclick='window.location="https://drive.google.com"'>folder</button><span>google drive</span></li>
   <li><a href='/sign?id=<%= params[:id] %>' class='material-icons btn'>follow_the_signs</a><span>display</span></li>
   <li><a href='/ui?id=<%= params[:id] %>' class='material-icons btn'>devices</a><span>device</span></li>
   <li><a href='/make?id=<%= params[:id] %>' class='material-icons btn'>settings</a><span>profile</span></li>
@@ -32,11 +32,6 @@ fieldset { height: inherit; }
 <textarea id='organize' name='data[org]' style='width: 100%; height: 80%;'><% Organizer.new(params[:id]).text.entries.join('\n') %></textarea>
 </fieldset>
 
-<fieldset id='fm-div' style='display: none;' class='views'>
-<legend>files</legend>
-<button type='button' class='material-icons btn' style='float: right;' onclick='$(".views").hide(); $("#feed").show();'>close</button>
-<iframe src='https://drive.google.com' style='width: 100%; height: 80%;'></iframe>
-</fieldset>
 
 <fieldset id='feed' class='views'>
   <legend><span class='material-icons' style='color: <%= @attr['team'] %>; background-color: <%= @attr['color'] %>; border-radius: 0 0 25px 25px; border: thin solid black;'>circle</span><span>feed</span></legend>
