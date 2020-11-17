@@ -80,30 +80,16 @@ $(function() {
  });
  <%= @js.mqtt_init %>
  user = '<%= params[:id] %>';
- $(document).on('click', '#snd', function(ev) {
-  ev.preventDefault();
-  sendMQTT();
-  $('#msg').val('')
- });
- $(document).on('click', '.view', function(ev) {
-  ev.preventDefault();
-  $('.views').hide();
-  $('.view').css('background-color', 'white');
-  $(this).css('background-color', 'orange');
-  $("#" + $(this).val()).show();
- });
+
  $(document).on('keyup', 'form', function() {
-  $("#send").css('backgrount-color', 'green');
+  $("button#send").css('backgrount-color', 'green');
  });
-// $(document).on('click', '.update', function(ev) {
-//  ev.preventDefault();
-//  sendMQTT();
-// });
+
  $(document).on('click', '#send', function(ev) {
   ev.preventDefault();
   sendMQTT();
-  $("#msg").val("");
-  $("#send").css('background-color', 'white');
+  $("input#msg").val("");
+  $("button#send").css('background-color', 'white');
  });
  $('.views').hide();
  $('#feed').show();
