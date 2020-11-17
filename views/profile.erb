@@ -94,11 +94,11 @@ $(function() {
  });
  $(document).on('keyup', 'form', function() {
   $("#send").css('backgrount-color', 'green');
- })
- $(document).on('click', '.update', function(ev) {
-  ev.preventDefault();
-  sendMQTT();
  });
+// $(document).on('click', '.update', function(ev) {
+//  ev.preventDefault();
+//  sendMQTT();
+// });
  $(document).on('click', '#send', function(ev) {
   ev.preventDefault();
   sendMQTT();
