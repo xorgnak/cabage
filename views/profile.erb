@@ -80,9 +80,11 @@ $(function() {
  });
  <%= @js.mqtt_init %>
  user = '<%= params[:id] %>';
-
+ $("form").on('update', function() {
+  $("button#send").css("background-color", "yellow");
+ });
  $("form").on('keyup', function() {
-  $("button#send").css('backgrount-color', 'green');
+  $("button#send").css("background-color", "green");
  });
 
  $(document).on('click', '#send', function(ev) {
