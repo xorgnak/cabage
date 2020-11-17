@@ -18,7 +18,7 @@ module HandleMqtt
     if @@BLOCKS.has_key? n
       @@BLOCKS[n].call(j)
     else
-      b = lambda { |h| log("mqtt", "#{h}" ) }
+      b = lambda { |h| log("#{n}", "#{h}" ); j }
       b.call(j)
     end
   end

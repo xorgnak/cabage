@@ -1,13 +1,6 @@
 def handleMqtt m,t
   j = JSON.parse(m)
-  puts "handleMqtt #{j}"
-  if j.has_key?(:do) && HandleMqtt.blocks.include?(j[:do])
-    d = j[:do]
-  else
-    d = 'ping'
-  end
-  HandleMqtt.do(d, j)
-  Redis.new.publish(t, m) 
+  Redis.new.publish(t,HandleMqtt.do(j[:do] || t || 'ping', j))
 end
 
 Process.detach( fork {                                                                 
@@ -22,9 +15,16 @@ Process.detach(fork {
 
                  loop do
                    t = Time.now
-                   tx = t.to_datetime
-                   mqttSend({ to_i: t.to_i, utc: tx }, "time")
+                   h = {
+                     hour: t.hour,
+                     min: t.min,
+                     sec: t.sec,
+                     month: t.month,
+                     day: t.day,
+                     ts: t.to_i,
+                     utc: t.to_datetime
+                   }
+                   mqttSend(h, "time")
                    sleep 10
                  end
-
                })

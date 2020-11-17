@@ -2,6 +2,8 @@
 .r { float: right; vertical-align: middle; }
 p > label { font-size: larger; vertical-align: middle; }
 </style>
+<fieldset>
+<legend>profile</legend>
 <input type='hidden' name='id' value='<%= params[:id] %>'>
 <% [ :pin, :name, :venmo, :pitch, :message, :image ].each do |e| %>
 <p><label><%= e %></label>
@@ -34,5 +36,6 @@ p > label { font-size: larger; vertical-align: middle; }
 <label>content</label>
 <textarea name='content' style='width: 100%;' placeholder='<%= @attr['content'] || 'customer interface content...' %>'></textarea>
 <div style='text-align: center;'>
-<p><button type='submit' name='do' value='profile'>GO TO<br>MY<br>PROFILE</button></p>
+<h1><button type='submit' name='do' value='profile'>SAVE</button></h1>
 </div>
+</fieldset>

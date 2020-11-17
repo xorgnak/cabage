@@ -4,6 +4,9 @@ rm lib/*~ > /dev/null
 rm bin/*~ > /dev/null
 
 if [ "`redis-cli get stage`" == "" ]; then
+    echo 'what id your phone number?'
+    read id
+    redis-cli set ID $id
     echo 'what do you call your device?'
     read nick
     redis-cli set NICK $nick

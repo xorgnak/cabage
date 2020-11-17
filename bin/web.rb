@@ -30,7 +30,13 @@ class App < Sinatra::Base
       @id = Profile.new(params[:id])
       @attr = @id.attr.all                                                            
       @stat = @id.stat.members(with_scores: true).to_h
-      @js = JS.new(params[:id])                                                       
+      @js = JS.new(params[:id])
+      @form = {}
+      params[:form].split("&").each { |e|
+        k = /data\[(.+)\]=/.match(e);
+        v = e.gsub(/data\[(.+)\]=/, '')
+        @form[k] = v
+      }
     end 
     if x.go?
       redirect x.route
@@ -46,6 +52,6 @@ class App < Sinatra::Base
   get('/robots.txt') {}
   get('/webmanifest') { erb :webmanifest }
   get('/favicon.ico') {}
-  [:shop, :auth, :make, :sign, :ui, :theatre, :tasker].each { |r| get("/#{r}") { erb r }; }
+  [:profile, :shop, :auth, :make, :sign, :ui, :theatre, :tasker].each { |r| get("/#{r}") { erb r }; }
 end
 Process.detach(fork { App.run! })

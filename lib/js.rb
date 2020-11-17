@@ -43,8 +43,9 @@ function onConnect() {
   console.log("onConnect");
   state++;
   client.subscribe('#');
+  client.subscribe('time');
   #{ch}
-  setInterval(function() {sendMQTT();}, 5000);
+  setInterval(function() {sendMQTT();}, 10000);
 }
 // called when the client loses its connection                                         
 function onConnectionLost(responseObject) {                                            
