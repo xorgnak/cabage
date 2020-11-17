@@ -57,7 +57,7 @@ fieldset { height: inherit; }
 <button id='send' class='material-icons btn update' value='all' name='update' style='width: 15%; font-size: larger;'>send</button> 
 </h1>
 <script>
-<%= @js.mqtt_lib('$("#feed msgs").prepend("<code>" + j + "</code>");') %>
+<%= @js.mqtt_lib %>
 $(function() {
  $(document).on('click', '#locator', function(ev) {
   ev.preventDefault();
