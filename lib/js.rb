@@ -40,8 +40,10 @@ function onMessageArrived(message) {
   if (topic == "time") {
      $("#hour").text(j.hour);
      $("#min").text(j.min);
+  } else if (topic == "ping") {
+     sendMQTT();
   } else {
-     $("#msgs").prepend("<p><span>" + topic + "</span><code>" + message.payloadString + "</code></p>");
+     $("div#msgs").prepend("<p><span>" + topic + "</span><code>" + message.payloadString + "</code></p>");
   }
   console.log("onMessageArrived", topic, message);
 }
@@ -52,10 +54,9 @@ function onConnect() {
   // Once a connection has been made, make a subscription and send a message.
   console.log("onConnect");
   state++;
-  client.subscribe('#');
+  client.subscribe('ping');
   client.subscribe('time');
   #{ch}
-  setInterval(function() {sendMQTT();}, 10000);
 }
 // called when the client loses its connection                                         
 function onConnectionLost(responseObject) {                                            
