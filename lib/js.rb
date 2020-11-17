@@ -35,7 +35,7 @@ return %[var token = '#{@tok}';                                                 
 var user;
 function onMessageArrived(message) {
 //  var j = JSON.parse(message.getPayloadString());
-  #{arv[0]}
+//  #{arv[0]}
   console.log("onMessageArrived", message);
 }
 function onFail() {
