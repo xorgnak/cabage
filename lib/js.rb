@@ -25,7 +25,7 @@ class JS
     return %[venmo://paycharge?txn=pay&recipients=#{v}&amount=100&note=thanks!]
   end
   def mqtt_init 
-      return %[client = new Paho.MQTT.Client('#{CONF['mqtt']['broker']}', Number(#{CONF['mqtt']['port']}), "#{@u}"); client.onConnectionLost = onConnectionLost; client.onMessageArrived = onMessageArrived; client.connect({onSuccess:onConnect, onFailure: onFail, useSSL: true, userName: "#{@u}", password: "#{@tok}", willMessage: "{ state: -1}"});]
+      return %[client = new Paho.MQTT.Client('#{CONF['mqtt']['broker']}', Number(#{CONF['mqtt']['port']}), "#{@u}"); client.onConnectionLost = onConnectionLost; client.onMessageArrived = onMessageArrived; client.connect({onSuccess:onConnect, onFailure: onFail, useSSL: true, userName: "#{@u}", password: "#{@tok}"});]
     end
   def mqtt_lib *arv
     t = []; 64.times { t << rand(16).to_s(16) }
