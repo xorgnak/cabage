@@ -1,6 +1,5 @@
 def handleMqtt m,t
-  j = JSON.parse(t)
-  Redis.new.publish(m,HandleMqtt.do(j[:do] || m || 'ping', j))
+  Redis.new.publish(t,HandleMqtt.do(j[:do] || t || 'ping', m))
 end
 
 Process.detach( fork {                                                                 
