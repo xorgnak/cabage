@@ -81,7 +81,7 @@ $(function() {
  <%= @js.mqtt_init %>
  user = '<%= params[:id] %>';
 
- $(document).on('keyup', 'form', function() {
+ $("form").on('keyup', function() {
   $("button#send").css('backgrount-color', 'green');
  });
 
