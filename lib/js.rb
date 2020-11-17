@@ -34,9 +34,11 @@ class JS
 return %[var token = '#{@tok}';                                                              var state = 0; 
 var user;
 function onMessageArrived(message) {
+  var topic = message.destinationName
   var j = JSON.parse(message.payloadString);
   #{arv[0]}
-  console.log("onMessageArrived", message);
+  $("#msgs").prepend("<p><span>" + topic + "</span><code>" + message.payloadString + "</code></p>")
+  console.log("onMessageArrived", topic, message);
 }
 function onFail() {
 client.connect();
