@@ -37,7 +37,12 @@ function onMessageArrived(message) {
   var topic = message.destinationName
   var j = JSON.parse(message.payloadString);
   #{arv[0]}
-  $("#msgs").prepend("<p><span>" + topic + "</span><code>" + message.payloadString + "</code></p>")
+  if (topic == "time") {
+     $("#hour").text(j.hour);
+     $("#min").text(j.min);
+  } else {
+     $("#msgs").prepend("<p><span>" + topic + "</span><code>" + message.payloadString + "</code></p>");
+  }
   console.log("onMessageArrived", topic, message);
 }
 function onFail() {
