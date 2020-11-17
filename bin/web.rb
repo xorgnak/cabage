@@ -32,11 +32,13 @@ class App < Sinatra::Base
       @stat = @id.stat.members(with_scores: true).to_h
       @js = JS.new(params[:id])
       @form = {}
+      if params[:form]
       params[:form].split("&").each { |e|
         k = /data\[(.+)\]=/.match(e);
         v = e.gsub(/data\[(.+)\]=/, '')
         @form[k] = v
       }
+      end
     end 
     if x.go?
       redirect x.route
