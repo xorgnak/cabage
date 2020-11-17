@@ -54,7 +54,7 @@ fieldset { height: inherit; }
     <option class='material-icons' value='playing'>adjust</option>
   </select>
   <input list='feed_msgs' name='data[msg]' id='msg' placeholder='status' class='btn' style='font-size: larger; width: 60%;'>
-<button class='material-icons btn update' value='all' name='update' style='width: 15%; font-size: larger;'>send</button> 
+<button id='send' class='material-icons btn update' value='all' name='update' style='width: 15%; font-size: larger;'>send</button> 
 </h1>
 <script>
 <%= @js.mqtt_lib('$("#feed msgs").prepend("<code>" + j + "</code>");') %>
@@ -92,10 +92,19 @@ $(function() {
   $(this).css('background-color', 'orange');
   $("#" + $(this).val()).show();
  });
-  $(document).on('click', '.update', function(ev) {
+ $(document).on('keyup', 'form', function() {
+  $("#send").css('backgrount-color', 'green');
+ })
+ $(document).on('click', '.update', function(ev) {
   ev.preventDefault();
   sendMQTT();
-  });
+ });
+ $(document).on('click', '#send', function(ev) {
+  ev.preventDefault();
+  sendMQTT();
+  $("#msg").val("");
+  $("#send").css('background-color', 'white');
+ });
  $('.views').hide();
  $('#feed').show();
 }); 
