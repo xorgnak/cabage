@@ -36,7 +36,6 @@ var user;
 function onMessageArrived(message) {
   var topic = message.destinationName
   var j = JSON.parse(message.payloadString);
-  #{arv[0]}
   if (topic == "time") {
      $("#hour").text(j.hour);
      $("#min").text(j.min);
