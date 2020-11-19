@@ -18,7 +18,7 @@ module HandleMqtt
     if j['form']
       h = {}
       j['form'].split("&").each {|e| ee = e.split("="); h[ee[0]] = ee[1] }
-      j['form'] = h
+      j['form'] = JSON.generate(h)
     end
     if @@BLOCKS.has_key? n
       @@BLOCKS[n].call(j)
