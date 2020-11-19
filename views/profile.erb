@@ -29,7 +29,7 @@ fieldset { height: inherit; }
 <fieldset id='org-div' style='display: none;' class='views'>
 <legend>organizer</legend>
 <button type='button' class='material-icons btn' style='float: right;' onclick='$(".views").hide(); $("#feed").show();'>close</button>
-<textarea id='organize' name='org' style='width: 100%; height: 80%;'><% Organizer.new(params[:id]).text.entries.join('\n') %></textarea>
+<textarea id='organize' name='org' style='width: 100%; height: 80%;'><% Organizer.new(params[:id]).text.value %></textarea>
 </fieldset>
 
 

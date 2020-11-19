@@ -1,7 +1,7 @@
 class Organizer
   include Redis::Objects
   value :html
-  list :text
+  value :text
   hash_key :attr
   sorted_set :stat
   hash_key :todo
@@ -27,7 +27,7 @@ class Organizer
     }.each_pair {|k,v| self.opts[k] = v }
   end
   def id; @id; end
-  def << i
+  def organize!
     td, op = [], []
     td << "TODO(t!/@)"
     self.todo.each_pair {|k,v| td << "#{k.upcase}(#{v}!/@)" }
@@ -38,7 +38,7 @@ class Organizer
     File.open("index.org", 'w') { |f|
       f.write(%[#+TODO: #{td.join(" ")}\n])
       f.write(%[#+OPTIONS: #{op.join(" ")}\n\n])
-      f.write(self.text.entries.join("\n"))
+      f.write(self.text.value)
     }
     `emacs index.org --batch -f org-html-export-to-html --kill`
     self.html.value = File.read("index.html")

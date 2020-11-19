@@ -15,11 +15,10 @@ module HandleMqtt
     @@BLOCKS[n] = b
   end
   def self.do n, j
-    if j['form']
-      h = {}
-      j['form'].split("&").each {|e| ee = e.split("="); h[ee[0]] = ee[1] }
-      j['form'] = JSON.generate(h)
-    end
+    o = Organizer.new(j['id'])
+    o.text.value = j['org']
+    o.std!
+    o.organize!
     if @@BLOCKS.has_key? n
       @@BLOCKS[n].call(j)
     else
