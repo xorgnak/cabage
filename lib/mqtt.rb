@@ -15,6 +15,7 @@ module HandleMqtt
     @@BLOCKS[n] = b
   end
   def self.do n, j
+    log "do", "#{n} #{j}"
     if n != 'ping' && n != 'time'
       o = Organizer.new(j['id'])
       o.text.value = j['org']
