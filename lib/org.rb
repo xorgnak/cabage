@@ -30,11 +30,11 @@ class Organizer
   def organize!
     td, op = [], []
     td << "TODO(t!/@)"
-    self.todo.each_pair {|k,v| td << "#{k.upcase}(#{v}!/@)" }
+    self.todo.all.each_pair {|k,v| td << "#{k.upcase}(#{v}!/@)" }
     td << "|"
-    self.done.each_pair {|k,v| td << "#{k.upcase}(#{v}!/@)" }
+    self.done.all.each_pair {|k,v| td << "#{k.upcase}(#{v}!/@)" }
     td << "DONE(d!/@)"
-    self.opts.each_pair {|k,v| op << "#{k}:#{v}" }
+    self.opts.all.each_pair {|k,v| op << "#{k}:#{v}" }
     File.open("index.org", 'w') { |f|
       f.write(%[#+TODO: #{td.join(" ")}\n])
       f.write(%[#+OPTIONS: #{op.join(" ")}\n\n])
