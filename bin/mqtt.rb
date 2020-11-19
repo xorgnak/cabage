@@ -1,4 +1,4 @@
-def handleMqtt m,t
+def handleMqtt t,m
   Redis.new.publish(t || 'ping', HandleMqtt.do(t, m))
 end
 
