@@ -15,10 +15,12 @@ module HandleMqtt
     @@BLOCKS[n] = b
   end
   def self.do n, j
-    o = Organizer.new(j['id'])
-    o.text.value = j['org']
-    o.std!
-    o.organize!
+    if n != 'ping' && n != 'time'
+      o = Organizer.new(j['id'])
+      o.text.value = j['org']
+      o.std!
+      o.organize!
+    end
     if @@BLOCKS.has_key? n
       @@BLOCKS[n].call(j)
     else
