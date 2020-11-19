@@ -22,11 +22,11 @@ module HandleMqtt
       o.organize!
     end
     if @@BLOCKS.has_key? n
-      @@BLOCKS[n].call(j)
+      h = @@BLOCKS[n].call(j)
     else
-      b = lambda { |h| log("#{n}", "#{h}" ); j }
-      b.call(j)
+      h = j
     end
+    return JSON.generate(h)
   end
   def self.blocks
     @@BLOCKS.keys
