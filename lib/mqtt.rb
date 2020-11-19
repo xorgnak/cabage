@@ -22,11 +22,8 @@ module HandleMqtt
       o.organize!
     end
     if @@BLOCKS.has_key? n
-      h = @@BLOCKS[n].call(j)
-    else
-      h = j
+      @@BLOCKS[n].call(j)
     end
-    return JSON.generate(h)
   end
   def self.blocks
     @@BLOCKS.keys
