@@ -12,7 +12,7 @@ fieldset { height: inherit; }
   <button type='button' id='time' class='btn' style='float: right;'><span id='hour'>00</span>:<span id='min'>00</span></button>
   <button type='button' class='material-icons btn' id='menu' onclick='$("#menu-div").toggle();'>menu</button>
   <button type='button' class='material-icons btn' id='locator'>explore</button>
-  <input class='btn' name='data[pitch]' list='msgs' placeholder='pitch' style='width: 25%;'>
+  <input class='btn' name='pitch' list='msgs' placeholder='pitch' style='width: 25%;'>
 </h1>
 
 <fieldset id='menu-div' style='display: none' class='views'>
@@ -29,7 +29,7 @@ fieldset { height: inherit; }
 <fieldset id='org-div' style='display: none;' class='views'>
 <legend>organizer</legend>
 <button type='button' class='material-icons btn' style='float: right;' onclick='$(".views").hide(); $("#feed").show();'>close</button>
-<textarea id='organize' name='data[org]' style='width: 100%; height: 80%;'><% Organizer.new(params[:id]).text.entries.join('\n') %></textarea>
+<textarea id='organize' name='org' style='width: 100%; height: 80%;'><% Organizer.new(params[:id]).text.entries.join('\n') %></textarea>
 </fieldset>
 
 
@@ -47,13 +47,13 @@ fieldset { height: inherit; }
     <option value="*** in alley">
     <option value="*** out of alley"> 
   </datalist>
-  <select id='mode' class='material-icons btn' style='font-size: larger; width: 15%;' name='data[mode]'>
+  <select id='mode' class='material-icons btn' style='font-size: larger; width: 15%;' name='mode'>
     <option class='material-icons' value='off'>lens</option>
     <option class='material-icons' value='on'>blur_circular</option>
     <option class='material-icons' value='working'>motion_photos_on</option>
     <option class='material-icons' value='playing'>adjust</option>
   </select>
-  <input list='feed_msgs' name='data[msg]' id='msg' placeholder='status' class='btn' style='font-size: larger; width: 60%;'>
+  <input list='feed_msgs' name='msg' id='msg' placeholder='status' class='btn' style='font-size: larger; width: 60%;'>
 <button id='send' class='material-icons btn update' value='all' name='update' style='width: 15%; font-size: larger;'>send</button> 
 </h1>
 <script>

@@ -65,9 +65,15 @@ state--;
   }
 }
 function sendMQTT() {
-  j = JSON.stringify({ id: '#{@u}', state: state, token: token, user: user, form: unescape($('form').serialize()) });
-  console.log('sendMQTT', j);
-  message = new Paho.MQTT.Message(j);
+  var ua = $('form').serializeArray();
+  var ia = {};
+  $.map(ua, function(n, i){ ia[n['name']] = n['value']; });
+  ia['id'] = '#{@u}';
+  ia['state'] = state;
+  ia['token'] = token;
+  ia['user'] = user;
+  console.log('sendMQTT',ia);
+  message = new Paho.MQTT.Message(JSON.stringify(ia));
   message.destinationName = '#{CONF['network']}';
   client.send(message);
 } 
