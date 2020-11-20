@@ -14,7 +14,7 @@ def push_to_user(u, e, v)
 end
 
 module HandleMqtt
-  def self.do jj
+  def self.do t, jj
     j = JSON.parse jj
     log "do", "#{j}"
     if j['org']
@@ -22,7 +22,7 @@ module HandleMqtt
       o.text.value = j['org']
       o.std!
       o.organize!
-      Profile.new(@id).push({ action: 'w', element: 'div#organizer', payload: o.html.value}) 
+      Profile.new(j['id']).push({ action: 'w', element: 'div#organizer', payload: o.html.value}) 
     end
   end
 end
