@@ -33,10 +33,11 @@ fieldset { height: inherit; }
 </fieldset>
 
 
-<fieldset id='feed' class='views'>
+<fieldset id='feed' class='views' style='overflow scroll;'>
   <legend><span class='material-icons' style='color: <%= @attr['team'] %>; background-color: <%= @attr['color'] %>; border-radius: 0 0 25px 25px; border: thin solid black;'>circle</span><span>feed</span></legend>
+  <a href='' class='material-icons btn' style='float: right;'>save</a>
+  <div id='msgs' style='width: 100%;'></div> 
   <div id='organizer'><%= Organizer.new(params[:id]).html.value %></div>
-  <div id='msgs' style='width: 100%;'></div>
 </fieldset>
 
 <h1 style='position: absolute; bottom: 0; max-width: 100%; text-align: center;'>

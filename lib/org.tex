@@ -1,0 +1,82 @@
+% Created 2020-11-20 Fri 14:50
+% Intended LaTeX compiler: pdflatex
+\documentclass[presentation]{beamer}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{graphicx}
+\usepackage{grffile}
+\usepackage{longtable}
+\usepackage{wrapfig}
+\usepackage{rotating}
+\usepackage[normalem]{ulem}
+\usepackage{amsmath}
+\usepackage{textcomp}
+\usepackage{amssymb}
+\usepackage{capt-of}
+\usepackage{hyperref}
+\usetheme{default}
+\date{\today}
+\title{}
+\hypersetup{
+ pdfauthor={},
+ pdftitle={},
+ pdfkeywords={},
+ pdfsubject={},
+ pdfcreator={Emacs 26.1 (Org mode 9.1.9)}, 
+ pdflang={English}}
+\begin{document}
+
+\begin{frame}{Outline}
+\tableofcontents
+\end{frame}
+
+class Organizer
+  include Redis::Objects
+  value :html
+  value :text
+  hash\(_{\text{key}}\) :attr
+  sorted\(_{\text{set}}\) :stat
+  hash\(_{\text{key}}\) :todo
+  hash\(_{\text{key}}\) :done
+  hash\(_{\text{key}}\) :opts
+  def initialize i
+    @id = i
+  end
+  def std!
+    self.opts.clear
+    \{
+      'stat':'t',
+      'html-postamble':'nil',
+      'H':'1',
+      'num':'nil',
+      'toc':'t',
+      '\n':'nil',
+      ':':'nil',
+      '|':'t',
+      '\^{}':'t',
+      'f':'t',
+      'tex':'t'
+    \}.each\(_{\text{pair}}\) \{|k,v| self.opts[k] = v \}
+  end
+  def id; @id; end
+  def organize!
+    td, op = [], []
+    td << "TODO(t!/@)"
+    self.todo.all.each\(_{\text{pair}}\) \{|k,v| td << "\#\{k.upcase\}(\#\{v\}!/@)" \}
+    td << "|"
+    self.done.all.each\(_{\text{pair}}\) \{|k,v| td << "\#\{k.upcase\}(\#\{v\}!/@)" \}
+    td << "DONE(d!/@)"
+    self.opts.all.each\(_{\text{pair}}\) \{|k,v| op << "\#\{k\}:\#\{v\}" \}
+    File.open("index.org", 'w') \{ |f|
+      f.write(\%[\#+TODO: \#\{td.join(" ")\}\n])
+      f.write(\%[\#+OPTIONS: \#\{op.join(" ")\}\n])
+      f.write(\%[\#+TITLE: \#\{self.attr['title']\}\n\n]);
+      f.write(self.text.value)
+    \}
+    `emacs index.org --batch -f org-html-export-to-html --kill`
+    `emacs index.org --batch -f org-html-export-to-pdf --kill` 
+    self.download.value = Base64.strict\(_{\text{encode64}}\)(File.read("index.org"))
+    self.html.value = /<body>(.*)<$\backslash$/body>/m.match(File.read("index.html"))[1]
+  end
+end
+\end{document}
