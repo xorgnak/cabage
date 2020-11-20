@@ -38,7 +38,7 @@ class Organizer
     File.open("index.org", 'w') { |f|
       f.write(%[#+TODO: #{td.join(" ")}\n])
       f.write(%[#+OPTIONS: #{op.join(" ")}\n])
-      f.write(%[#+TITLE: my organized notes\n\n]);
+      f.write(%[#+TITLE: #{self.attr['title']}\n\n]);
       f.write(self.text.value)
     }
     `emacs index.org --batch -f org-html-export-to-html --kill`
