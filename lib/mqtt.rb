@@ -16,7 +16,7 @@ end
 module HandleMqtt
   def self.do jj
     j = JSON.parse jj
-    log "do", "#{n} #{j}"
+    log "do", "#{j}"
     if j['org']
       o = Organizer.new(j['id'])
       o.text.value = j['org']
