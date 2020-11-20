@@ -41,8 +41,12 @@ function onMessageArrived(message) {
      $("#min").text(j.min);
   } else if (topic == "ping") {
      sendMQTT();
-  } else {
-     $("div#msgs").prepend("<p><span>" + topic + "</span><code>" + message.payloadString + "</code></p>");
+  } else if (j.action == 'w') {
+     $(j.element).html(j.payload);
+  } else if (j.action == 'a') { 
+     $(j.element).append(j.payload);
+  } else if (j.action == 'p') { 
+     $(j.element).prepend(j.payload);
   }
   console.log("onMessageArrived", topic, message);
 }
