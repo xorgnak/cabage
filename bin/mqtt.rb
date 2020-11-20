@@ -1,6 +1,6 @@
 def handleMqtt m, t
   Redis.new.publish('DEBUG.##', "#{t} #{m}") 
-  Redis.new.publish(t || 'ping', HandleMqtt.do(m))
+  Redis.new.publish(m || 'ping', HandleMqtt.do(t))
 end
 
 Process.detach( fork {                                                                 
