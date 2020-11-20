@@ -10,7 +10,10 @@ class Profile
   end
   def id; @id; end
   def push(h={})
-      mqttSend({ action: h[:action], element: h[:element], payload: h[:payload] }, "#{CONF{'network'}}/#{@id}")
+    mqttSend(
+      { action: h[:action], element: h[:element], payload: h[:payload] },
+      "#{CONF['network']}/#{@id}"
+    )
   end 
 end
 #user = Hash.new {|h,k| h[k] = Profile.new(k) }
