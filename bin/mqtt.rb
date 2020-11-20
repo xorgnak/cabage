@@ -5,7 +5,7 @@ end
 
 Process.detach( fork {                                                                 
                   MQTT::Client.connect('localhost') do |client|                        
-                    client.get('#') do |topic, message|
+                    client.get('#') do |message, topic|
                       Redis.new.publish('DEBUG.#', "#{topic} #{message}") 
                       handleMqtt(message, topic)
                     end                                 

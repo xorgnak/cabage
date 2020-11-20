@@ -50,10 +50,16 @@ class App < Sinatra::Base
     Handle::Get.new(params)
     erb :index
   end
-   get('/ads.txt') {} 
+  get('/ads.txt') {} 
   get('/robots.txt') {}
   get('/webmanifest') { erb :webmanifest }
   get('/favicon.ico') {}
   [:profile, :shop, :auth, :make, :sign, :ui, :theatre, :tasker].each { |r| get("/#{r}") { erb r }; }
+  not_found do
+    log "ERROR.not_found", "#{params} #{request}"
+  end
+  error do
+    log "ERROR", "#{env}"
+  end
 end
 Process.detach(fork { App.run! })
