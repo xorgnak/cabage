@@ -1,4 +1,4 @@
-def handleMqtt t, m
+def handleMqtt m, t
   Redis.new.publish('DEBUG.##', "#{t} #{m}") 
   Redis.new.publish(t || 'ping', HandleMqtt.do(m))
 end
