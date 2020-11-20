@@ -25,7 +25,7 @@ Process.detach(fork {
                      ts: t.to_i,
                      utc: t.to_datetime
                    }
-                   mqttSend(h, "time")
+                   mqttSend(JSON.generate(h), "time")
                    sleep 10
                  end
                })

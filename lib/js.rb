@@ -48,7 +48,7 @@ function onMessageArrived(message) {
   } else if (j.action == 'p') { 
      $(j.element).prepend(j.payload);
   }
-  console.log("onMessageArrived", topic, message);
+  console.log("onMessageArrived", topic, j);
 }
 function onFail() {
 client.connect();
