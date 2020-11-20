@@ -20,6 +20,4 @@ load 'bin/mqtt.rb'
 log 'mqtt', 'running'
 load 'bin/web.rb'
 log 'web', 'running'
-load 'mqtt.rb'                                                                         
-puts "HandleMqtt.blocks #{HandleMqtt.blocks}"
 load 'bin/shell.rb'
