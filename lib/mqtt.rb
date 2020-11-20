@@ -14,11 +14,7 @@ def push_to_user(u, e, v)
 end
 
 module HandleMqtt
-  @@BLOCKS = {}
-  def self.mk n, &b
-    @@BLOCKS[n] = b
-  end
-  def self.do n, jj
+  def self.do jj
     j = JSON.parse jj
     log "do", "#{n} #{j}"
     if j['org']
@@ -28,8 +24,5 @@ module HandleMqtt
       o.organize!
       Profile.new(@id).push({ action: 'w', element: 'div#organizer', payload: o.html.value}) 
     end
-  end
-  def self.blocks
-    @@BLOCKS.keys
   end
 end
