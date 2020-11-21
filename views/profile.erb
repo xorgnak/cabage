@@ -92,11 +92,17 @@ $(function() {
   $("#msg").val("time");
   sendMQTT();
   $("#msg").val("");
-  $("div#msgs").prepend("<p class='feed'><span>" + $("#hour").text() + ":" + $("#min").text() + "</span><datalist id='sts'><option value='TODO'><option value='DONE'></datalist><input list='sts' name='at_" + $("#hour").text() + ":" + $("#min").text() + "' placeholder='note...'></p>");
+  $("div#msgs").prepend("<p class='feed'><span>" + $("#hour").text() + ":" + $("#min").text() + "</span><datalist id='sts'><option value='TODO'><option value='DONE'></datalist><input list='sts' class='sts' name='on_" + $("#hour").text() + ":" + $("#min").text() + "' placeholder='note...'></p>");
  });
  $(document).on('click', '#send', function(ev) {
   ev.preventDefault();
+  var s = "* " + $("input#msg").val();
+  var d = "";
+  $(".sts").each(function(i) { d += "- " + $(this).name() + ": " $(this).val(); });
+  var x = $("#org").val();
+  $("#org").val(x + "\n" + s + "\n" + d + "\n\n");
   sendMQTT();
+  $("div#msgs").html("");
   $("input#msg").val("");
   $("button#send").css('background-color', 'white');
   $(".views").hide();
