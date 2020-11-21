@@ -1,5 +1,6 @@
 require 'json'
 require 'mqtt'
+require 'base64'
 require 'redis-objects'
 require 'sinatra/base'
 require 'thin'

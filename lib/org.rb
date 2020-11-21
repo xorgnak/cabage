@@ -43,8 +43,7 @@ class Organizer
       f.write(self.text.value)
     }
     `emacs index.org --batch -f org-html-export-to-html --kill`
-    `emacs index.org --batch -f org-html-export-to-pdf --kill` 
-    self.file.value = Base64.strict_encode64(File.read("index.org"))
+    self.file.value = Base64.encode64(File.read("index.org")) 
     self.html.value = /<body>(.*)<\/body>/m.match(File.read("index.html"))[1]
   end
 end
