@@ -40,10 +40,10 @@ class Organizer
       f.write(%[#+TODO: #{td.join(" ")}\n])
       f.write(%[#+OPTIONS: #{op.join(" ")}\n])
       f.write(%[#+TITLE: #{self.attr['title']}\n\n]);
+      f.write(%[* personal index :#{@id}:\n])
       f.write(self.text.value)
     }
-    `emacs index.org --batch -f org-html-export-to-html --kill`
-    self.file.value = Base64.encode64(File.read("index.org")) 
+    `emacs index.org --batch -f org-html-export-to-html --kill` 
     self.html.value = /<body>(.*)<\/body>/m.match(File.read("index.html"))[1]
   end
 end

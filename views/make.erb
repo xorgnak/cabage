@@ -15,7 +15,7 @@ p > label { font-size: larger; vertical-align: middle; }
 </p>
 <% end %>
 <p><label>team</label>
-<select class='btn' name='leds[0a4b2cc][team]'>
+<select class='material-icons btn' name='team'>
 <option value='<%= @attr['team'] || "fff" %>' class='material-icons'selected style='color: <%= @attr['team'] || 'white' %>;'>circle</option>
 <option value='white' class='material-icons' style='color: white;'>circle</option>
 <option value='red' class='material-icons' style='color: red;'>circle</option>
@@ -26,11 +26,11 @@ p > label { font-size: larger; vertical-align: middle; }
 <option value='pink' class='material-icons' style='color: pink;'>circle</option>
 </select> 
 </p>
-<p><label>I need this tool for</label><select name='mode' class='r'>
+<p><label>I need this tool for</label><select name='mode' class='r btn'>
 <option selected disabled>select...</option>
 <option value='feedback'>colecting customer feedback.</option>
 <option value='embed'>sharing an imbed or iframe.</option>
-<option value='card'>/a digital business card.</option>
+<option value='card'>a digital callback card.</option>
 <option value='rewards'>tracking customer rewards.</option>
 </select></p>
 <label>content</label>
