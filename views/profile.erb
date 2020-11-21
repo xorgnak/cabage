@@ -92,7 +92,7 @@ $(function() {
   $("#msg").val("time");
   sendMQTT();
   $("#msg").val("");
-  $("div#feed").prepend("<p class='feed'>" + $("#hour").text() + $("#min").text() + "<input name='at_" + $("#hour").text()  + $("#min").text() + "' placeholder='note...'></p>");
+  $("div#msgs").prepend("<p class='feed'>" + $("#hour").text() + $("#min").text() + "<input name='at_" + $("#hour").text()  + $("#min").text() + "' placeholder='note...'></p>");
  });
  $(document).on('click', '#send', function(ev) {
   ev.preventDefault();
