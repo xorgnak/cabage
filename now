@@ -2,23 +2,30 @@
 
 rm lib/*~ > /dev/null
 rm bin/*~ > /dev/null
+pkill redis-cli
+pkill mosquitto_sub
+
+redis-cli monitor &
+mosquitto_sub -h localhost -t '#' &
+
 
 if [ "`redis-cli get stage`" == "" ]; then
-    echo 'what id your phone number?'
-    read id
-    redis-cli set ID $id
-    echo 'what do you call your device?'
-    read nick
-    redis-cli set NICK $nick
-    echo 'what city do you call home?'
-    read city
-    redis-cli set CITY "$city"
-    redis-cli set TEAM NONE
-    redis-cli set GROUP "$nick"
-    redis-cli set TOKEN `cat /dev/urandom | tr -dc 'a-zA-Z0-9' | fold -w 32 | head -n 1`
-    redis-cli set PASS `cat /dev/urandom | tr -dc 'a-zA-Z0-9' | fold -w 16 | head -n 1`
-    passwd
-    sudo apt install -y ruby emacs git screen redis mosquitto mosquitto-clients ircd-hybrid nginx tor aircrack-ng tshark nmap ii wifite netcat inotify vim
+    echo "";
+    echo 'what is your phone number?';
+    read id;
+    redis-cli set ID $id;
+    echo 'what do you call your device?';
+    read nick;
+    redis-cli set NICK $nick;
+    echo 'what city do you call home?';
+    read city;
+    redis-cli set CITY "$city";
+    redis-cli set TEAM NONE;
+    redis-cli set GROUP "$nick";
+    redis-cli set TOK `cat /dev/urandom | tr -dc 'a-zA-Z0-9' | fold -w 32 | head -n 1`;
+    redis-cli set PASS `cat /dev/urandom | tr -dc 'a-zA-Z0-9' | fold -w 16 | head -n 1`;
+    passwd;
+    sudo apt install -y ruby emacs git screen mosquitto mosquitto-clients ircd-hybrid nginx tor aircrack-ng tshark nmap ii wifite netcat inotify vim redis-server redis-tools inotify-tools inosync inoticoming inotify-hookable inotail 
     # get network config
     sudo service ircd-hybrid restart
     # get nginx config

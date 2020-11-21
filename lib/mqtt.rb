@@ -9,14 +9,10 @@ def mqttSend(o, t)
   end
 end
 
-def push_to_user(u, e, v)
-  mqttSend({ action: h[:action], element: h[:element], payload: h[:payload]}, "#{CONF{'network'}}/#{u}")
-end
-
 module HandleMqtt
   def self.do t, jj
     j = JSON.parse jj
-    log "do", "#{j}"
+    log "do", "#{t} #{j}"
     if j['org']
       o = Organizer.new(j['id'])
       o.text.value = j['org']

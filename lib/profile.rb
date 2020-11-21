@@ -31,6 +31,9 @@ class Group
   def << p
     self.profiles << p
   end
+  def push(h={})
+    self.profiles.members.each {|e| Profile.new(e).push(h) }
+  end
   def members
     self.profiles.members
   end
