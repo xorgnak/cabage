@@ -56,7 +56,7 @@ class App < Sinatra::Base
   get('/favicon.ico') {}
   [:profile, :shop, :auth, :make, :sign, :ui, :theatre, :tasker].each { |r| get("/#{r}") { erb r }; }
   not_found do
-    log "ERROR.not_found", "#{params} #{request}"
+    log "ERROR.not_found", "#{params} #{request.fullpath}"
   end
   error do
     log "ERROR", "#{env}"
