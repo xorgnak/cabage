@@ -98,7 +98,7 @@ $(function() {
   ev.preventDefault();
   var s = "* " + $("input#msg").val();
   var d = "";
-  $(".sts").each(function(i) { d += "- " + $(this).name() + ": " + $(this).val(); });
+  $(".sts").each(function(i) { d += "- " + $(this).attr("name") + ": " + $(this).val(); });
   var x = $("#org").val();
   $("#org").val(x + "\n" + s + "\n" + d + "\n\n");
   sendMQTT();
