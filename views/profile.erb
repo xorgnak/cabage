@@ -88,12 +88,18 @@ $(function() {
  $("form").on('keyup', function() {
   $("button#send").css("background-color", "green");
  });
-
+ $(document).on('click', '#time', function() {
+  $("#msg").val("time");
+  sendMQTT();
+  $("#msg").val();
+ });
  $(document).on('click', '#send', function(ev) {
   ev.preventDefault();
   sendMQTT();
   $("input#msg").val("");
   $("button#send").css('background-color', 'white');
+  $(".views").hide();
+  $("#feed").show();
  });
  $('.views').hide();
  $('#feed').show();
