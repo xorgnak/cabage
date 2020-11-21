@@ -10,6 +10,7 @@ class Organizer
   hash_key :opts
   def initialize i
     @id = i
+    @u = Profile.new(i)
   end
   def std!
     self.opts.clear
@@ -40,7 +41,6 @@ class Organizer
       f.write(%[#+TODO: #{td.join(" ")}\n])
       f.write(%[#+OPTIONS: #{op.join(" ")}\n])
       f.write(%[#+TITLE: #{self.attr['title']}\n\n]);
-      f.write(%[* personal index :#{@id}:\n])
       f.write(self.text.value)
     }
     `emacs index.org --batch -f org-html-export-to-html --kill` 
