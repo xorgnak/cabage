@@ -18,7 +18,7 @@ class Organizer
       'html-postamble':'nil',
       'H':'1',
       'num':'nil',
-      'toc':'t',
+      'toc':'nil',
       '\n':'nil',
       ':':'nil',
       '|':'t',
