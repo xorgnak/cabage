@@ -44,6 +44,7 @@ class Organizer
       f.write(self.text.value)
     }
     `emacs index.org --batch -f org-html-export-to-html --kill` 
-    self.html.value = /<body>(.*)<\/body>/m.match(File.read("index.html"))[1]
+    #    self.html.value = /<body>(.*)<\/body>/m.match(File.read("index.html"))[1]
+    self.html.value = File.read("index.html")
   end
 end
