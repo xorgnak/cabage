@@ -110,7 +110,7 @@ $(function() {
   var d = "";
   $(".sts").each(function(i) { d += i + ". " + $(this).attr("name") + ": " + $(this).val() + "\n"; });
   var x = $("textarea#organize").val();
-  $("textarea#organize").val(x + "\n" + s + "\n" + d + "\n");
+  $("textarea#organize").val(s + "\n" + d + "\n" + x);
   sendMQTT();
   $("div#msgs").html("");
   $("input#msg").val("");
