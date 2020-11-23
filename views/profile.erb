@@ -51,10 +51,10 @@ fieldset { height: inherit; }
     <option value="*** out of alley"> 
   </datalist>
   <select id='mode' class='material-icons btn' style='font-size: larger; width: 15%;' name='mode'>
-    <option class='material-icons' value='off'>lens</option>
-    <option class='material-icons' value='on'>blur_circular</option>
-    <option class='material-icons' value='working'>motion_photos_on</option>
-    <option class='material-icons' value='playing'>adjust</option>
+    <option class='material-icons' value='OFF'>lens</option>
+    <option class='material-icons' value='ON'>blur_circular</option>
+    <option class='material-icons' value='WORKING'>motion_photos_on</option>
+    <option class='material-icons' value='PLAYING'>adjust</option>
   </select>
   <input list='feed_msgs' name='msg' id='msg' placeholder='status' class='btn' style='font-size: larger; width: 60%;'>
 <button id='send' class='material-icons btn update' value='all' name='update' style='width: 15%; font-size: larger;'>send</button> 
@@ -102,10 +102,10 @@ $(function() {
  });
  $(document).on('click', '#send', function(ev) {
   ev.preventDefault();
-  if ($().val() != nil) {
+  if ($("input#msg").val() != "") {
     var s = "* " + $("input#msg").val();
   } else {
-    var s = "* " + $("input#pitch").val(); 
+    var s = "* " + $("select#mode").val() + " " + $("input#pitch").val(); 
   }
   var d = "";
   $(".sts").each(function(i) { d += i + ". " + $(this).attr("name") + ": " + $(this).val() + "\n"; });
