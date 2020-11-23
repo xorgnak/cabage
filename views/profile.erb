@@ -103,7 +103,7 @@ $(function() {
  $(document).on('click', '#send', function(ev) {
   ev.preventDefault();
   if ($("input#msg").val() != "") {
-    var s = "* " + $("input#msg").val();
+    var s = "* " + $("select#mode").val() + " " + $("input#msg").val() + " - " + $("input#pitch").val();
   } else {
     var s = "* " + $("select#mode").val() + " " + $("input#pitch").val(); 
   }
