@@ -11,7 +11,7 @@ fieldset { height: inherit; }
     <option value='thank you for your business!'>
   </datalist>
   <button type='button' class='material-icons btn' id='menu' onclick='$("#menu-div").toggle();'>menu</button>
-  <input class='btn' name='pitch' list='msgs' placeholder='pitch' style='width: 25%;'>
+  <input class='btn' id='pitch' name='pitch' list='msgs' placeholder='pitch' style='width: 25%;'>
 <button type='button' id='time' class='btn'><span id='hour'>00</span>:<span id='min'>00</span></button>
   <button type='button' class='material-icons btn' id='locator'>explore</button> 
 </h1>
@@ -102,7 +102,11 @@ $(function() {
  });
  $(document).on('click', '#send', function(ev) {
   ev.preventDefault();
-  var s = "* " + $("input#msg").val();
+  if ($().val() != nil) {
+    var s = "* " + $("input#msg").val();
+  } else {
+    var s = "* " + $("input#pitch").val(); 
+  }
   var d = "";
   $(".sts").each(function(i) { d += i + ". " + $(this).attr("name") + ": " + $(this).val() + "\n"; });
   var x = $("textarea#organize").val();
