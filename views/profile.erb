@@ -9,14 +9,10 @@ fieldset { height: inherit; }
   <datalist id='msgs'>
     <option value='thank you for your business!'>
   </datalist>
-  <span style='float: left;'>
   <button type='button' class='material-icons btn' id='menu' onclick='$("#menu-div").toggle();'>menu</button>
   <input class='btn' name='pitch' list='msgs' placeholder='pitch' style='width: 25%;'>
-</span>
-<span style='float: right;'>
 <button type='button' id='time' class='btn'><span id='hour'>00</span>:<span id='min'>00</span></button>
   <button type='button' class='material-icons btn' id='locator'>explore</button> 
-</span>
 </h1>
 
 <fieldset id='menu-div' style='display: none' class='views'>
@@ -69,8 +65,13 @@ $(function() {
   ev.preventDefault();
   if (locate == true) {
   navagor.geolocation.watchPosition(
-   function(pos) { console.log("DEBUG.geolocation", pos);
-   $('#locator').css('border','thick solid green;'); },
+   function(pos) {
+   console.log("DEBUG.geolocation", pos);
+   $('#locator').css('border','thick solid green;');
+   $("div#msgs").prepend("<p class='feed'><span>" + pos + "</span><datalist id='sts'><option value='[ ] '><option value='pickup at '><option value='wait at '><option value='dropoff at '></datalist><input list='sts' class='sts' name='on " + pos + "' placeholder='note...'></p>");
+
+
+   },
    function(err) { console.log("ERROR.geolocation", err);
    $('#locator').css('border', 'thick solid orange;'); },
    {
@@ -96,7 +97,7 @@ $(function() {
   $("#msg").val("time");
   sendMQTT();
   $("#msg").val("");
-  $("div#msgs").prepend("<p class='feed'><span>" + $("#hour").text() + ":" + $("#min").text() + "</span><datalist id='sts'><option value='TODO'><option value='DONE'></datalist><input list='sts' class='sts' name='on_" + $("#hour").text() + ":" + $("#min").text() + "' placeholder='note...'></p>");
+  $("div#msgs").prepend("<p class='feed'><span>" + $("#hour").text() + ":" + $("#min").text() + "</span><datalist id='sts'><option value='[ ] '><option value='pickup at '><option value='wait at '><option value='dropoff at '></datalist><input list='sts' class='sts' name='on " + $("#hour").text() + ":" + $("#min").text() + "' placeholder='note...'></p>");
  });
  $(document).on('click', '#send', function(ev) {
   ev.preventDefault();
