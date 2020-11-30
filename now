@@ -7,7 +7,7 @@ rm bin/*~ > /dev/null
 pkill redis-cli
 pkill mosquitto_sub
 
-if [ "$1" != "quiet" ]; then
+if [ "$1" != "quiet" ] || [ "$2" == "quiet" ]; then
 redis-cli monitor &
 mosquitto_sub -h localhost -t '#' &
 fi
@@ -51,5 +51,9 @@ elif [ "`redis-cli get stage`" == "-1" ]; then
     redis-cli del stage
     sudo reboot
 else
-    rvm 2.7@cabage do ruby bin/init.rb
+    if [ "$1" == "local" ] || [ "$2" == "local" ]; then
+	ruby bin/init.rb
+    else
+	rvm 2.7@cabage do ruby bin/init.rb
+    fi
 fi
