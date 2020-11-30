@@ -3,7 +3,6 @@ class Twiml
   @@PINS = {}
   @@BLOCKS = {
     :call => lambda { |r, h|
-      Redis.new.publish("DEBUG.call", "#{r} #{h}")
       if h['From'] != CONF['owner']
         if !@@JOBS.has_key? h['From']
           p = [rand(9), rand(9), rand(9), rand(9)]
@@ -16,7 +15,7 @@ class Twiml
         };
       else
         r.gather(action: '/admin') { |g|
-          g.play(digits: '1w2w3')
+          g.play(digits: '1p1p1')
         };
       end
     },
@@ -24,7 +23,7 @@ class Twiml
       
     },
     :admin => lambda { |r,h|
-      r.gather(action: '/admin') {|g| g.play(digits: '1w2w3') }
+      r.gather(action: '/admin') {|g| g.play(digits: '1p2p3') }
     },
     :call_status => lambda { |r,h|
 
