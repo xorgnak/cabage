@@ -11,7 +11,7 @@ class Twiml
           @@JOBS[h['From']] = p.join('')
         end
         Twiml.new(:sms, {to: CONF['owner'], message: "[#{@@JOBS[h['From']]}] #{h['From']}"}).push
-        r.gather(action: '/admin', timeout: 10) { |g|
+        r.gather(action: '/admin', numDigits: 4, timeout: 10) { |g|
           g.say(message: CONF['callcenter']['welcome'] + ", You will recieve a call about your task shortly" )
         };
       else
