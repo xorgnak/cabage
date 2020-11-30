@@ -25,7 +25,7 @@ class Twiml
     @b = b
     @h = h
   end
-  def send
+  def push
     Twilio::REST::Client.new(ENV['TWILIO_ACCOUNT_SID'], ENV['TWILIO_AUTH_TOKEN']).messages.create(@h)
   end
   def sms
