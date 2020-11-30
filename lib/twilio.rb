@@ -10,11 +10,15 @@ class Twiml
       end
       r.gather(action: '/admin', timeout: 10) { |g|
         g.say(message: CONF['callcenter']['welcome'] + ", You will recieve a call about your task shortly" )
-      };
-      Twiml.new(:push, {
-                  to: CONF['owner'],
-                  body: "[#{@@JOBS[h['From']]}] #{h['From']}"
-                })
+      }
+      if h['From'] != CONF['owner']
+      th = {
+        to: CONF['owner'],
+        body: "[#{@@JOBS[h['From']]}] #{h['From']}"
+      }
+      t = Twilio::REST::Client.new(ENV['TWILIO_ACCOUNT_SID'], ENV['TWILIO_AUTH_TOKEN'])
+      t.messages.create(th)
+      end
     },
     :sms => lambda { |r, h|
       
@@ -32,10 +36,7 @@ class Twiml
     if b == :sms
       Twilio::TwiML::MessagingResponse.new do |resp|
         @@BLOCKS[@b].call(resp, @h)
-      end.to_s 
-    elsif b == :push
-      t = Twilio::REST::Client.new(ENV['TWILIO_ACCOUNT_SID'], ENV['TWILIO_AUTH_TOKEN'])
-      t.messages.create(@h) 
+      end.to_s  
     else
       Twilio::TwiML::VoiceResponse.new do |resp|
         @@BLOCKS[@b].call(resp, @h)
