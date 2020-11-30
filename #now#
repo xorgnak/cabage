@@ -1,0 +1,55 @@
+#!/bin/bash
+
+source credentials.sh
+
+rm lib/*~ > /dev/null
+rm bin/*~ > /dev/null
+pkill redis-cli
+pkill mosquitto_sub
+
+if [ "$1" != "quiet" ]; then
+redis-cli monitor &
+mosquitto_sub -h localhost -t '#' &
+fi
+
+if [ "`redis-cli get stage`" == "" ]; then
+    echo "";
+    echo 'what is your phone number?';
+    read id;
+    redis-cli set ID $id;
+    echo 'what do you call your device?';
+    read nick;
+    redis-cli set NICK $nick;
+    echo 'what city do you call home?';
+    read city;
+    redis-cli set CITY "$city";
+    redis-cli set TEAM NONE;
+    redis-cli set GROUP "$nick";
+    redis-cli set TOK `cat /dev/urandom | tr -dc 'a-zA-Z0-9' | fold -w 32 | head -n 1`;
+    redis-cli set PASS `cat /dev/urandom | tr -dc 'a-zA-Z0-9' | fold -w 16 | head -n 1`;
+    passwd;
+    sudo apt install -y ruby emacs git screen mosquitto mosquitto-clients ircd-hybrid nginx tor aircrack-ng tshark nmap ii wifite netcat inotify vim redis-server redis-tools inotify-tools inosync inoticoming inotify-hookable inotail 
+    # get network config
+    sudo service ircd-hybrid restart
+    # get nginx config
+    sudo service nginx restart
+    rvm gemset create cabage
+    rvm gemset use cabage
+    sudo gem install --no-rdoc --no-ri redis-objects mqtt pry thin sinatra twilio-ruby
+    echo 'screen -t "#" emacs -nw --load ~/.irc.el index.org' > ~/.screenrc
+    echo 'screen -t ">" . cabgo/now' >> ~/.screenrc 
+    cat << EOF > ~/.irc.el
+(require 'erc-join)
+(erc-autojoin-mode 1)
+(setq erc-autojoin-channels-alist
+      '(("vango.me" "#feed" "#$city" "#$nick")))
+(erc :server "vango.me" :full-name "`redis-cli get DEVID`" :nick "`redis-cli get NICK`" :password "`redis-cli get PASS`")
+EOF
+    redis-cli set stage 0
+    sudo reboot
+elif [ "`redis-cli get stage`" == "-1" ]; then
+    redis-cli del stage
+    sudo reboot
+else
+    rvm 2.7@cabage do bin/init.rb
+fi
