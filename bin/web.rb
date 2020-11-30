@@ -54,6 +54,12 @@ class App < Sinatra::Base
   get('/robots.txt') {}
   get('/webmanifest') { erb :webmanifest }
   get('/favicon.ico') {}
+  Twiml.blocks.keys.each { |e|
+    post("/#{e}") {
+      content_type 'text/xml';
+      Twiml.new(e, params).send(e)
+    }
+  }
   [:profile, :shop, :auth, :make, :sign, :ui, :theatre, :tasker].each { |r| get("/#{r}") { erb r }; }
   not_found do
     log "ERROR.not_found", "#{params} #{request.fullpath}"

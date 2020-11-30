@@ -5,6 +5,7 @@ require 'redis-objects'
 require 'sinatra/base'
 require 'thin'
 require 'pry'
+require 'twilio-ruby' 
 def log t, m
   if m.class == String
     mm = m

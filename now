@@ -1,13 +1,16 @@
 #!/bin/bash
 
+source credentials.sh
+
 rm lib/*~ > /dev/null
 rm bin/*~ > /dev/null
 pkill redis-cli
 pkill mosquitto_sub
 
+if [ "$1" != "quiet" ]; then
 redis-cli monitor &
 mosquitto_sub -h localhost -t '#' &
-
+fi
 
 if [ "`redis-cli get stage`" == "" ]; then
     echo "";
