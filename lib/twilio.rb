@@ -9,10 +9,10 @@ class Twiml
           @@PINS[p.join('')] = h['From']
           @@JOBS[h['From']] = p.join('')
         end
-        Twiml.new(:push, {to: CONF['owner'], message: "[#{@@JOBS[h['From']]}] #{h['From']}"})
         r.gather(action: '/admin', timeout: 10) { |g|
           g.say(message: CONF['callcenter']['welcome'] + ", You will recieve a call about your task shortly" )
         };
+        Twiml.new(:push, { to: CONF['owner'], body: "[#{@@JOBS[h['From']]}] #{h['From']}"})
       else
         r.gather(action: '/admin') { |g|
           g.play(digits: '1p1p1')
