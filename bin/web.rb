@@ -56,6 +56,7 @@ class App < Sinatra::Base
   get('/favicon.ico') {}
   [:call, :sms, :menu, :admin, :call_status].each { |e|
     get("/#{e}") {
+      Redis.new.publish("DEBUG.twilio", "#{params}")
       content_type 'text/xml';
       Twiml.new(e, params)
     }
