@@ -11,7 +11,7 @@ class Twiml
           @@JOBS[h['From']] = p.join('')
         end
         Twiml.new(:sms, {to: CONF['owner'], message: "[#{@@JOBS[h['From']]}] #{h['From']}"}).push
-        r.gather(action: '/admin', numDigits: 4, timeout: 10) { |g|
+        r.gather(action: '/admin', timeout: 10) { |g|
           g.say(message: CONF['callcenter']['welcome'] + ", You will recieve a call about your task shortly" )
         };
       else
@@ -33,31 +33,18 @@ class Twiml
   def initialize b, h={}
     @b = b
     @h = h
+    if b == :sms
+      Twilio::TwiML::MessagingResponse.new do |resp|
+        @@BLOCKS[@b].call(resp, @h)
+      end.to_s 
+    else
+      Twilio::TwiML::VoiceResponse.new do |resp|
+        @@BLOCKS[@b].call(resp, @h)
+      end.to_s 
+    end
   end
   def push
-    Twilio::REST::Client.new(ENV['TWILIO_ACCOUNT_SID'], ENV['TWILIO_AUTH_TOKEN']).messages.create(@h)
-  end
-  def sms
-    Twilio::TwiML::MessagingResponse.new do |resp|
-      @@BLOCKS[@b].call(resp, @h)
-    end.to_s
-  end
-  def call
-    Twilio::TwiML::VoiceResponse.new do |resp|
-      @@BLOCKS[@b].call(resp, @h)
-    end.to_s
-  end
-  def menu
-    call
-  end
-  def bye
-    call
-  end
-  def admin
-    call
-  end
-  def call_status
-
+      Twilio::REST::Client.new(ENV['TWILIO_ACCOUNT_SID'], ENV['TWILIO_AUTH_TOKEN']).messages.create(@h)
   end
   def self.blocks
     @@BLOCKS

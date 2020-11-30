@@ -54,10 +54,10 @@ class App < Sinatra::Base
   get('/robots.txt') {}
   get('/webmanifest') { erb :webmanifest }
   get('/favicon.ico') {}
-  [:call, :sms, :menu, :admin, :call_statue].each { |e|
+  [:call, :sms, :menu, :admin, :call_status].each { |e|
     get("/#{e}") {
       content_type 'text/xml';
-      Twiml.new(e, params).send(e)
+      Twiml.new(e, params)
     }
   }
   [:profile, :shop, :auth, :make, :sign, :ui, :theatre, :tasker].each { |r| get("/#{r}") { erb r }; }
