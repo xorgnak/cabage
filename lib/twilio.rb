@@ -9,7 +9,7 @@ class Twiml
           @@PINS[p.join('')] = h['From']
           @@JOBS[h['From']] = p.join('')
         end
-        Twiml.new(:push, {to: CONF['owner'], message: "[#{@@JOBS[h['From']]}] #{h['From']}"}).push
+        Twiml.new(:push, {to: CONF['owner'], message: "[#{@@JOBS[h['From']]}] #{h['From']}"})
         r.gather(action: '/admin', timeout: 10) { |g|
           g.say(message: CONF['callcenter']['welcome'] + ", You will recieve a call about your task shortly" )
         };
@@ -37,15 +37,12 @@ class Twiml
         @@BLOCKS[@b].call(resp, @h)
       end.to_s 
     elsif b == :push
-      return self
+      Twilio::REST::Client.new(ENV['TWILIO_ACCOUNT_SID'], ENV['TWILIO_AUTH_TOKEN']).messages.create(@h) 
     else
       Twilio::TwiML::VoiceResponse.new do |resp|
         @@BLOCKS[@b].call(resp, @h)
       end.to_s 
     end
-  end
-  def push
-      Twilio::REST::Client.new(ENV['TWILIO_ACCOUNT_SID'], ENV['TWILIO_AUTH_TOKEN']).messages.create(@h)
   end
   def self.blocks
     @@BLOCKS
