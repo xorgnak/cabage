@@ -54,7 +54,7 @@ class App < Sinatra::Base
   get('/robots.txt') {}
   get('/webmanifest') { erb :webmanifest }
   get('/favicon.ico') {}
-  [:call, :sms, :menu, :admin, :call_status].each { |e|
+  [:call, :sms, :admin, :call_status].each { |e|
     get("/#{e}") {
       Redis.new.publish("DEBUG.twilio", "#{params}")
       content_type 'text/xml';
