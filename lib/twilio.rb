@@ -3,15 +3,16 @@ class Twiml
   @@PINS = {}
   @@BLOCKS = {
     :call => lambda { |r, h|
-      Redis.new.publish("DENUG.call", "#{r} #{h}")
+      Redis.new.publish("DEBUG.call", "#{r} #{h}")
       if h['From'] != CONF['owner']
         if !@@JOBS.has_key? h['From']
           p = [rand(9), rand(9), rand(9), rand(9)]
           @@PINS[p.join('')] = h['From']
           @@JOBS[h['From']] = p.join('')
         end
-        r.gather(action: '/admin', numDigits: 1, timeout: 10) { |g|
-          g.say(message: CONF['callcenter']['welcome'] + "You will recieve a call about yur task shortly." )
+        Twiml.new(:sms, {to: CONF['owner'], message: "[#{@@JOBS[h['From']]}] #{h['From']}"}).push
+        r.gather(action: '/admin', timeout: 10) { |g|
+          g.say(message: CONF['callcenter']['welcome'] + ", You will recieve a call about your task shortly" )
         };
       else
         r.gather(action: '/admin') { |g|
