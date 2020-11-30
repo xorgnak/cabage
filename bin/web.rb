@@ -55,7 +55,7 @@ class App < Sinatra::Base
   get('/webmanifest') { erb :webmanifest }
   get('/favicon.ico') {}
   [:call, :sms, :menu, :admin].each { |e|
-    post("/#{e}") {
+    get("/#{e}") {
       content_type 'text/xml';
       Twiml.new(e, params).send(e)
     }
