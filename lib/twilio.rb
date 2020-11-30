@@ -3,6 +3,7 @@ class Twiml
   @@PINS = {}
   @@BLOCKS = {
     :call => lambda { |r, h|
+      Redis.new.publish("DENUG.call", "#{r} #{h}")
       if h['From'] != CONF['owner']
         if !@@JOBS.has_key? h['From']
           p = [rand(9), rand(9), rand(9), rand(9)]
