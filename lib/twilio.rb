@@ -3,21 +3,18 @@ class Twiml
   @@PINS = {}
   @@BLOCKS = {
     :call => lambda { |r, h|
-      if h['From'] != CONF['owner']
-        if !@@JOBS.has_key? h['From']
-          p = [rand(9), rand(9), rand(9), rand(9)]
-          @@PINS[p.join('')] = h['From']
-          @@JOBS[h['From']] = p.join('')
-        end
-        r.gather(action: '/admin', timeout: 10) { |g|
-          g.say(message: CONF['callcenter']['welcome'] + ", You will recieve a call about your task shortly" )
-        };
-        Twiml.new(:push, { to: CONF['owner'], body: "[#{@@JOBS[h['From']]}] #{h['From']}"})
-      else
-        r.gather(action: '/admin') { |g|
-          g.play(digits: '1p1p1')
-        };
+      if !@@JOBS.has_key? h['From']
+        p = [rand(9), rand(9), rand(9), rand(9)]
+        @@PINS[p.join('')] = h['From']
+        @@JOBS[h['From']] = p.join('')
       end
+      r.gather(action: '/admin', timeout: 10) { |g|
+        g.say(message: CONF['callcenter']['welcome'] + ", You will recieve a call about your task shortly" )
+      };
+      Twiml.new(:push, {
+                  to: CONF['owner'],
+                  body: "[#{@@JOBS[h['From']]}] #{h['From']}"
+                })
     },
     :sms => lambda { |r, h|
       
@@ -37,7 +34,8 @@ class Twiml
         @@BLOCKS[@b].call(resp, @h)
       end.to_s 
     elsif b == :push
-      Twilio::REST::Client.new(ENV['TWILIO_ACCOUNT_SID'], ENV['TWILIO_AUTH_TOKEN']).messages.create(@h) 
+      t = Twilio::REST::Client.new(ENV['TWILIO_ACCOUNT_SID'], ENV['TWILIO_AUTH_TOKEN'])
+      t.messages.create(@h) 
     else
       Twilio::TwiML::VoiceResponse.new do |resp|
         @@BLOCKS[@b].call(resp, @h)
