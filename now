@@ -33,8 +33,9 @@ if [ "`redis-cli get stage`" == "" ]; then
     sudo service ircd-hybrid restart
     # get nginx config
     sudo service nginx restart
- 
-    sudo gem install --no-rdoc --no-ri redis-objects mqtt pry thin sinatra
+    rvm gemset create cabage
+    rvm gemset use cabage
+    sudo gem install --no-rdoc --no-ri redis-objects mqtt pry thin sinatra twilio-ruby
     echo 'screen -t "#" emacs -nw --load ~/.irc.el index.org' > ~/.screenrc
     echo 'screen -t ">" . cabgo/now' >> ~/.screenrc 
     cat << EOF > ~/.irc.el
@@ -50,5 +51,5 @@ elif [ "`redis-cli get stage`" == "-1" ]; then
     redis-cli del stage
     sudo reboot
 else
-    ruby bin/init.rb
+    rvm 2.7@cabage do ruby bin/init.rb
 fi
