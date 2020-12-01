@@ -17,29 +17,30 @@ module TWILIO
   end
   def self.get_sms h={}
     TWILIO.set_job h['From']
-#    if h['From'] != CONF['owner']
-      j = Redis::HashKey.new("callcenter:jobs")[h['From']]
-      TWILIO.sendSms(CONF['owner'], "[#{j}] #{h['From']} #{h['Body']}")
-      Twilio::TwiML::MessagingResponse.new do |resp|
-        resp.message(body: "You will recieve a call about your task shortly.")
-      end.to_s
-#    end
-  end
-  def self.get_msg h={}
-    if @h['From'] != CONF['owner']
-      j = Redis::HashKey.new("callcenter:jobs")[h['From']]
-      TWILIO.sendSms(CONF['owner'], "[#{j}] #{h['From']}")
-    end  
-    Twilio::TwiML::VoiceResponse.new do |resp|
-      resp.say(message: 'goodbye' )
-    end
+    #    if h['From'] != CONF['owner']
+    j = Redis::HashKey.new("callcenter:jobs")[h['From']]
+    TWILIO.sendSms(CONF['owner'], "[#{j}] #{h['From']} #{h['Body']}")
+    Twilio::TwiML::MessagingResponse.new do |resp|
+      resp.message(body: "You will recieve a call about your task shortly.")
+    end.to_s
+    #    end
   end
   def self.get_call h={}
     TWILIO.set_job h['From']
-    Twilio::TwiML::VoiceResponse.new do |resp|
-      resp.gather(action: '/msg', timeout: 5) { |g|
-        g.say(message: CONF['callcenter']['welcome'] + ", please leave a message and ou will recieve a call about your task shortly" )
-      }
+    if h['Digits']
+      if h['From'] != CONF['owner']
+        j = Redis::HashKey.new("callcenter:jobs")[h['From']]
+        TWILIO.sendSms(CONF['owner'], "[#{j}] #{h['From']}")
+      end
+      Twilio::TwiML::VoiceResponse.new do |resp|
+        resp.say(message: 'goodbye' )
+      end.to_s
+    else
+      Twilio::TwiML::VoiceResponse.new do |resp|
+        resp.gather(action: '/call', timeout: 5) { |g|
+          g.say(message: CONF['callcenter']['welcome'] + ", please leave a message and ou will recieve a call about your task shortly" )
+        }
+      end.to_s
     end
   end
 end
