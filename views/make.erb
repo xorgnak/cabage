@@ -5,7 +5,7 @@ p > label { font-size: larger; vertical-align: middle; }
 <fieldset>
 <legend>profile</legend>
 <input type='hidden' name='id' value='<%= params[:id] %>'>
-<% [ :pin, :name, :venmo, :pitch, :message, :image ].each do |e| %>
+<% [ :pin, :name, :venmo, :city, :worknumber, :pitch, :message, :image ].each do |e| %>
 <p><label><%= e %></label>
 <% if !@attr.has_key?(e.to_s) %>
 <input class='r' type='text' name='<%= e %>' placeholder='<%= 'your ' + e.to_s %>'>

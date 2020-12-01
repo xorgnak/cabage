@@ -19,6 +19,9 @@ module Handle
         end
       else
         @h.each_pair {|k,v| if k != :id; u.attr[k] = v; end }
+        Redis::HashKey.new("callcenter:active:on")[@h['worknumber']] = @h[:id]
+        Redis::HashKey.new("callcenter:active:owns")[@h[:id]] = @h['worknumber']
+        Redis::HashKey.new("callcenter:active:in")[@h[:id]] = @h['city'] 
       end
       @r, @o = [], []
       @go = false
