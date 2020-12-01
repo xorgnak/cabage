@@ -32,7 +32,7 @@ class Twiml
       end.to_s
     elsif b == :call
       Twilio::TwiML::VoiceResponse.new do |resp|
-        r.gather(action: '/admin', timeout: 10) { |g|
+        resp.gather(action: '/admin', timeout: 10) { |g|
                   g.say(message: CONF['callcenter']['welcome'] + ", You will recieve a call about your task shortly" )
         }
         if @h['From'] != CONF['owner']
