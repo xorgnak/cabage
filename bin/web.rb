@@ -54,14 +54,11 @@ class App < Sinatra::Base
   get('/robots.txt') {}
   get('/webmanifest') { erb :webmanifest }
   get('/favicon.ico') {}
-  [:call, :sms, :admin].each { |e|
-    get("/#{e}") {
-#      Redis.new.publish("DEBUG.twilio", "#{params}")
-      content_type 'text/xml';
-      Twiml.new(e, params)
-    }
+  get('/sms') { TWILIO.get_sms(params) }
+  get('/call') { TWILIO.get_call(params) }
+  [:profile, :shop, :auth, :make, :sign, :ui, :theatre, :tasker].each { |r|
+    get("/#{r}") { erb r };
   }
-  [:profile, :shop, :auth, :make, :sign, :ui, :theatre, :tasker].each { |r| get("/#{r}") { erb r }; }
   not_found do
     log "ERROR.not_found", "#{params} #{request.fullpath}"
   end
