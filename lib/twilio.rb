@@ -1,6 +1,6 @@
 def sendSms t, m
   th = {
-    from: '+15855144334'
+    from: '+15855144334',
     to: t,
     body: m
   }
