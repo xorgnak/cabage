@@ -4,11 +4,11 @@
 <% if params[:id] %>
 <input type='hidden' name='id' value='<%= params[:id] %>'>
 <h3>pin</h3>
-<h3><input type='password' name='pin' placeholder='******' maxlength='10' style='width: 100%'></h3>
+<h3><input type='password' name='pin' placeholder='******' maxlength='10'></h3>
 <h3><button type='submit' name='do' value='profile'>SIGN IN</button></h3>
 <% else %>
 <h3>phone number</h3>
-<h3><input type='tel' name='id' placeholder='(___)___-____' maxlength='10' style='width: 100%;'></h3>
+<h3><input type='tel' name='id' placeholder='(___)___-____' maxlength='10'></h3>
 <h3><button type='submit' name='do' value='index' >GO</button></h3>
 <% end %>
 
