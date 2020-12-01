@@ -32,15 +32,19 @@ module TWILIO
         j = Redis::HashKey.new("callcenter:jobs")[h['From']]
         TWILIO.sendSms(CONF['owner'], "[#{j}] #{h['From']}")
       end
-      Twilio::TwiML::VoiceResponse.new do |resp|
-        resp.say(message: 'goodbye' )
+      @o = Twilio::TwiML::VoiceResponse.new do |resp|
+        resp.say(voice: 'male', message: 'goodbye' )
       end.to_s
     else
-      Twilio::TwiML::VoiceResponse.new do |resp|
-        resp.gather(action: '/call', timeout: 5) { |g|
-          g.say(message: CONF['callcenter']['welcome'] + ", please leave a message and ou will recieve a call about your task shortly" )
+      @o = Twilio::TwiML::VoiceResponse.new do |resp|
+        resp.gather(action: '/call',
+                    input: 'dtmf speech',
+                    method: GET,
+                    timeout: 5) { |g|
+          g.say(voice: 'male', message: CONF['callcenter']['welcome'] + ", please leave a message and ou will recieve a call about your task shortly" )
         }
       end.to_s
     end
+    return @o
   end
 end
