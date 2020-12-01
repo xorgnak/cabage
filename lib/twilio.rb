@@ -39,7 +39,7 @@ module TWILIO
       @o = Twilio::TwiML::VoiceResponse.new do |resp|
         resp.gather(action: '/call',
                     input: 'dtmf speech',
-                    method: GET,
+                    method: 'GET',
                     timeout: 5) { |g|
           g.say(voice: 'male', message: CONF['callcenter']['welcome'] + ", please leave a message and ou will recieve a call about your task shortly" )
         }
