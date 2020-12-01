@@ -17,13 +17,18 @@ module TWILIO
   end
   def self.get_sms h={}
     TWILIO.set_job h['From']
-    #    if h['From'] != CONF['owner']
+    if h['From'] != CONF['owner']
     j = Redis::HashKey.new("callcenter:jobs")[h['From']]
     TWILIO.sendSms(CONF['owner'], "[#{j}] #{h['From']} #{h['Body']}")
     Twilio::TwiML::MessagingResponse.new do |resp|
       resp.message(body: "You will recieve a call about your task shortly.")
     end.to_s
-    #    end
+    else
+      w = h['Body'].split(' ')
+      u = w.shift
+      j = Redis::HashKey.new("callcenter:pins")[u]
+      TWILIO.sendSms(j, "#{w.join(' ')}") 
+    end
   end
   def self.get_call h={}
     TWILIO.set_job h['From']
