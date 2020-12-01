@@ -31,14 +31,12 @@ class Twiml
       if h['From'] != CONF['owner']
         j = Redis::HashKey.new("callcenter:jobs")[h['From']]
         sendSms(CONF['owner'], "[#{j}] #{h['From']} #{h['Body']}")
+        r.message(body: "You will recieve a call about your task shortly.")
       end 
     },
     :admin => lambda { |r,h|
       r.gather(action: '/admin') {|g| g.play(digits: '1p2p3') }
     },
-    :call_status => lambda { |r,h|
-      
-    }
   }
   def initialize b, h={}
     @b = b
