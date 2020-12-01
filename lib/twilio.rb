@@ -1,7 +1,7 @@
 module TWILIO
-  def self.sendSms t, m
+  def self.sendSms f, t, m
     th = {
-      from: '+15855144334',
+      from: f,
       to: t,
       body: m
     }
@@ -19,13 +19,12 @@ module TWILIO
     u = Profile.new(Redis::HashKey.new("callcenter:active:on")[h['To']])
     TWILIO.set_job h['From']
     if h['From'] != Redis::HashKey.new("callcenter:active:on")[h['To']]
-    j = Redis::HashKey.new("callcenter:jobs")[h['From']]
-    TWILIO.sendSms(Redis::HashKey.new("callcenter:active:on")[h['To']], "[#{j}] #{h['From']} #{h['Body']}")
+      j = Redis::HashKey.new("callcenter:jobs")[h['From']]
+      TWILIO.sendSms(h['To'], Redis::HashKey.new("callcenter:active:on")[h['To']], "[#{j}] #{h['From']} #{h['Body']}")
     else
       w = h['Body'].split(' ')
       u = w.shift
-      j = Redis::HashKey.new("callcenter:pins")[u]
-      TWILIO.sendSms(j, "#{w.join(' ')}") 
+      TWILIO.sendSms(h['To'], Redis::HashKey.new("callcenter:pins")[u] , "#{w.join(' ')}") 
     end
   end
   def self.get_call h={}
@@ -40,7 +39,7 @@ module TWILIO
     else
       if h['From'] != Redis::HashKey.new("callcenter:active:on")[h['To']]
         j = Redis::HashKey.new("callcenter:jobs")[h['From']]
-        TWILIO.sendSms(Redis::HashKey.new("callcenter:active:on")[h['To']], "[#{j}] #{h['From']} CALL")
+        TWILIO.sendSms(h['To'], Redis::HashKey.new("callcenter:active:on")[h['To']], "[#{j}] #{h['From']} CALL")
       end 
       @o = Twilio::TwiML::VoiceResponse.new do |resp|
         resp.gather(action: '/call',
