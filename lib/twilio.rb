@@ -47,7 +47,7 @@ module TWILIO
         resp.gather(action: '/call',
                     input: 'dtmf',
                     method: 'GET') { |g|
-          g.say(voice: 'male', message: "hello, #{u.attr['pitch']} in #{u.attr['city']}, #{u.attr['message']} you will recieve a call about your task shortly.  thanks." )
+          g.say(voice: 'male', message: "hello, #{u.attr['pitch']} in #{u.attr['city']}, #{u.attr['message']} you will recieve a response shortly.  thanks." )
         }
         resp.hangup
       end.to_s
