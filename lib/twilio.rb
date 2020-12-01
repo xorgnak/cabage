@@ -28,20 +28,22 @@ module TWILIO
   def self.get_call h={}
     TWILIO.set_job h['From']
     if h['Digits']
-      if h['From'] != CONF['owner']
-        j = Redis::HashKey.new("callcenter:jobs")[h['From']]
-        TWILIO.sendSms(CONF['owner'], "[#{j}] #{h['From']}")
-      end
       @o = Twilio::TwiML::VoiceResponse.new do |resp|
-        resp.say(voice: 'male', message: 'goodbye' )
+        resp.play( digits: '1w1' )
+        resp.dial( number: Redis::HashKey.new("callcenter:pins")[h['Digits']] )
+        resp.redirect('/call', method: 'GET')
       end.to_s
     else
+#      if h['From'] != CONF['owner']
+        j = Redis::HashKey.new("callcenter:jobs")[h['From']]
+        TWILIO.sendSms(CONF['owner'], "[#{j}] #{h['From']} CALL")
+#      end 
       @o = Twilio::TwiML::VoiceResponse.new do |resp|
         resp.gather(action: '/call',
-                    input: 'dtmf speech',
+                    input: 'dtmf',
                     method: 'GET',
                     timeout: 5) { |g|
-          g.say(voice: 'male', message: CONF['callcenter']['welcome'] + ", please leave a message and ou will recieve a call about your task shortly" )
+          g.say(voice: 'male', message: CONF['callcenter']['welcome'] + ", you will recieve a call about your task shortly" )
         }
       end.to_s
     end
