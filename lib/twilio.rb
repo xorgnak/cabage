@@ -16,11 +16,12 @@ module TWILIO
     end
   end
   def self.get_sms h={}
-    u = Profile.new(Redis::HashKey.new("callcenter:active:on")[h['To']])
+    ow = Redis::HashKey.new("callcenter:active:on")[h['To']]
+    u = Profile.new(ow)
     TWILIO.set_job h['From']
-    if h['From'] != Redis::HashKey.new("callcenter:active:on")[h['To']]
+    if h['From'] != ow
       j = Redis::HashKey.new("callcenter:jobs")[h['From']]
-      TWILIO.sendSms(h['To'], Redis::HashKey.new("callcenter:active:on")[h['To']], "[#{j}] #{h['From']} #{h['Body']}")
+      TWILIO.sendSms(h['To'], ow, "[#{j}] #{h['From']} #{h['Body']}")
     else
       w = h['Body'].split(' ')
       u = w.shift
@@ -28,7 +29,8 @@ module TWILIO
     end
   end
   def self.get_call h={}
-    u = Profile.new(Redis::HashKey.new("callcenter:active:on")[h['To']])
+    ow = Redis::HashKey.new("callcenter:active:on")[h['To']]
+    u = Profile.new(ow)
     TWILIO.set_job h['From']
     if h['Digits']
       @o = Twilio::TwiML::VoiceResponse.new do |resp|
@@ -37,16 +39,16 @@ module TWILIO
         resp.redirect('/call', method: 'GET')
       end.to_s
     else
-      if h['From'] != Redis::HashKey.new("callcenter:active:on")[h['To']]
+      if h['From'] != ow
         j = Redis::HashKey.new("callcenter:jobs")[h['From']]
-        TWILIO.sendSms(h['To'], Redis::HashKey.new("callcenter:active:on")[h['To']], "[#{j}] #{h['From']} CALL")
+        TWILIO.sendSms(h['To'], ow, "[#{j}] #{h['From']} CALL")
       end 
       @o = Twilio::TwiML::VoiceResponse.new do |resp|
         resp.gather(action: '/call',
                     input: 'dtmf',
-                    method: 'GET',
-                    timeout: 5) { |g|
-          g.say(voice: 'male', message: "hello, i do " + u.attr['pitch'] + " in " + u.attr['city'] + ", you will recieve a call about your task shortly.  thanks." )
+                    method: 'GET') { |g|
+          g.say(voice: 'male', message: "hello, " + u.attr['pitch'] + " in " + u.attr['city'] + ", you will recieve a call about your task shortly.  thanks." )
+          g.hangup
         }
       end.to_s
     end
