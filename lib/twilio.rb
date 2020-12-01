@@ -1,10 +1,11 @@
 def sendSms t, m
   th = {
+    from: '+15855144334'
     to: t,
     body: m
   }
-  x = Twilio::REST::Client.new(ENV['TWILIO_ACCOUNT_SID'], ENV['TWILIO_AUTH_TOKEN'])
-  x.messages.create(th) 
+  @x = Twilio::REST::Client.new(ENV['TWILIO_ACCOUNT_SID'], ENV['TWILIO_AUTH_TOKEN'])
+  @x.messages.create(th) 
 end
 def user_job u
   if Redis::HashKey.new("callcenter:pins")[u] == nil
