@@ -21,7 +21,8 @@ module HandleMqtt
         o.text.value = j['org']
         o.std!
         o.organize!
-        Profile.new(j['id']).push({ action: 'w', element: 'div#organizer', payload: o.html.value}) 
+        Profile.new(j['id']).push({ action: 'w', element: 'div#organizer', payload: o.html.value})
+        Profile.new(j['id']).push({ action: 'w', element: 'textarea#organize', payload: o.text.value}) 
       end
     end
   end
