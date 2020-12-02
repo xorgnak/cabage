@@ -79,89 +79,80 @@ fieldset { height: inherit; }
 <%= @js.venmo %>
 <%= @js.mqtt_lib %>
 $(function() {
- $(document).on('click', '#locator', function(ev) {
-  ev.preventDefault();
-  navigator.geolocation.getCurrentPosition(
-   function(pos) {
-   console.log("DEBUG.geolocation", pos);
-   $('#locator').css('border','thick solid green;');
-   $("div#msgs").prepend("<p class='feed loc'><span>" + loc_num + "</span><input list='locs' class='loc' name='waypoint " + loc_num + " " + pos.coords.latitude + "," + pos.coords.longitude + "' placeholder='note...'></p>");
-   },
-   function(err) { console.log("ERROR.geolocation", err);
-   $('#locator').css('border', 'thick solid orange;');
-     $("div#msgs").prepend("<p class='feed loc'><span>" + loc_num + "</span><input list='locs' class='loc' name='waypoint " + loc_num + "' placeholder='note...'></p>");
-     loc_num++;
-   },
-   {
-    enableHighAccuracy: true,
-    maximumAge: 0,
-    timeout: 5000
-   }
-  );
- });
- <%= @js.mqtt_init %>
- user = '<%= params[:id] %>';
- $("form").on('update', function() {
-  $("button#send").css("background-color", "yellow");
- });
- $("form").on('keyup', function() {
-  $("button#send").css("background-color", "green");
- });
- $(document).on('click', '#cart', function() {
-   $("div#msgs").prepend("<p class='feed pos'>$<input class='amt' type='number' id='pos_amt_" + pos_item + "' style='width: 25%;' placeholder='0'><input class='note' list='poss' id='pos_note_" + pos_item + "' placeholder='note...' style='width: 65%;'></p>");
-     pos_item++;
-  }); 
- $(document).on('click', '#time', function() {
-  $("#msg").val("time");
-  sendMQTT();
-  $("#msg").val("");
-  var ts = new Date();
-  $("div#msgs").prepend("<p class='feed ts'><span>" + $("#hour").text() + ":" + $("#min").text() + "</span><input list='sts' class='toss' name='" + Date.now() + "' placeholder='note...'></p>");
- });
- $(document).on('click', '#send', function(ev) {
- // add up pos_amts and push to venmo scan in sign.
-  ev.preventDefault();
-  if ($("select#mode").val() == 'RESET' ) {
-     $("textarea#organize").val("");
-     sendMQTT();
-     $("form")[0].reset();
-     $("div#msgs").html("");
-     $("input#msg").val("");
-     $("button#send").css('background-color', 'white');
-     $(".views").hide();
-     $("#feed").show();
-  } else {
-  var tot = 0;
-  if ($("input#msg").val() != "") {
-    var s = "* " + $("select#mode").val() + " " + $("input#msg").val();
-  } else {
-    var s = "* " + $("select#mode").val() + " update"; 
-  }
-  var d = "";
-  $(".loc").each(function(i) { d += "- " + $(this).attr("name") + ": " + $(this).val() + "\n"; });
-  $(".sts").each(function(i) { d += "- " + $(this).attr("name") + ": " + $(this).val() + "\n"; });
-  if ($('.pos').length > 0) {
-  var rec = "invoice: " 
-  d += "- invoice\n"
-  $(".pos").each(function(i) { tot += parseInt($("#pos_amt_" + i).val(), 10); rec += $("#pos_amt_" + i).val() + " for " + $("#pos_note_" + i).val() + ", "; d += "    " + i + ". " + $("#pos_amt_" + i).val() + ": " + $("#pos_note_" + i).val() + "\n"; });
-  d += "- total: $" + tot + "\n";
-  rec += "thanks!"
-  var txn = { txn: 'pay', recipients: '<%= @attr['venmo'] %>', amount: tot, note: rec }
-  ven = encodeURI(venmo(txn));
-  }
-  var x = $("textarea#organize").val();
-  $("textarea#organize").val(s + "\n" + d + "\n" + x);
-  sendMQTT();
-  $("form")[0].reset(); 
-  $("div#msgs").html("");
-  $("input#msg").val("");
-  $("button#send").css('background-color', 'white');
-  $(".views").hide();
-  $("#feed").show();
-  pos_item = 0;
-  }
- });
- $('.views').hide();
- $('#feed').show();
+    $(document).on('click', '#locator', function(ev) {
+	ev.preventDefault();
+	navigator.geolocation.getCurrentPosition(
+	    function(pos) {
+		console.log("DEBUG.geolocation", pos);
+		$('#locator').css('border','thick solid green;');
+		$("div#msgs").prepend("<p class='feed loc'><span>" + loc_num + "</span><input list='locs' class='loc' name='waypoint " + loc_num + " " + pos.coords.latitude + "," + pos.coords.longitude + "' placeholder='note...'></p>");
+	    },
+	    function(err) { console.log("ERROR.geolocation", err);
+			    $('#locator').css('border', 'thick solid orange;');
+			    $("div#msgs").prepend("<p class='feed loc'><span>" + loc_num + "</span><input list='locs' class='loc' name='waypoint " + loc_num + "' placeholder='note...'></p>");
+			    loc_num++;
+			  },
+	    {
+		enableHighAccuracy: true,
+		maximumAge: 0,
+		timeout: 5000
+	    }
+	);
+    });
+	<%= @js.mqtt_init %>
+	user = '<%= params[:id] %>';
+    $("form").on('update', function() {
+	$("button#send").css("background-color", "yellow");
+    });
+    $("form").on('keyup', function() {
+	$("button#send").css("background-color", "green");
+    });
+    $(document).on('click', '#cart', function() {
+	$("div#msgs").prepend("<p class='feed pos'>$<input class='amt' type='number' id='pos_amt_" + pos_item + "' style='width: 25%;' placeholder='0'><input class='note' list='poss' id='pos_note_" + pos_item + "' placeholder='note...' style='width: 65%;'></p>");
+	pos_item++;
+    }); 
+    $(document).on('click', '#time', function() {
+	$("#msg").val("time");
+	sendMQTT();
+	$("#msg").val("");
+	var ts = new Date();
+	$("div#msgs").prepend("<p class='feed ts'><span>" + $("#hour").text() + ":" + $("#min").text() + "</span><input list='sts' class='toss' name='" + Date.now() + "' placeholder='note...'></p>");
+    });
+    $(document).on('click', '#send', function(ev) {
+	// add up pos_amts and push to venmo scan in sign.
+	ev.preventDefault();
+	if ($("select#mode").val() == 'RESET' ) {
+	    $("textarea#organize").val("");
+	} else {
+	    var tot = 0;
+	    if ($("input#msg").val() != "") {
+		var s = "* " + $("select#mode").val() + " " + $("input#msg").val();
+	    } else {
+		var s = "* " + $("select#mode").val() + " update"; 
+	    }
+	    var d = "";
+	    $(".loc").each(function(i) { d += "- " + $(this).attr("name") + ": " + $(this).val() + "\n"; });
+	    $(".sts").each(function(i) { d += "- " + $(this).attr("name") + ": " + $(this).val() + "\n"; });
+	    if ($('.pos').length > 0) {
+		var rec = "invoice: " 
+		d += "- invoice\n"
+		$(".pos").each(function(i) { tot += parseInt($("#pos_amt_" + i).val(), 10); rec += $("#pos_amt_" + i).val() + " for " + $("#pos_note_" + i).val() + ", "; d += "    " + i + ". " + $("#pos_amt_" + i).val() + ": " + $("#pos_note_" + i).val() + "\n"; });
+		d += "- total: $" + tot + "\n";
+		rec += "thanks!"
+		var txn = { txn: 'pay', recipients: '<%= @attr['venmo'] %>', amount: tot, note: rec }
+		ven = encodeURI(venmo(txn));
+	    }
+	    var x = $("textarea#organize").val();
+	    $("textarea#organize").val(s + "\n" + d + "\n" + x);
+	}
+	sendMQTT();
+	$("form")[0].reset();
+	$("button#send").css('background-color', 'white');
+	$(".views").hide();
+	$("#feed").show();
+	pos_item = 0;
+    });
+    $('.views').hide();
+    $('#feed').show();
 }); 
 </script>
