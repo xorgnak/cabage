@@ -36,7 +36,7 @@ class JS
 var state = 0; 
 var pos_item = 0;
 var loc_num = 0;
-var ven = uriEncode(venmo({ txn: 'pay', recipients: '<%= @attr['venmo'] %>', amount: 20, note: "tips appreciated" }));
+var ven = encodeURI(venmo({ txn: 'pay', recipients: '<%= @attr['venmo'] %>', amount: 20, note: "tips appreciated" }));
 var user;
 function onMessageArrived(message) {
   var topic = message.destinationName;
