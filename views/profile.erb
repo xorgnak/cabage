@@ -69,7 +69,6 @@ fieldset { height: inherit; }
 $(function() {
  $(document).on('click', '#locator', function(ev) {
   ev.preventDefault();
-  if (locate == true) {
   navagor.geolocation.watchPosition(
    function(pos) {
    console.log("DEBUG.geolocation", pos);
@@ -87,9 +86,6 @@ $(function() {
     timeout: 5000
    }
   );
-  } else {
-    locate = false;
-    $('#locator').css('border', 'thick solid red');
   }
  });
  <%= @js.mqtt_init %>
