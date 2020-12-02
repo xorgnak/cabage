@@ -11,13 +11,20 @@ class Organizer
   def initialize i
     @id = i
     @u = Profile.new(i)
+    if self.text.value == nil
+      self.text.value = [%[* welcome to the road\t\t\t\t:help:],
+                         %[- You'll find useful tools like the organizer and profle editor in the menu on the top left.]
+                         %[- Time, location stamps can be added to you organizer with their buttons above.],
+                         %[- When an update is pending, add your status and click the green button to record your entry.],
+                        %[- Safe travels!]].join("\n")
+    end
   end
   def std!
     self.opts.clear
     {
       'stat':'t',
       'html-postamble':'nil',
-      'H':'1',
+      'H':'6',
       'num':'nil',
       'toc':'nil',
       '\n':'nil',
