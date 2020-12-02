@@ -16,10 +16,10 @@ module Handle
       elsif @h[:do]  == 'profile' && u.attr.has_key?('pin')
         if u.attr['pin'] != @h[:pin]
           @h[:go] = '/404'
+        else
+          @h.each_pair {|k,v| if k != :id; u.attr[k] = v; end }
+          Redis::HashKey.new("callcenter:active:on")[@h[:worknumber]] = "+1" + @h[:id] 
         end
-      else
-        @h.each_pair {|k,v| if k != :id; u.attr[k] = v; end }
-        Redis::HashKey.new("callcenter:active:on")[@h[:worknumber]] = "+1" + @h[:id] 
       end
       @r, @o = [], []
       @go = false
