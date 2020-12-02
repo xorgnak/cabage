@@ -50,15 +50,15 @@ fieldset { height: inherit; }
    <option value='#'>
    <option value='report'>
   </datalist>
-  <select id='mode' class='material-icons btn' style='font-size: large; width: 15%;' name='mode'>
-    <option class='material-icons' value='' selected>assignment</option>
-    <option class='material-icons' value='OFF'>lens</option>
-    <option class='material-icons' value='GROUP'>folder_shared</option>
-    <option class='material-icons' value='ON'>blur_circular</option>
-    <option class='material-icons' value='WORKING'>motion_photos_on</option>
-    <option class='material-icons' value='PLAYING'>adjust</option>
-    <option class='material-icons' value='TODO'>add_task</option>
-    <option class='material-icons' value='EXPENSE'>account_balance_wallet</option> 
+  <select id='mode' class='btn' style='font-size: large; width: 15%;' name='mode'>
+    <option value='' selected>note</option>
+    <option value='OFF'>off</option>
+    <option value='TEAM'>team</option>
+    <option value='ON'>on</option>
+    <option value='WORK'>work</option>
+    <option value='PLAY'>play</option>
+    <option value='TODO'>todo</option>
+    <option value='BANK'>expense</option> 
   </select>
   <input list='feed_msgs' name='msg' id='msg' placeholder='status' class='btn' style='font-size: large; width: 55%;'>
 <button id='send' class='material-icons btn update' value='all' name='update' style='width: 15%; font-size: large;'>send</button> 
@@ -113,9 +113,9 @@ $(function() {
   ev.preventDefault();
   var tot = 0;
   if ($("input#msg").val() != "") {
-    var s = "* " + $("select#mode").val() + " " + $("input#msg").val() + " - " + $("input#pitch").val();
+    var s = "* " + $("select#mode").val() + " " + $("input#msg").val();
   } else {
-    var s = "* " + $("select#mode").val() + " " + $("input#pitch").val(); 
+    var s = "* " + $("select#mode").val() + " update"; 
   }
   var d = "";
   $(".loc").each(function(i) { d += "- " + $(this).attr("name") + ": " + $(this).val() + "\n"; });
