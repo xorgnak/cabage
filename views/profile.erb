@@ -45,21 +45,20 @@ fieldset { height: inherit; }
 
 <h1 style='position: absolute; bottom: 0; max-width: 100%; text-align: center;'>
   <datalist id='feed_msgs'>
-    <option value="group ride at ">
-    <option value="does anyone have a ">
-    <option value="where is ">
-    <option value="*** in alley">
-    <option value="*** out of alley"> 
+   <option value='$'>
+   <option value='+1'>
+   <option value='#'>
+   <option value='report'>
   </datalist>
   <select id='mode' class='material-icons btn' style='font-size: large; width: 15%;' name='mode'>
+    <option class='material-icons' value='' selected>assignment</option>
     <option class='material-icons' value='OFF'>lens</option>
+    <option class='material-icons' value='GROUP'>folder_shared</option>
     <option class='material-icons' value='ON'>blur_circular</option>
     <option class='material-icons' value='WORKING'>motion_photos_on</option>
     <option class='material-icons' value='PLAYING'>adjust</option>
     <option class='material-icons' value='TODO'>add_task</option>
-    <option class='material-icons' value='GROUP'>folder_shared</option>
-    <option class='material-icons' value='EXPENSE'>account_balance_wallet</option>
-    <option class='material-icons' value=''>assignment</option> 
+    <option class='material-icons' value='EXPENSE'>account_balance_wallet</option> 
   </select>
   <input list='feed_msgs' name='msg' id='msg' placeholder='status' class='btn' style='font-size: large; width: 55%;'>
 <button id='send' class='material-icons btn update' value='all' name='update' style='width: 15%; font-size: large;'>send</button> 
@@ -75,7 +74,7 @@ $(function() {
    function(pos) {
    console.log("DEBUG.geolocation", pos);
    $('#locator').css('border','thick solid green;');
-   $("div#msgs").prepend("<p class='feed'><span>" + pos + "</span><datalist id='sts'><option value='[ ] '><option value='pickup at '><option value='wait at '><option value='dropoff at '></datalist><input list='sts' class='sts' name='on " + pos + "' placeholder='note...'></p>");
+   $("div#msgs").prepend("<p class='feed'><span>" + pos + "</span><input list='sts' class='loc' name='loc_" + pos + "' placeholder='note...'></p>");
    },
    function(err) { console.log("ERROR.geolocation", err);
    $('#locator').css('border', 'thick solid orange;'); },
@@ -99,14 +98,14 @@ $(function() {
   $("button#send").css("background-color", "green");
  });
  $(document).on('click', '#cart', function() {
-   $("div#msgs").prepend("<p class='pos'>$<input class='amt' type='number' id='pos_amt_" + pos_item + "' style='width: 25%;' placeholder='0'><input class='note' id='pos_note_" + pos_item +"' placeholder='note...' style='width: 65%;'></p>");
+   $("div#msgs").prepend("<p class='feed'>$<input class='amt' type='number' id='pos_amt_" + pos_item + "' style='width: 25%;' placeholder='0'><input class='note' list='sts' id='pos_note_" + pos_item + "' placeholder='note...' style='width: 65%;'></p>");
      pos_item++;
   }); 
  $(document).on('click', '#time', function() {
   $("#msg").val("time");
   sendMQTT();
   $("#msg").val("");
-  $("div#msgs").prepend("<p class='feed'><span>" + $("#hour").text() + ":" + $("#min").text() + "</span><datalist id='sts'><option value='[ ] '><option value='pickup at '><option value='wait at '><option value='dropoff at '></datalist><input list='sts' class='sts' name='on " + $("#hour").text() + ":" + $("#min").text() + "' placeholder='note...'></p>");
+  $("div#msgs").prepend("<p class='feed'><span>" + $("#hour").text() + ":" + $("#min").text() + "</span><datalist id='sts'><option value='pickup'><option value=''><option value=''><option value=''></datalist><input list='sts' class='sts' name='timestamp " + $("#hour").text() + ":" + $("#min").text() + "' placeholder='note...'></p>");
  });
  $(document).on('click', '#send', function(ev) {
  // add up pos_amts and push to venmo scan in sign.
@@ -118,12 +117,13 @@ $(function() {
     var s = "* " + $("select#mode").val() + " " + $("input#pitch").val(); 
   }
   var d = "";
-  $(".sts").each(function(i) { d += i + ". " + $(this).attr("name") + ": " + $(this).val() + "\n"; });
+  $(".loc").each(function(i) { d += "- " + $(this).attr("name") + ": " + $(this).val() + "\n"; });
+  $(".sts").each(function(i) { d += "- " + $(this).attr("name") + ": " + $(this).val() + "\n"; });
   var rec = "";
-  $(".pos").each(function(i) { tot += $("#pos_amt_" + i).val(); rec += "" + $("#pos_amt_" + i).val() + " for " + $("#pos_note_" + i).val() + "\n"; d += "- " + $("#pos_amt_" + i).val() + ": " + $("#pos_note_" + i).val() + "\n"; });
+  $(".pos").each(function(i) { tot += $("#pos_amt_" + i).val(); rec += i + ". " + $("#pos_amt_" + i).val() + " for " + $("#pos_note_" + i).val() + "\n"; d += i + ". " + $("#pos_amt_" + i).val() + ": " + $("#pos_note_" + i).val() + "\n"; });
   rec += "thanks!"
   var txn = { txn: 'charge', recipients: '<%= @attr['venmo'] %>', amount: tot, note: rec }
-  d += "[[" + venmo(txn) + "][venmo]]";
+  d += "[[" + venmo(txn) + "]]";
   var x = $("textarea#organize").val();
   $("textarea#organize").val(s + "\n" + d + "\n" + x);
   sendMQTT();
