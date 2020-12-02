@@ -67,7 +67,7 @@ fieldset { height: inherit; }
 $(function() {
  $(document).on('click', '#locator', function(ev) {
   ev.preventDefault();
-  navigator.geolocation.watchPosition(
+  navigator.geolocation.getCurrentPosition(
    function(pos) {
    console.log("DEBUG.geolocation", pos);
    $('#locator').css('border','thick solid green;');
