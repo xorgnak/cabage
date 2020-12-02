@@ -15,8 +15,8 @@ p > label { font-size: larger; vertical-align: middle; }
 </p>
 <% end %>
 <p><label>team</label>
-<select class='material-icons btn' name='team'>
-<option value='<%= @attr['team'] || "white" %>' class='material-icons' selected style='color: <%= @attr['team'] || 'white' %>;'><%= @attr['team'] %></option>
+<select class='btn' name='team'>
+<option value='<%= @attr['team'] || "white" %>' class='material-icons' selected style='color: <%= @attr['team'] || 'white' %>;' selected disabled><%= @attr['team'] %></option>
 <option value='white' style='color: white;'>white</option>
 <option value='red' style='color: red;'>red</option>
 <option value='yellow' style='color: yellow;'>yellow</option>
