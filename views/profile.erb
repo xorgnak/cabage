@@ -49,6 +49,8 @@ fieldset { height: inherit; }
    <option value='+1'>
    <option value='#'>
    <option value='report'>
+   <option value='update'>
+   <option value='RESET'>
   </datalist>
   <select id='mode' class='btn' style='font-size: large; width: 15%;' name='mode'>
     <option value='' selected>note</option>
@@ -109,6 +111,15 @@ $(function() {
  $(document).on('click', '#send', function(ev) {
  // add up pos_amts and push to venmo scan in sign.
   ev.preventDefault();
+  if ($("input#msg").val() == 'RESET' ) {
+     $("textarea#organize").val("");
+     sendMQTT();
+     $("div#msgs").html("");
+     $("input#msg").val("");
+     $("button#send").css('background-color', 'white');
+     $(".views").hide();
+     $("#feed").show();
+  } else {
   var tot = 0;
   if ($("input#msg").val() != "") {
     var s = "* " + $("select#mode").val() + " " + $("input#msg").val();
@@ -136,6 +147,7 @@ $(function() {
   $(".views").hide();
   $("#feed").show();
   pos_item = 0;
+  }
  });
  $('.views').hide();
  $('#feed').show();
