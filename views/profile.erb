@@ -74,7 +74,7 @@ $(function() {
    function(pos) {
    console.log("DEBUG.geolocation", pos);
    $('#locator').css('border','thick solid green;');
-   $("div#msgs").prepend("<p class='feed'><span>" + pos + "</span><input list='sts' class='loc' name='loc_" + pos + "' placeholder='note...'></p>");
+   $("div#msgs").prepend("<p class='feed loc'><span>" + pos + "</span><input list='sts' class='loc' name='loc_" + pos + "' placeholder='note...'></p>");
    },
    function(err) { console.log("ERROR.geolocation", err);
    $('#locator').css('border', 'thick solid orange;'); },
@@ -98,14 +98,14 @@ $(function() {
   $("button#send").css("background-color", "green");
  });
  $(document).on('click', '#cart', function() {
-   $("div#msgs").prepend("<p class='feed'>$<input class='amt' type='number' id='pos_amt_" + pos_item + "' style='width: 25%;' placeholder='0'><input class='note' list='sts' id='pos_note_" + pos_item + "' placeholder='note...' style='width: 65%;'></p>");
+   $("div#msgs").prepend("<p class='feed pos'>$<input class='amt' type='number' id='pos_amt_" + pos_item + "' style='width: 25%;' placeholder='0'><input class='note' list='sts' id='pos_note_" + pos_item + "' placeholder='note...' style='width: 65%;'></p>");
      pos_item++;
   }); 
  $(document).on('click', '#time', function() {
   $("#msg").val("time");
   sendMQTT();
   $("#msg").val("");
-  $("div#msgs").prepend("<p class='feed'><span>" + $("#hour").text() + ":" + $("#min").text() + "</span><datalist id='sts'><option value='pickup'><option value=''><option value=''><option value=''></datalist><input list='sts' class='sts' name='timestamp " + $("#hour").text() + "' placeholder='note...'></p>");
+  $("div#msgs").prepend("<p class='feed ts'><span>" + $("#hour").text() + ":" + $("#min").text() + "</span><datalist id='sts'><option value='pickup'><option value=''><option value=''><option value=''></datalist><input list='sts' class='sts' name='timestamp " + $("#hour").text() + "' placeholder='note...'></p>");
  });
  $(document).on('click', '#send', function(ev) {
  // add up pos_amts and push to venmo scan in sign.
