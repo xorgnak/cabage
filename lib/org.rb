@@ -37,6 +37,9 @@ class Organizer
   end
   def id; @id; end
   def organize!
+    if m = /(\*+\s([\w\s]+)(:\w+:)([\w\s]*))/m.match(self.text.value)
+      m.each { |e| e[e].split(":").each {|ee| Group.new(ee) << "+1" + @id } }
+    end
     td, op = [], []
     td << "TODO(t!/@)"
     self.todo.all.each_pair {|k,v| td << "#{k.upcase}(#{v}!/@)" }
