@@ -37,7 +37,7 @@ class Organizer
   end
   def id; @id; end
   def organize!
-    selt.text.value.scan(/(\*+\s([\w\s]+)(:\w+:)([\w\s]*))\n/m) do |e|
+    self.text.value.scan(/(\*+\s([\w\s]+)(:\w+:)([\w\s]*))\n/m) do |e|
         e[3].split(":").each { |ee|
           Group.new(ee) << "+1" + @id
         }
