@@ -1,12 +1,14 @@
 module TWILIO
   def self.sendSms f, t, m
-    th = {
-      from: f,
-      to: t,
-      body: m
-    }
-    @x = Twilio::REST::Client.new(ENV['TWILIO_ACCOUNT_SID'], ENV['TWILIO_AUTH_TOKEN'])
-    @x.messages.create(th) 
+    if t != nil && m != nil && t != '' && m != ''
+      th = {
+        from: f,
+        to: t,
+        body: m
+      }
+      @x = Twilio::REST::Client.new(ENV['TWILIO_ACCOUNT_SID'], ENV['TWILIO_AUTH_TOKEN'])
+      @x.messages.create(th)
+    end
   end
   def self.set_job u
     if Redis::HashKey.new("callcenter:pins")[u] == nil
