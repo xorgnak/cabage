@@ -41,7 +41,7 @@ module TWILIO
     TWILIO.set_job h['From']
     if h['Digits']
       @o = Twilio::TwiML::VoiceResponse.new do |resp|
-        resp.play( digits: '1w1' )
+        resp.play( digits: '1p1' )
         resp.dial( number: Redis::HashKey.new("callcenter:pins")[h['Digits']] )
         resp.redirect('/call', method: 'GET')
       end.to_s
@@ -51,7 +51,7 @@ module TWILIO
         TWILIO.sendSms(h['To'], ow, "[#{j}] #{h['From']} CALL")
         o = Organizer.new(h['From'])
         x = o.text.value
-        o.text.value = "* CALL #{h['From']}\n- #{j}: #{h['Body']}\n" + x
+        o.text.value = "* CALL #{h['From']}\n- #{j}\n" + x
         o.std!
         o.organize!  
         Profile.new(ow.gsub('+1', '')).push({ action: 'w', element: 'textarea#organize', payload: o.text.value})
