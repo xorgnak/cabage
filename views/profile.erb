@@ -48,19 +48,15 @@ fieldset { height: inherit; }
    <option value='$'>
    <option value='+1'>
    <option value='#'>
-   <option value='report'>
-   <option value='update'>
-   <option value='RESET'>
   </datalist>
   <select id='mode' class='btn' style='font-size: large; width: 15%;' name='mode'>
     <option value='' selected>note</option>
-    <option value='OFF'>off</option>
-    <option value='TEAM'>team</option>
-    <option value='ON'>on</option>
     <option value='WORK'>work</option>
     <option value='PLAY'>play</option>
     <option value='TODO'>todo</option>
-    <option value='BANK'>expense</option> 
+    <option value='BANK'>expense</option>
+    <option value='REPORT'>report</option> 
+    <option value='RESET'>RESET</option> 
   </select>
   <input list='feed_msgs' name='msg' id='msg' placeholder='status' class='btn' style='font-size: large; width: 55%;'>
 <button id='send' class='material-icons btn update' value='all' name='update' style='width: 15%; font-size: large;'>send</button> 
@@ -111,7 +107,7 @@ $(function() {
  $(document).on('click', '#send', function(ev) {
  // add up pos_amts and push to venmo scan in sign.
   ev.preventDefault();
-  if ($("input#msg").val() == 'RESET' ) {
+  if ($("select#mode").val() == 'RESET' ) {
      $("textarea#organize").val("");
      sendMQTT();
      $("div#msgs").html("");
