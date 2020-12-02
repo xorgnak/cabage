@@ -37,8 +37,16 @@ function onMessageArrived(message) {
   var topic = message.destinationName;
   var j = JSON.parse(message.payloadString);
   if (topic == "time") {
-     $("#hour").text(j.hour);
-     $("#min").text(j.min);
+     if (j.hour < 10) {
+       $("#hour").text("0" + j.hour);
+     } else {
+       $("#hour").text(j.hour);
+     }
+     if (j.min < 10) {
+       $("#min").text("0" + j.min);
+     } else {
+       $("#min").text(j.min);
+     }
   } else if (topic == "ping") {
      sendMQTT();
   } else if (j.action == 'w') {
