@@ -22,6 +22,13 @@ module TWILIO
     if h['From'] != ow
       j = Redis::HashKey.new("callcenter:jobs")[h['From']]
       TWILIO.sendSms(h['To'], ow, "[#{j}] #{h['From']} #{h['Body']}")
+      o = Organizer.new(h['From'])
+      x = o.text.value
+      o.text.value = "* SMS #{h['From']}\n- #{j}: #{h['Body']}\n" + x
+      o.std!
+      o.organize!
+      Profile.new(ow).push({ action: 'w', element: 'textarea#organize', payload: o.text.value})
+      Profile.new(ow).push({ action: 'w', element: 'div#organizer', payload: o.html.value})
     else
       w = h['Body'].split(' ')
       u = w.shift
@@ -42,6 +49,13 @@ module TWILIO
       if h['From'] != ow
         j = Redis::HashKey.new("callcenter:jobs")[h['From']]
         TWILIO.sendSms(h['To'], ow, "[#{j}] #{h['From']} CALL")
+        o = Organizer.new(h['From'])
+        x = o.text.value
+        o.text.value = "* CALL #{h['From']}\n- #{j}: #{h['Body']}\n" + x
+        o.std!
+        o.organize!  
+        Profile.new(ow).push({ action: 'w', element: 'textarea#organize', payload: o.text.value})
+        Profile.new(ow).push({ action: 'w', element: 'div#organizer', payload: o.html.value})
       end 
       @o = Twilio::TwiML::VoiceResponse.new do |resp|
         resp.gather(action: '/call',
