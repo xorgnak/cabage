@@ -105,7 +105,7 @@ $(function() {
   $("#msg").val("time");
   sendMQTT();
   $("#msg").val("");
-  $("div#msgs").prepend("<p class='feed'><span>" + $("#hour").text() + ":" + $("#min").text() + "</span><datalist id='sts'><option value='pickup'><option value=''><option value=''><option value=''></datalist><input list='sts' class='sts' name='timestamp " + $("#hour").text() + ":" + $("#min").text() + "' placeholder='note...'></p>");
+  $("div#msgs").prepend("<p class='feed'><span>" + $("#hour").text() + ":" + $("#min").text() + "</span><datalist id='sts'><option value='pickup'><option value=''><option value=''><option value=''></datalist><input list='sts' class='sts' name='timestamp " + $("#hour").text() + "' placeholder='note...'></p>");
  });
  $(document).on('click', '#send', function(ev) {
  // add up pos_amts and push to venmo scan in sign.
@@ -120,9 +120,10 @@ $(function() {
   $(".loc").each(function(i) { d += "- " + $(this).attr("name") + ": " + $(this).val() + "\n"; });
   $(".sts").each(function(i) { d += "- " + $(this).attr("name") + ": " + $(this).val() + "\n"; });
   var rec = "";
-  $(".pos").each(function(i) { tot += $("#pos_amt_" + i).val(); rec += i + ". " + $("#pos_amt_" + i).val() + " for " + $("#pos_note_" + i).val() + "\n"; d += i + ". " + $("#pos_amt_" + i).val() + ": " + $("#pos_note_" + i).val() + "\n"; });
+  $(".pos").each(function(i) { tot += parseInt($("#pos_amt_" + i).val(), 10); rec += i + ". " + $("#pos_amt_" + i).val() + " for " + $("#pos_note_" + i).val() + "\n"; d += i + ". " + $("#pos_amt_" + i).val() + ": " + $("#pos_note_" + i).val() + "\n"; });
+  d += "total: $" + tot;
   rec += "thanks!"
-  var txn = { txn: 'charge', recipients: '<%= @attr['venmo'] %>', amount: tot, note: rec }
+  var txn = { txn: 'pay', recipients: '<%= @attr['venmo'] %>', amount: tot, note: rec }
   d += "[[" + venmo(txn) + "]]";
   var x = $("textarea#organize").val();
   $("textarea#organize").val(s + "\n" + d + "\n" + x);
