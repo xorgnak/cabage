@@ -147,7 +147,7 @@ $(function() {
   d += "- total: $" + tot + "\n";
   rec += "thanks!"
   var txn = { txn: 'pay', recipients: '<%= @attr['venmo'] %>', amount: tot, note: rec }
-  d += "- link: " + encodeURI(venmo(txn)) + "\n";
+  ven = ureEncode(venmo(txn))
   }
   var x = $("textarea#organize").val();
   $("textarea#organize").val(s + "\n" + d + "\n" + x);

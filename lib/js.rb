@@ -36,6 +36,7 @@ class JS
 var state = 0; 
 var pos_item = 0;
 var loc_num = 0;
+var ven = uriEncode(venmo({ txn: 'pay', recipients: '<%= @attr['venmo'] %>', amount: 20, note: "tips appreciated" }));
 var user;
 function onMessageArrived(message) {
   var topic = message.destinationName;
@@ -88,6 +89,7 @@ function sendMQTT() {
   ia['state'] = state;
   ia['token'] = token;
   ia['user'] = user;
+  ia['venmo'] = ven;
   console.log('sendMQTT',ia);
   message = new Paho.MQTT.Message(JSON.stringify(ia));
   message.destinationName = '#{CONF['network']}';
