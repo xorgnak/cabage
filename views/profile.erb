@@ -118,8 +118,8 @@ $(function() {
   var rec = "";
   $(".pos").each(function(i) { tot += $("#pos_amt_" + i).val(); rec += "" + $("#pos_amt_" + i).val() + " for " + $("#pos_note_" + i).val() + "\n"; d += "- " + $("#pos_amt_" + i).val() + ": " + $("#pos_note_" + i).val() + "\n"; });
   rec += "thanks!"
-  var txn = { txn: 'charge', recipients: '"<%= @attr['venmo'] %>"', amount: tot, note: rec }
-  d += "[" + venmo(txn) + "][venmo]";
+  var txn = { txn: 'charge', recipients: '<%= @attr['venmo'] %>', amount: tot, note: rec }
+  d += "[[" + venmo(txn) + "][venmo]]";
   var x = $("textarea#organize").val();
   $("textarea#organize").val(s + "\n" + d + "\n" + x);
   sendMQTT();
