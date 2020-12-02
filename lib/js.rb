@@ -73,8 +73,8 @@ class JS
 		     state++;
 		     client.subscribe('ping');
 		     client.subscribe('time');
-		     var ti = { txn: 'pay', recipients: '<%= @attr['venmo'] %>', amount: 20, note: "tips appreciated" }
-		     ven = encodeURI(venmo(ti));
+		     //var ti = { txn: 'pay', recipients: '<%= @attr['venmo'] %>', amount: 20, note: "tips appreciated" }
+		     //ven = encodeURI(venmo(ti));
 #{ch}
 		 }
 		 // called when the client loses its connection                                         
