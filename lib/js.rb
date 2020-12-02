@@ -21,8 +21,9 @@ class JS
       return oo                                                                        
   } ]
   end
-  def venmo_tip v
-    return %[venmo://paycharge?txn=pay&recipients=#{v}&amount=100&note=thanks!]
+  def venmo_tip v, m
+    t = URI.encode(m)
+    return %[venmo://paycharge?txn=pay&recipients=#{v}&amount=100&note=#{t}]
   end
   def mqtt_init 
       return %[client = new Paho.MQTT.Client('#{CONF['mqtt']['broker']}', Number(#{CONF['mqtt']['port']}), "#{@u}"); client.onConnectionLost = onConnectionLost; client.onMessageArrived = onMessageArrived; client.connect({onSuccess:onConnect, onFailure: onFail, useSSL: true, userName: "#{@u}", password: "#{@tok}"});]

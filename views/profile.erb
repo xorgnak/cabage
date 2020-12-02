@@ -94,7 +94,7 @@ $(function() {
   $("button#send").css("background-color", "green");
  });
  $(document).on('click', '#cart', function() {
-   $("div#msgs").prepend("<p class='pos'>$<input type='number' name='pos_amt_" + pos_item + "' style='width: 25%;' placeholder='0'><input name='pos_note_" + pos_item +"' placeholder='note...' style='width: 65%;'></p>");
+   $("div#msgs").prepend("<p class='pos'>$<input class='amt' type='number' id='pos_amt_" + pos_item + "' style='width: 25%;' placeholder='0'><input class='note' id='pos_note_" + pos_item +"' placeholder='note...' style='width: 65%;'></p>");
      pos_item++;
   }); 
  $(document).on('click', '#time', function() {
@@ -106,6 +106,7 @@ $(function() {
  $(document).on('click', '#send', function(ev) {
  // add up pos_amts and push to venmo scan in sign.
   ev.preventDefault();
+  var tot = 0;
   if ($("input#msg").val() != "") {
     var s = "* " + $("select#mode").val() + " " + $("input#msg").val() + " - " + $("input#pitch").val();
   } else {
@@ -113,6 +114,11 @@ $(function() {
   }
   var d = "";
   $(".sts").each(function(i) { d += i + ". " + $(this).attr("name") + ": " + $(this).val() + "\n"; });
+  var rec = "";
+  $(".pos").each(function(i) { tot += $("#pos_amt_" + i).val(); rec += "" + $("#pos_amt_" + i).val() + " for " + $("#pos_note_" + i).val() + "\n"; d += "- " + $("#pos_amt_" + i).val() + ": " + $("#pos_note_" + i).val() + "\n"; });
+  rec += "thanks!"
+  var txn = { txn: 'charge', recipients: '"<%= @attr['venmo'] %>"', amount: tot, note: rec }
+  d += "[" + venmo(txn) + "][venmo]";
   var x = $("textarea#organize").val();
   $("textarea#organize").val(s + "\n" + d + "\n" + x);
   sendMQTT();
