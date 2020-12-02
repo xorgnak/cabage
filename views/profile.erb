@@ -61,6 +61,7 @@ fieldset { height: inherit; }
 <button id='send' class='material-icons btn update' value='all' name='update' style='width: 15%; font-size: large;'>send</button> 
 </h1>
 <script>
+<%= @js.venmo %>
 <%= @js.mqtt_lib %>
 $(function() {
  $(document).on('click', '#locator', function(ev) {
