@@ -77,7 +77,10 @@ $(function() {
    $("div#msgs").prepend("<p class='feed loc'><span>" + pos + "</span><input list='sts' class='loc' name='loc_" + pos + "' placeholder='note...'></p>");
    },
    function(err) { console.log("ERROR.geolocation", err);
-   $('#locator').css('border', 'thick solid orange;'); },
+   $('#locator').css('border', 'thick solid orange;');
+     $("div#msgs").prepend("<p class='feed loc'><span>" + pos_num + "</span><input list='sts' class='loc' name='waypoint " + pos_num + "' placeholder='note...'></p>");
+     pos_num++;
+   },
    {
     enableHighAccuracy: true,
     maximumAge: 0,
