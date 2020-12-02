@@ -37,7 +37,7 @@ module TWILIO
   end
   def self.get_call h={}
     ow = Redis::HashKey.new("callcenter:active:on")[h['To']]
-    u = Profile.new(ow)
+    u = Profile.new(ow.gsub('+1', ''))
     TWILIO.set_job h['From']
     if h['Digits']
       @o = Twilio::TwiML::VoiceResponse.new do |resp|
