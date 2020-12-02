@@ -31,7 +31,9 @@ class JS
     t = []; 64.times { t << rand(16).to_s(16) }
     @tok = t.join('');
     ch = %[client.subscribe('#{CONF['network']}/#{@u}'); ]
-    return %[var token = '#{@tok}';                                                              var state = 0; 
+    return %[var token = '#{@tok}';                                                              
+var state = 0; 
+var pos_item = 0;
 var user;
 function onMessageArrived(message) {
   var topic = message.destinationName;

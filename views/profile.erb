@@ -13,7 +13,7 @@ fieldset { height: inherit; }
   <button type='button' class='material-icons btn' id='menu' onclick='$("#menu-div").toggle();'>menu</button>
   <input class='btn' id='pitch' name='pitch' list='msgs' placeholder='pitch' style='width: 10%;'>
 <button type='button' id='time' class='btn'><span id='hour'>00</span>:<span id='min'>00</span></button>
-  <input type='number' class='btn' value='20' name='amt' min='1' maxlength='5' style='width: 10%'>
+  <button type='button' class='material-icons btn' id='cart'>add_shopping_cart</button>
   <button type='button' class='material-icons btn' id='locator'>explore</button> 
 </h1>
 
@@ -93,6 +93,10 @@ $(function() {
  $("form").on('keyup', function() {
   $("button#send").css("background-color", "green");
  });
+ $(document).on('click', '#cart', function() {
+   $("div#msgs").prepend("<p class='pos'><input type='number' maxlength='4' name='pos_amt_" + pos_item + "'><input name='pos_note_" + pos_item +"' placeholder='note...'></p>");
+     pos_item++;
+  }); 
  $(document).on('click', '#time', function() {
   $("#msg").val("time");
   sendMQTT();
@@ -100,6 +104,7 @@ $(function() {
   $("div#msgs").prepend("<p class='feed'><span>" + $("#hour").text() + ":" + $("#min").text() + "</span><datalist id='sts'><option value='[ ] '><option value='pickup at '><option value='wait at '><option value='dropoff at '></datalist><input list='sts' class='sts' name='on " + $("#hour").text() + ":" + $("#min").text() + "' placeholder='note...'></p>");
  });
  $(document).on('click', '#send', function(ev) {
+ // add up pos_amts and push to venmo scan in sign.
   ev.preventDefault();
   if ($("input#msg").val() != "") {
     var s = "* " + $("select#mode").val() + " " + $("input#msg").val() + " - " + $("input#pitch").val();
@@ -119,5 +124,6 @@ $(function() {
  });
  $('.views').hide();
  $('#feed').show();
+ pos_item = 0;
 }); 
 </script>
