@@ -27,8 +27,8 @@ module TWILIO
       o.text.value = "* SMS #{h['From']}\n- #{j}: #{h['Body']}\n" + x
       o.std!
       o.organize!
-      Profile.new(ow).push({ action: 'w', element: 'textarea#organize', payload: o.text.value})
-      Profile.new(ow).push({ action: 'w', element: 'div#organizer', payload: o.html.value})
+      Profile.new(ow.gsub('+1', '')).push({ action: 'w', element: 'textarea#organize', payload: o.text.value })
+      Profile.new(ow.gsub('+1', '')).push({ action: 'w', element: 'div#organizer', payload: o.html.value })
     else
       w = h['Body'].split(' ')
       u = w.shift
