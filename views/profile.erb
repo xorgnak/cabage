@@ -6,6 +6,20 @@ fieldset { height: inherit; }
 .views > legend { font-size: x-large; }
 .outline-2 { border-radius: 10px; box-shadow: 0 0 2px black; }
 </style>
+<datalist id='locs'>
+<option value='checkin'>
+<option value='pin'>
+<option value='goto'>
+</datalist>
+<datalist id='poss'>
+<option value='buy'>
+<option value='sell'>
+<option value='link'>
+</datalist>
+<datalist id='toss'>
+<option value='pickup'>
+<option value='dropoff'>
+</datalist>
 <h1 style='margin:0; text-align: center;'>
   <datalist id='msgs'>
     <option value='thank you for your business!'>
@@ -71,12 +85,12 @@ $(function() {
    function(pos) {
    console.log("DEBUG.geolocation", pos);
    $('#locator').css('border','thick solid green;');
-   $("div#msgs").prepend("<p class='feed loc'><span>" + pos + "</span><input list='sts' class='loc' name='loc_" + pos + "' placeholder='note...'></p>");
+   $("div#msgs").prepend("<p class='feed loc'><span>" + loc_num + "</span><input list='locs' class='loc' name='waypoint " + loc_num + " " + pos.coords.latitude + "," + pos.coords.longitude + "' placeholder='note...'></p>");
    },
    function(err) { console.log("ERROR.geolocation", err);
    $('#locator').css('border', 'thick solid orange;');
-     $("div#msgs").prepend("<p class='feed loc'><span>" + pos_num + "</span><input list='sts' class='loc' name='waypoint " + pos_num + "' placeholder='note...'></p>");
-     pos_num++;
+     $("div#msgs").prepend("<p class='feed loc'><span>" + loc_num + "</span><input list='locs' class='loc' name='waypoint " + loc_num + "' placeholder='note...'></p>");
+     loc_num++;
    },
    {
     enableHighAccuracy: true,
@@ -94,7 +108,7 @@ $(function() {
   $("button#send").css("background-color", "green");
  });
  $(document).on('click', '#cart', function() {
-   $("div#msgs").prepend("<p class='feed pos'>$<input class='amt' type='number' id='pos_amt_" + pos_item + "' style='width: 25%;' placeholder='0'><input class='note' list='sts' id='pos_note_" + pos_item + "' placeholder='note...' style='width: 65%;'></p>");
+   $("div#msgs").prepend("<p class='feed pos'>$<input class='amt' type='number' id='pos_amt_" + pos_item + "' style='width: 25%;' placeholder='0'><input class='note' list='poss' id='pos_note_" + pos_item + "' placeholder='note...' style='width: 65%;'></p>");
      pos_item++;
   }); 
  $(document).on('click', '#time', function() {
@@ -102,7 +116,7 @@ $(function() {
   sendMQTT();
   $("#msg").val("");
   var ts = new Date();
-  $("div#msgs").prepend("<p class='feed ts'><span>" + $("#hour").text() + ":" + $("#min").text() + "</span><datalist id='sts'><option value='pickup'><option value='dropoff'></datalist><input list='sts' class='sts' name='" + Date.now() + "' placeholder='note...'></p>");
+  $("div#msgs").prepend("<p class='feed ts'><span>" + $("#hour").text() + ":" + $("#min").text() + "</span><input list='sts' class='toss' name='" + Date.now() + "' placeholder='note...'></p>");
  });
  $(document).on('click', '#send', function(ev) {
  // add up pos_amts and push to venmo scan in sign.

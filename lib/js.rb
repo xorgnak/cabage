@@ -35,7 +35,7 @@ class JS
     return %[var token = '#{@tok}';                                                              
 var state = 0; 
 var pos_item = 0;
-var pos_num = 0;
+var loc_num = 0;
 var user;
 function onMessageArrived(message) {
   var topic = message.destinationName;
