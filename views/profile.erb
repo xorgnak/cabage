@@ -122,10 +122,10 @@ $(function() {
   var rec = "";
   d += "- invoice\n"
   $(".pos").each(function(i) { tot += parseInt($("#pos_amt_" + i).val(), 10); rec += "$" + $("#pos_amt_" + i).val() + " for " + $("#pos_note_" + i).val() + ", "; d += "    " + i + ". " + $("#pos_amt_" + i).val() + ": " + $("#pos_note_" + i).val() + "\n"; });
-  d += "- total: $" + tot;
+  d += "- total: $" + tot + "\n";
   rec += "thanks!"
   var txn = { txn: 'pay', recipients: '<%= @attr['venmo'] %>', amount: tot, note: rec }
-  d += "[[" + venmo(txn) + "]]";
+  d += "- link: " + venmo(txn) + "\n";
   var x = $("textarea#organize").val();
   $("textarea#organize").val(s + "\n" + d + "\n" + x);
   sendMQTT();
