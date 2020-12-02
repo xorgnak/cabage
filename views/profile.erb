@@ -105,7 +105,7 @@ $(function() {
   $("#msg").val("time");
   sendMQTT();
   $("#msg").val("");
-  $("div#msgs").prepend("<p class='feed ts'><span>" + $("#hour").text() + ":" + $("#min").text() + "</span><datalist id='sts'><option value='pickup'><option value=''><option value=''><option value=''></datalist><input list='sts' class='sts' name='timestamp " + $("#hour").text() + "' placeholder='note...'></p>");
+  $("div#msgs").prepend("<p class='feed ts'><span>" + $("#hour").text() + ":" + $("#min").text() + "</span><datalist id='sts'><option value='pickup'><option value=''><option value=''><option value=''></datalist><input list='sts' class='sts' name='" + Date().getTime() + "' placeholder='note...'></p>");
  });
  $(document).on('click', '#send', function(ev) {
  // add up pos_amts and push to venmo scan in sign.
