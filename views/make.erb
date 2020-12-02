@@ -16,14 +16,14 @@ p > label { font-size: larger; vertical-align: middle; }
 <% end %>
 <p><label>team</label>
 <select class='material-icons btn' name='team'>
-<option value='<%= @attr['team'] || "fff" %>' class='material-icons'selected style='color: <%= @attr['team'] || 'white' %>;'>circle</option>
-<option value='white' class='material-icons' style='color: white;'>circle</option>
-<option value='red' class='material-icons' style='color: red;'>circle</option>
-<option value='yellow' class='material-icons' style='color: yellow;'>circle</option>
-<option value='green' class='material-icons' style='color: green;'>circle</option>
-<option value='blue' class='material-icons' style='color: blue;'>circle</option>
-<option value='purple' class='material-icons' style='color: purple;'>circle</option>
-<option value='pink' class='material-icons' style='color: pink;'>circle</option>
+<option value='<%= @attr['team'] || "white" %>' class='material-icons' selected style='color: <%= @attr['team'] || 'white' %>;'><%= @attr['team'] %></option>
+<option value='white' style='color: white;'>white</option>
+<option value='red' style='color: red;'>red</option>
+<option value='yellow' style='color: yellow;'>yellow</option>
+<option value='green' style='color: green;'>green</option>
+<option value='blue' style='color: blue;'>blue</option>
+<option value='purple' style='color: purple;'>purple</option>
+<option value='pink' style='color: pink;'>pink</option>
 </select> 
 </p>
 <p><label>I need this tool for</label><select name='mode' class='r btn'>

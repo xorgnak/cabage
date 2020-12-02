@@ -41,7 +41,7 @@ module TWILIO
     TWILIO.set_job h['From']
     if h['Digits']
       @o = Twilio::TwiML::VoiceResponse.new do |resp|
-        resp.play( digits: '1p1' )
+        resp.play( digits: '1w1' )
         resp.dial( number: Redis::HashKey.new("callcenter:pins")[h['Digits']] )
         resp.redirect('/call', method: 'GET')
       end.to_s
