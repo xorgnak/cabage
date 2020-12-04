@@ -5,7 +5,8 @@ require 'redis-objects'
 require 'sinatra/base'
 require 'thin'
 require 'pry'
-require 'twilio-ruby' 
+require 'twilio-ruby'
+begin
 def log t, m
   if m.class == String
     mm = m
@@ -23,3 +24,6 @@ log 'mqtt', 'running'
 load 'bin/web.rb'
 log 'web', 'running'
 load 'bin/shell.rb'
+rescue => err
+  log("Error", err.full_message)
+end 
