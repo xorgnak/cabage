@@ -1,0 +1,1 @@
+screen -t "#" emacs -nw --load ~/.irc.el index.org
