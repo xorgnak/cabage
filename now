@@ -28,7 +28,7 @@ if [ "`redis-cli get stage`" == "" ]; then
     redis-cli set TOK `cat /dev/urandom | tr -dc 'a-zA-Z0-9' | fold -w 32 | head -n 1`;
     redis-cli set PASS `cat /dev/urandom | tr -dc 'a-zA-Z0-9' | fold -w 16 | head -n 1`;
     passwd;
-    sudo apt install -y ruby emacs git screen mosquitto mosquitto-clients ircd-hybrid nginx tor aircrack-ng tshark nmap ii wifite netcat inotify vim redis-server redis-tools inotify-tools inosync inoticoming inotify-hookable inotail 
+    sudo apt install -y ruby emacs git screen mosquitto mosquitto-clients ircd-hybrid nginx tor aircrack-ng tshark nmap ii wifite netcat vim redis-server redis-tools inotify-tools inosync inoticoming inotify-hookable inotail 
     # get network config
     sudo service ircd-hybrid restart
     # get nginx config
