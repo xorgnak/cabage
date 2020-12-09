@@ -1,18 +1,9 @@
 #!/bin/bash
 
-source credentials.sh
-
-rm lib/*~ > /dev/null
-rm bin/*~ > /dev/null
-pkill redis-cli
-pkill mosquitto_sub
-
-if [ "$1" != "quiet" ] || [ "$2" == "quiet" ]; then
-redis-cli monitor &
-mosquitto_sub -h localhost -t '#' &
-fi
-
 if [ "`redis-cli get stage`" == "" ]; then
+    sudo apt update
+    sudo apt upgrade
+    sudo apt install -y ruby emacs git screen mosquitto mosquitto-clients ircd-hybrid nginx tor aircrack-ng tshark nmap ii wifite netcat vim redis-server redis-tools inotify-tools inosync inoticoming inotify-hookable inotail build-essential
     echo "";
     echo 'what is your phone number?';
     read id;
@@ -28,22 +19,89 @@ if [ "`redis-cli get stage`" == "" ]; then
     redis-cli set TOK `cat /dev/urandom | tr -dc 'a-zA-Z0-9' | fold -w 32 | head -n 1`;
     redis-cli set PASS `cat /dev/urandom | tr -dc 'a-zA-Z0-9' | fold -w 16 | head -n 1`;
     passwd;
-    sudo apt install -y ruby emacs git screen mosquitto mosquitto-clients ircd-hybrid nginx tor aircrack-ng tshark nmap ii wifite netcat vim redis-server redis-tools inotify-tools inosync inoticoming inotify-hookable inotail 
     # get network config
     sudo service ircd-hybrid restart
     # get nginx config
     sudo service nginx restart
+    sudo gem install rvm
     rvm gemset create cabage
     rvm gemset use cabage
     sudo gem install --no-rdoc --no-ri redis-objects mqtt pry thin sinatra twilio-ruby
-    echo 'screen -t "#" emacs -nw --load ~/.irc.el index.org' > ~/.screenrc
-    echo 'screen -t ">" . cabgo/now' >> ~/.screenrc 
-    cat << EOF > ~/.irc.el
-(require 'erc-join)
-(erc-autojoin-mode 1)
-(setq erc-autojoin-channels-alist
-      '(("vango.me" "#feed" "#$city" "#$nick")))
-(erc :server "vango.me" :full-name "`redis-cli get DEVID`" :nick "`redis-cli get NICK`" :password "`redis-cli get PASS`")
+    city=`redis-cli get CITY`
+    pass=`echo -n $city | shasum | cut -c8-16`
+    redis-cli set pass $pass
+
+    echo "(require 'erc-join)(erc-autojoin-mode 1)" > $u/.irc.el
+    echo "(setq erc-autojoin-channels-alist " >> $u/.irc.el
+    echo "'((\"vango.me\" \"#feed\" \"#`redis-cli get CITY`\" \"#`redis-cli get NICK`\")))" >> $u/.irc.el
+    echo "(erc :server \"vango.me\" :full-name \"`redis-cli get ID`\" :nick \"`redis-cli get NICK`\" :password \"$pass\")" >> $u/.irc.el
+
+    cp Xresources $u/.Xresources
+    echo 'screen -t "#" emacs -nw --load ~/.irc.el index.org' >> $u/.screenrc
+
+cat << EOF >> $u/.bashrc;
+export WORK_USER=$USER;
+export WORK_NMAP='-v -A';
+function ssh_to_server() {
+    ssh $WORK_USER@$*;
+}
+function git_repo_commit_and_push() {
+    git add . && git commit -m "$*" && git push origin main;
+}                                                                                                   
+watch() {
+    mkdir -p $1
+    inotifywait -mq \
+	      --timefmt '%s' \
+	      -e modify,delete \
+	      --format '{ "timestamp": "%T", "events": "%e", "file": "%f" }' $1 | while read out;
+    do
+	redis-cli publish "WATCH.$1" "$out";
+    done > /dev/null
+}
+
+
+function work {
+    if [ $1 == "connect" ]; then
+       	shift;
+        ssh_to_server $*;
+    elif [ $1 == "push" ]; then
+        shift;
+        git_repo_commit_and_push $*;
+    elif [ $1 == "pull"]; then
+    	git pull;
+    elif [ $1 == "user" ]; then
+        export WORK_USER=$2;
+    elif [ $1 == "wifi" ]; then
+	wicd-curses;
+    elif [ $1 == "hack" ]; then
+        sudo wifite; 
+    elif [ $1 == "browser" ]; then
+    	chromium-browser https://vango.me &
+    elif [ $1 == "shark" ]; then
+        sudo tshark;
+    elif [ $1 == "fingerprint" ]; then
+    	nmap $WORK_NMAP $2;
+    elif [ $1 == "scanme" ]; then
+        nmap $WORK_NMAP scanme.nmap.org;
+    elif [ $1 == "watch" ]; then
+    	watch $2
+    else
+	echo "usage: work [connect|push|pull|browser|user|wifi|hack|shark|fingerprint|scanme]";
+	echo " connect <domain>";
+	echo " push <your commit message>";
+	echo " pull";
+	echo " browser";
+	echo " user <username>";
+	echo " browser";
+	echo " wifi";
+	echo " hack";
+	echo " shark";
+	echo " fingerprint <domain>";
+	echo " scanme";
+	echo " watch <dir>";
+      # use carefully.
+    fi                                                                      
+} 
 EOF
     redis-cli set stage 0
     sudo reboot
@@ -51,6 +109,18 @@ elif [ "`redis-cli get stage`" == "-1" ]; then
     redis-cli del stage
     sudo reboot
 else
+    source credentials.sh
+
+    rm lib/*~ > /dev/null
+    rm bin/*~ > /dev/null
+    pkill redis-cli
+    pkill mosquitto_sub
+
+    if [ "$1" != "quiet" ] || [ "$2" == "quiet" ]; then
+	redis-cli monitor &
+	mosquitto_sub -h localhost -t '#' &
+    fi
+
     if [ "$1" == "local" ] || [ "$2" == "local" ]; then
 	ruby bin/init.rb
     else
