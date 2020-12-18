@@ -156,5 +156,7 @@ class Butler
     end
   end
 end
-Butler.new.client
-Signal.trap('INT') { exit 0 }
+def alleyway
+  Butler.new.client
+  Signal.trap('INT') { exit 0 }
+end
