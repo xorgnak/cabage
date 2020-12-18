@@ -26,8 +26,8 @@ if [ "`redis-cli get stage`" == "" ]; then
     echo "'((\"vango.me\" \"#`redis-cli get CITY`\" \"#`redis-cli get ID`\")))" >> ~/.irc.el
     echo "(erc :server \"vango.me\" :full-name \"`redis-cli get ID`\" :nick \"`redis-cli get ID`\" :password \"$pass\")" >> ~/.irc.el
     echo 'screen -t "#" emacs -nw --load ~/.irc.el index.org' >> ~/.screenrc
-    mkdir .tor
-    echo "HiddenServiceDir /home/$1/.tor" > ~/.torrc
+    mkdir ~/.tor
+    echo "HiddenServiceDir /home/pi/.tor" > ~/.torrc
     echo "HiddenServicePort 80 127.0.0.1:8888" >> ~/.torrc
     echo "HiddenServicePort 22 127.0.0.1:22" >> ~/.torrc
     echo "#-#-#-#-#-#-#-#-#-#-#-#-#-#"
