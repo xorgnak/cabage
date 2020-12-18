@@ -17,7 +17,7 @@ watch() {
 }
 
 
-if [ "$1" == "connect" ]; then
+if [ "$1" == "ssh" ]; then
     shift;
     ssh $*;
 elif [ "$1" == "push" ]; then
@@ -43,7 +43,7 @@ elif [ "$1" == "watch" ]; then
     watch $2;
 else
     echo "usage: work [connect|push|pull|browser|user|wifi|hack|shark|fingerprint|scanme]";
-    echo " connect <domain>";
+    echo " ssh <user@domain>";
     echo " push <your commit message>";
     echo " pull";
     echo " browser";

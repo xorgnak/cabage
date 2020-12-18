@@ -1,0 +1,33 @@
+require 'ruby_mud'
+
+class MudServer::DefaultController
+  def on_start
+    send_text "READY. TIME SAY SECRET QUIT"
+  end
+
+  def allowed_methods
+    super + ['time', 'secret', 'say']
+  end
+
+  def say
+    send_text "You said #{params}"
+  end
+  def time
+    send_text "#{Time.now}"
+  end
+  def secret
+    transfer_to PokerRoom
+  end
+end
+
+class PokerRoom < MudServer::AbstractController
+  def on_start
+    send_text "ROLL"
+  end
+  def allowed_methods
+    ['quit', 'deal']
+  end
+  def deal
+    send_text "#{rand(6) + 1}"
+  end
+end

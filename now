@@ -3,7 +3,7 @@
 if [ "`redis-cli get stage`" == "" ]; then
     sudo apt update
     sudo apt upgrade
-    sudo apt install -y ruby emacs git screen mosquitto mosquitto-clients ircd-hybrid nginx tor aircrack-ng tshark nmap ii wifite netcat vim redis-server redis-tools inotify-tools inosync inoticoming inotify-hookable inotail build-essential
+    sudo apt install -y ruby emacs git screen mosquitto mosquitto-clients ircd-hybrid nginx tor aircrack-ng tshark nmap ii wifite netcat vim redis-server redis-tools inotify-tools inosync inoticoming inotify-hookable build-essential
     echo "";
     echo 'what is your phone number?';
     read id;
@@ -26,7 +26,7 @@ if [ "`redis-cli get stage`" == "" ]; then
     sudo gem install rvm
     rvm gemset create cabage
     rvm gemset use cabage
-    sudo gem install --no-rdoc --no-ri redis-objects mqtt pry thin sinatra twilio-ruby
+    sudo gem install --no-rdoc --no-ri redis-objects mqtt pry thin sinatra
     city=`redis-cli get CITY`
     pass=`echo -n $city | shasum | cut -c8-16`
     redis-cli set pass $pass
