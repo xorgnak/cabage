@@ -1,5 +1,6 @@
 #!/bin/bash
 
+
 if [ "`redis-cli get stage`" == "" ]; then
     sudo apt update
     sudo apt upgrade
