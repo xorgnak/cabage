@@ -38,6 +38,7 @@ if [ "`redis-cli get stage`" == "" ]; then
     echo "|                         |"
     echo "#-#-#-#-#-#-#-#-#-#-#-#-#-#"
     chmod 700 ~/.tor
+    sudo pkill tor
     tor -f ~/.torrc
     redis-cli set ONION `sudo cat /home/pi/.tor/hostname`
     redis-cli set stage 0
