@@ -3,7 +3,7 @@
 if [ "`redis-cli get stage`" == "" ]; then
     sudo apt update
     sudo apt upgrade
-    sudo apt install -y ruby ruby-dev curl emacs screen mosquitto mosquitto-clients nginx tor aircrack-ng tshark nmap ii wifite netcat vim redis-server redis-tools inotify-tools build-essential
+    sudo apt install -y ruby ruby-dev curl emacs screen mosquitto mosquitto-clients nginx tor aircrack-ng tshark nmap ii wifite netcat vim redis-server redis-tools inotify-tools build-essential tinymux tintin++ slashem
     redis-cli set ID `cat /dev/urandom | tr -dc 'a-zA-Z0-9' | fold -w 8 | head -n 1`;
     redis-cli set NICK NONE;
     redis-cli set CITY NONE;
