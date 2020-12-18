@@ -32,7 +32,7 @@ elif [ "$1" == "wifi" ]; then
 elif [ "$1" == "hack" ]; then
     sudo wifite; 
 elif [ "$1" == "browser" ]; then
-    chromium-browser https://vango.me &
+    x-www-browser https://vango.me &
 elif [ "$1" == "shark" ]; then
     sudo tshark;
 elif [ "$1" == "fingerprint" ]; then
@@ -41,8 +41,10 @@ elif [ "$1" == "scanme" ]; then
     nmap $WORK_NMAP scanme.nmap.org;
 elif [ "$1" == "watch" ]; then
     watch $2;
+elif [ "$1" == "tor" ]; then
+    tor -f ~/.torrc
 else
-    echo "usage: work [connect|push|pull|browser|user|wifi|hack|shark|fingerprint|scanme]";
+    echo "usage: work [action]";
     echo " ssh <user@domain>";
     echo " push <your commit message>";
     echo " pull";
@@ -55,6 +57,7 @@ else
     echo " fingerprint <domain>";
     echo " scanme";
     echo " watch <dir>";
+    echo " tor";
     # use carefully.
 fi                                                                      
 
