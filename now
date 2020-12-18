@@ -27,17 +27,17 @@ if [ "`redis-cli get stage`" == "" ]; then
     echo "(erc :server \"vango.me\" :full-name \"`redis-cli get ID`\" :nick \"`redis-cli get ID`\" :password \"$pass\")" >> ~/.irc.el
     echo 'screen -t "#" emacs -nw --load ~/.irc.el index.org' >> ~/.screenrc
     
-    sudo mkdir -p /etc/tor
-    sudo echo "HiddenServiceDir /var/lib/tor/ONION/" >> /etc/tor/torrc
-    sudo echo "HiddenServicePort 80 127.0.0.1:8888" >> /etc/tor/torrc
-    sudo echo "HiddenServicePort 22 127.0.0.1:22" >> /etc/tor/torrc
+    sudo echo "HiddenServiceDir /var/lib/tor/ONION/" >> ~/.torrc
+    sudo echo "HiddenServicePort 80 127.0.0.1:8888" >> ~/.torrc
+    sudo echo "HiddenServicePort 22 127.0.0.1:22" >> ~/.torrc
     echo "#-#-#-#-#-#-#-#-#-#-#-#-#-#"
     echo "|                         |"
-    echo "#           10s           #"
+    echo "#      Wait For 100%      #"
+    echo "|       ...then...        |"
+    echo "#    	    Ctrl-c          #"
     echo "|                         |"
     echo "#-#-#-#-#-#-#-#-#-#-#-#-#-#"
-    sudo tor &
-    sleep 10
+    sudo tor -f ~/.torrc
     redis-cli set ONION `sudo cat /var/lib/tor/ONION/hostname`
     redis-cli set stage 0
     echo "#-#-#-#-#-#-#-#-#-#-#-#-#-#"
