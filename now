@@ -26,14 +26,8 @@ if [ "`redis-cli get stage`" == "" ]; then
     echo "'((\"vango.me\" \"#`redis-cli get CITY`\" \"#`redis-cli get ID`\")))" >> ~/.irc.el
     echo "(erc :server \"vango.me\" :full-name \"`redis-cli get ID`\" :nick \"`redis-cli get ID`\" :password \"$pass\")" >> ~/.irc.el
     echo 'screen -t "#" emacs -nw --load ~/.irc.el index.org' >> ~/.screenrc
-    echo "#-#-#-#-#-#-#-#-#-#-#-#-#-#"
-    echo "|                         |"
-    echo "#            5s           #"
-    echo "|                         |"
-    echo "#-#-#-#-#-#-#-#-#-#-#-#-#-#"
-    sudo tor &
-    sleep 5
-    sudo pkill tor
+    
+    sudo mkdir -p /etc/tor
     sudo echo "HiddenServiceDir /var/lib/tor/ONION/" >> /etc/tor/torrc
     sudo echo "HiddenServicePort 80 127.0.0.1:8888" >> /etc/tor/torrc
     sudo echo "HiddenServicePort 22 127.0.0.1:22" >> /etc/tor/torrc
