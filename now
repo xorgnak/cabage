@@ -46,6 +46,7 @@ if [ "`redis-cli get stage`" == "" ]; then
     echo "#         DONE!           #"
     echo "|                         |"
     echo "#-#-#-#-#-#-#-#-#-#-#-#-#-#"
+    sleep 10
 else
     source credentials.sh
     git pull
