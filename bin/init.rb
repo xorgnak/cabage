@@ -5,6 +5,7 @@ require 'redis-objects'
 require 'sinatra/base'
 require 'thin'
 require 'pry'
+require 'rqrcode'
 #require 'twilio-ruby'
 begin
 def log t, m
