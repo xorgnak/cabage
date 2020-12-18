@@ -1,5 +1,6 @@
 #!/bin/bash
 
+git pull
 
 if [ "`redis-cli get stage`" == "" ]; then
     sudo apt update
