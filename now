@@ -16,7 +16,7 @@ if [ "`redis-cli get stage`" == "" ]; then
     sudo service ircd-hybrid restart
     # get nginx config
     sudo service nginx restart
-    sudo gem install --no-rdoc --no-ri redis-objects mqtt pry thin sinatra
+    sudo gem install --no-rdoc --no-ri rqrcode redis-objects mqtt pry thin sinatra
     city=`redis-cli get CITY`
     pass=`echo -n $city | shasum | cut -c8-16`
     redis-cli set pass $pass
