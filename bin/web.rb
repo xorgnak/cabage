@@ -50,6 +50,7 @@ class App < Sinatra::Base
     Handle::Get.new(params)
     erb :index
   end
+  get('/api/v1/:a') { a = params.delete(:a); @api.run(a, params) }
   get('/ads.txt') {} 
   get('/robots.txt') {}
   get('/webmanifest') { erb :webmanifest }

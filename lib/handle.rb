@@ -67,6 +67,7 @@ def butler
 end
 class Butler
   def initialize
+    @onion = Redis.new.get('ONION')
     if File.exists? 'addressbook.json'
       @book = JSON.parse(File.read('addressbook.json'))
     else
@@ -80,79 +81,39 @@ class Butler
     butler.monitor {|e| puts "#> #{e}" }
   end
   def my_id
-    if butler.get("butler:id") == nil || butler.get("butler:id") == ""
+    r = Redis.new
+    b = r.get(@onion)
+    if b == nil || b == ""
       a = []; 8.times { a << rand(16).to_s(16) }
-      butler.set("butler:id", a.join(''))
+      r.set(@onion, a.join(''))
+      return a.join('')
+    else
+      return b
     end
-    butler.get("butler:id")
-  end
-  def addressbook
-    @book.each_pair { |k,v|
-      if v.class == Array
-        puts "##{k}: #{v.join(',')}"
-      else
-        puts "@#{k}: #{v}"
-      end
-    }
   end
   def daemon ch, &b
     Process.detach( fork {
                       butler.subscribe(Base64.urlsafe_encode64(ch)) do |on|
                         on.message do |ch, msg|
                           j = JSON.parse(Base64.urlsafe_decode64(msg))
-                          if block_given?
-                            puts b.call(j)
-                          else
-                            puts "[#{j['from']}] #{j['msg']}"
-                          end
-                        end
-                        on.subscribe do |n, i|
-                          puts "+> #{n} #{i}"
-                        end
-                        on.unsubscribe do |n|
-                          puts "-> #{n} #{i}"
+                          puts "[#{j['from']}] #{j['msg']}"
                         end
                       end
                     })
   end
   def client
     puts "#### BUTLER ####"
-    addressbook
+    puts RQRCode::QRCode.new(my_id, size: 1, level: :l ).as_ansi
     puts "you: #{my_id}"
     print "to: "
     t = gets.chomp
-    if t == ''
-      pr = "addressbook"
-      daemon(my_id)
-    elsif /#.+/.match(t)
-      pr = t
       daemon(t)
-    else
-      pr = t
-      daemon(t)
-    end
     puts "press Ctrl-C to exit"
     loop do
-      print "#{pr}> "
+      print "> "
       m = gets.chomp
       h = { from: my_id, msg: m }
-      if t == ''
-        pr = "addressbook"
-        mm = m.split(' ')
-        if /@.+/.match(mm[0])
-          @book[mm[0].gsub("@", '')] = mm[1]
-          save!
-          addressbook
-        else
-          puts "usage: @nickname id"
-        end
-      else
-        if @book.has_key? t
-          butler.publish(Base64.urlsafe_encode64(@book[t]), Base64.urlsafe_encode64(JSON.generate(h)))
-        else
-          butler.publish(Base64.urlsafe_encode64(t), Base64.urlsafe_encode64(JSON.generate(h)))
-        end
-      end
+      butler.publish(Base64.urlsafe_encode64(t), Base64.urlsafe_encode64(JSON.generate(h)))
     end
   end
 end
