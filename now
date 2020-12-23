@@ -1,8 +1,5 @@
 #!/bin/bash
 
-log_event() { echo "[nomadic][cabage]### $1" }
-log_debug() { echo "[nomadic][cabage]--> $1" }
-log_info() { echo "[nomadic][cabage]~~> $1" }
 git pull > /dev/null
 
 if [ "`redis-cli get stage`" == "" ]; then
