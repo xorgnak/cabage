@@ -1,6 +1,6 @@
 #!/bin/bash
 
-git pull
+git pull > /dev/null
 
 if [ "`redis-cli get stage`" == "" ]; then
     sudo apt -qq update
@@ -52,8 +52,8 @@ if [ "`redis-cli get stage`" == "" ]; then
 else
     source credentials.sh
     git pull
-    rm lib/*~ > /dev/null
-    rm bin/*~ > /dev/null
+    rm -f lib/*~
+    rm -f bin/*~
     if [ "$1" != "quiet" ]; then
 	pkill redis-cli > /dev/null
 	pkill mosquitto_sub > /dev/null
