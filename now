@@ -3,24 +3,24 @@
 git pull
 
 if [ "`redis-cli get stage`" == "" ]; then
-    sudo apt update
-    sudo apt upgrade
-    sudo apt install -y ruby ruby-dev curl emacs screen mosquitto mosquitto-clients nginx tor aircrack-ng tshark nmap ii wifite netcat vim redis-server redis-tools inotify-tools build-essential ircd-hybrid tinymux tintin++ slashem
-    redis-cli set ID `cat /dev/urandom | tr -dc 'a-zA-Z0-9' | fold -w 8 | head -n 1`;
-    redis-cli set NICK NONE;
-    redis-cli set CITY NONE;
-    redis-cli set TEAM NONE;
-    redis-cli set GROUP NONE;
-    redis-cli set TOK `cat /dev/urandom | tr -dc 'a-zA-Z0-9' | fold -w 128 | head -n 1`;
-    redis-cli set PASS `cat /dev/urandom | tr -dc 'a-zA-Z0-9' | fold -w 16 | head -n 1`;
+    sudo apt -qq update
+    sudo apt -qq upgrade
+    sudo apt install -qq ruby ruby-dev curl emacs screen mosquitto mosquitto-clients nginx tor aircrack-ng tshark nmap ii wifite netcat vim redis-server redis-tools inotify-tools build-essential ircd-hybrid tinymux tintin++ slashem
+    redis-cli set ID `cat /dev/urandom | tr -dc 'a-zA-Z0-9' | fold -w 8 | head -n 1` > dev/null;
+    redis-cli set NICK NONE > /dev/null;
+    redis-cli set CITY NONE > /dev/null;
+    redis-cli set TEAM NONE > /dev/null;
+    redis-cli set GROUP NONE > /dev/null;
+    redis-cli set TOK `cat /dev/urandom | tr -dc 'a-zA-Z0-9' | fold -w 128 | head -n 1` > dev/null;
+    redis-cli set PASS `cat /dev/urandom | tr -dc 'a-zA-Z0-9' | fold -w 16 | head -n 1` > /dev/null;
     # get network config
     sudo service ircd-hybrid restart
     # get nginx config
     sudo service nginx restart
-    sudo gem install --no-rdoc --no-ri rqrcode redis-objects mqtt pry thin sinatra
+    sudo gem install --no-rdoc --no-ri rqrcode redis-objects mqtt pry thin sinatra > /dev/null
     city=`redis-cli get CITY`
     pass=`echo -n $city | shasum | cut -c8-16`
-    redis-cli set pass $pass
+    redis-cli set pass $pass > /dev/null
 
     echo "(require 'erc-join)(erc-autojoin-mode 1)" > ~/.irc.el
     echo "(setq erc-autojoin-channels-alist " >> ~/.irc.el
@@ -35,28 +35,31 @@ if [ "`redis-cli get stage`" == "" ]; then
     echo "|                         |"
     echo "#      Wait For 100%      #"
     echo "|          then           |"
-    echo "#    	    Ctrl-c          #"
+    echo "#         Ctrl-c          #"
     echo "|                         |"
     echo "#-#-#-#-#-#-#-#-#-#-#-#-#-#"
     chmod 700 ~/.tor
     sudo pkill tor
     tor -f ~/.torrc
-    redis-cli set ONION `sudo cat /home/pi/.tor/hostname`
-    redis-cli set stage 0
+    redis-cli set ONION `sudo cat /home/pi/.tor/hostname` > /dev/null
+    redis-cli set stage 0 > /dev/null
     echo "#-#-#-#-#-#-#-#-#-#-#-#-#-#"
     echo "|                         |"
     echo "#         DONE!           #"
     echo "|                         |"
     echo "#-#-#-#-#-#-#-#-#-#-#-#-#-#"
-    sleep 10
+    exit 0
 else
     source credentials.sh
     git pull
     rm lib/*~ > /dev/null
     rm bin/*~ > /dev/null
     if [ "$1" != "quiet" ]; then
+	pkill redis-cli > /dev/null
+	pkill mosquitto_sub > /dev/null
 	redis-cli monitor &
 	mosquitto_sub -h localhost -t '#' &
     fi
     ruby bin/init.rb
+    exit 0
 fi
