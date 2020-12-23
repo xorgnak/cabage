@@ -3,15 +3,15 @@
 git pull > /dev/null
 
 if [ "`redis-cli get stage`" == "" ]; then
-    sudo apt -qq update
-    sudo apt -qq upgrade
-    sudo apt install -qq ruby ruby-dev curl emacs screen mosquitto mosquitto-clients nginx tor aircrack-ng tshark nmap ii wifite netcat vim redis-server redis-tools inotify-tools build-essential ircd-hybrid tinymux tintin++ slashem
-    redis-cli set ID `cat /dev/urandom | tr -dc 'a-zA-Z0-9' | fold -w 8 | head -n 1` > dev/null;
+    sudo apt -qq update > /dev/null
+    sudo apt -qq upgrade > /dev/null
+    sudo apt install -qq ruby ruby-dev curl emacs screen mosquitto mosquitto-clients nginx tor aircrack-ng tshark nmap ii wifite netcat vim redis-server redis-tools inotify-tools build-essential ircd-hybrid tinymux tintin++ slashem > /dev/null
+    redis-cli set ID `cat /dev/urandom | tr -dc 'a-zA-Z0-9' | fold -w 8 | head -n 1` > /dev/null;
     redis-cli set NICK NONE > /dev/null;
     redis-cli set CITY NONE > /dev/null;
     redis-cli set TEAM NONE > /dev/null;
     redis-cli set GROUP NONE > /dev/null;
-    redis-cli set TOK `cat /dev/urandom | tr -dc 'a-zA-Z0-9' | fold -w 128 | head -n 1` > dev/null;
+    redis-cli set TOK `cat /dev/urandom | tr -dc 'a-zA-Z0-9' | fold -w 128 | head -n 1` > /dev/null;
     redis-cli set PASS `cat /dev/urandom | tr -dc 'a-zA-Z0-9' | fold -w 16 | head -n 1` > /dev/null;
     # get network config
     sudo service ircd-hybrid restart
