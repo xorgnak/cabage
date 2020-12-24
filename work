@@ -3,7 +3,7 @@
 export WORK_NMAP='-v -A';
 
 function git_repo_commit_and_push() {
-    git add . && git commit -m "$*" && git push origin main;
+    git add . && git commit -m "$*" && git push;
 }               
 watch() {
     mkdir -p $1;
@@ -34,15 +34,25 @@ elif [ "$1" == "hack" ]; then
 elif [ "$1" == "browser" ]; then
     x-www-browser https://vango.me &
 elif [ "$1" == "shark" ]; then
-    sudo tshark;
+    shift
+    sudo tshark $*;
 elif [ "$1" == "fingerprint" ]; then
-    nmap $WORK_NMAP $2;
+    shift
+    nmap $WORK_NMAP $*;
 elif [ "$1" == "scanme" ]; then
     nmap $WORK_NMAP scanme.nmap.org;
 elif [ "$1" == "watch" ]; then
     watch $2;
+    echo "[nomadic][work][watch] publishing events on WATCH.$2"
 elif [ "$1" == "tor" ]; then
-    tor -f ~/.torrc
+    pkill tor && tor -f ~/.torrc > ~/.tor.log &
+    echo "[nomadic][tor][http] running."
+    echo "[nomadic][tor][ssh] running."
+    echo "[nomadic][tor][irc] running."
+    echo "[nomadic][tor][log] collecting logs at ~/.tor.log"
+elif [ "$1" == "add" ]; then
+    redis-cli hset nomadic $2 true > /dev/null
+    echo "[nomadic] extension will be installed on next restart."
 else
     echo "usage: work [action]";
     echo " ssh <user@domain>";
@@ -58,6 +68,7 @@ else
     echo " scanme";
     echo " watch <dir>";
     echo " tor";
+    echo " add <extension>"
     # use carefully.
 fi                                                                      
 
