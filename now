@@ -7,7 +7,7 @@ if [ "`redis-cli get stage`" == "" ]; then
     sudo apt-get update > /dev/null
     echo "[nomadic][cabage][installer] apt updated."
     echo "[nomadic][cabage][installer] apt upgrading..."
-    sudo apt-get upgrade > /dev/null
+    sudo apt-get upgrade -y > /dev/null
     echo "[nomadic][cabage][installer] apt upgraded."
     echo "[nomadic][cabage][installer] apt packages installing..."
     sudo apt-get install -y ruby ruby-dev curl emacs screen mosquitto mosquitto-clients nginx tor aircrack-ng tshark nmap ii wifite netcat vim redis-server redis-tools inotify-tools build-essential ircd-hybrid tinymux tintin++ slashem > /dev/null
