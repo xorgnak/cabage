@@ -1,7 +1,5 @@
 #!/bin/bash
 
-git pull > /dev/null
-
 if [ "`redis-cli get stage`" == "" ]; then
     echo "[nomadic][cabage][installer] apt updating..."
     sudo apt-get update > /dev/null
