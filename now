@@ -61,6 +61,9 @@ if [ "`redis-cli get stage`" == "" ]; then
     tor -f ~/.torrc
     redis-cli set ONION `sudo cat /home/pi/.tor/hostname` > /dev/null
     echo "[nomadic][cabage][tor] configured."
+    sudo update-alternatives --config editor
+    sudo update-alternatives --config x-terminal-emulator
+    sudo update-alternatives --config x-www-browser
     redis-cli set stage 0 > /dev/null
     exit 0
 else
