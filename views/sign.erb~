@@ -1,6 +1,0 @@
-<div id='qrcode'></div>
-<script>
-$(function() {
-$('#qrcode').qrcode("https://vango.me/user?id=<%= params[:id] %>");
-});
-</script>

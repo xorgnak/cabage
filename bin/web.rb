@@ -57,7 +57,7 @@ class App < Sinatra::Base
   get('/favicon.ico') {}
   get('/sms') { TWILIO.get_sms(params) }
   get('/call') { TWILIO.get_call(params) }
-  [:profile, :shop, :auth, :make, :sign, :ui, :theatre, :tasker].each { |r|
+  [:profile, :shop, :auth, :make, :sign, :ui, :theatre, :tasker, :peer].each { |r|
     get("/#{r}") { erb r };
   }
   not_found do

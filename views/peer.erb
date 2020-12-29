@@ -1,0 +1,54 @@
+<script src='https://code.jquery.com/jquery-3.5.1.min.js' integrity='sha256-9/aliU8dGd2tb6OSsuzixeV4y/faTqgFtohetphbbj0=' crossorigin='anonymous'></script>
+<script src='https://unpkg.com/peerjs@1.3.1/dist/peerjs.min.js'></script>
+<script src='https://cdn.jsdelivr.net/gh/davidshimjs/qrcodejs/qrcode.min.js'></script>
+<script>
+navigator.getUserMedia = navigator.mediaDevices.getUserMedia || navigator.mediaDevices.webkitGetUserMedia || navigator.mediaDevices.mozGetUserMedia;
+
+function peer2peer(dest) {
+	 var conn = peer.connect(dest);
+	 conn.on('open', function() {
+	 		 conn.on('data', function(data) {
+			 		 console.log("DATA: ", data);
+			  });
+	 });
+}
+function peer2peer_vv(dest) {
+	 var call = peer.call(dest, window.localStream);
+}
+const peer = new Peer({
+      host: 'localhost',
+      port: 9000,
+      path: '/peer',
+      debug: 3
+});
+peer.on('open', function(id) {
+		$('#id').text(id);
+		new QRCode(document.getElementById('qr'), id);
+});
+function startVideo() {
+		navigator.getUserMedia({ audio: true, video: true }, function(stream) {
+			$('#video_me').prop('src', URL.createObjectURL(stream));
+			window.localStream = stream;
+		});
+}
+
+peer.on('connection', function(conn) {
+		     $('#my').hide();
+		     $('#video_you').show();
+		      console.log('conn', conn);		      
+});
+peer.on('call', function(call) {
+		call.answer(window.localStream);
+});
+peer.on('stream', function(stream) {
+		  $('#video_you').prop('src', URL.createObjectURL(stream));
+});
+</script>
+<div>
+	<video id='video_me' autoplay></video>
+	<div id='my'>
+	<p id='id'></p>
+	<div id='qr'></div>
+	</div>
+	<video id='video_you' muted='true' autoplay></video>
+</div>

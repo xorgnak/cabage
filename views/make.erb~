@@ -1,3 +1,0 @@
-<% [ :name, :nickname, :venmo, :pitch, :image ].each do |e| %>
-<label><%= e %></label><input type='text' name='<%= e %>'>
-<% end %>
