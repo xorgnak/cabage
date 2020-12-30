@@ -8,7 +8,7 @@ if [ "`redis-cli get stage`" == "" ]; then
     sudo apt-get upgrade -y > /dev/null
     echo "[nomadic][cabage][installer] apt upgraded."
     echo "[nomadic][cabage][installer] apt packages installing... (you may need to answer configuration questions)"
-    sudo apt-get install -qq ruby ruby-dev curl emacs screen mosquitto mosquitto-clients nginx tor aircrack-ng tshark nmap ii wifite netcat vim diceware di redis-server redis-tools inotify-tools build-essential ircd-hybrid tinymux tintin++ slashem
+    sudo apt-get install -qq ruby ruby-dev curl emacs screen mosquitto mosquitto-clients nginx tor aircrack-ng tshark nmap ii sysvbanner termrec termsaver tina wifite netcat vim diceware di redis-server redis-tools inotify-tools build-essential ircd-hybrid tinymux tintin++ slashem
     echo "[nomadic][cabage][installer] apt packages installed."
     echo "[nomadic][cabage][node] blanking random device configuration."
     redis-cli set ID `cat /dev/urandom | tr -dc 'a-zA-Z0-9' | fold -w 8 | head -n 1` > /dev/null;
