@@ -63,9 +63,9 @@ function _input() {
         _txt="${line:3}"
         case ${line:1:1} in
             m ) read -r _to _msg <<< "$_txt" && _send "PRIVMSG $_to :$_msg" && _output "-> $_to> $_msg"; return;;
-            l ) read -r _from _msg <<< "$_txt" && _send "PART $_from :$_msg"; return;;
-            j ) _send "JOIN $_txt"; [[ -z $channel ]] && channel=$_txt; return;;
-            s ) channel="$_txt";  return;;
+            p ) read -r _from _msg <<< "$_txt" && _send "PART $_from :$_msg"; return;;
+            a ) _send "JOIN $_txt"; [[ -z $channel ]] && channel=$_txt; return;;
+            j ) channel="$_txt";  return;;
             q ) _send "QUIT"; exit 0;
         esac
     fi
