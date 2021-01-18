@@ -62,6 +62,52 @@ module Handle
   end 
 end
 
+class Hive
+  include Redis::Objects
+  set :active
+  set :working
+  sorted_set :activity
+  list :log
+  def initialize i
+    @id = i
+  end
+  def id; @id; end
+end
+
+
+module Handle
+  class Irc
+    def initialize i
+      @i = i
+      @events = @i.events
+      @message = @i.message
+      if @i.channel != nil
+        @from = @i.user
+        @channel = @i.channel
+        @hive = Hive.new(@channel)
+        @hive.active << @from
+        @hive.activity.incr(@from)
+        case
+        when @events.include?(:join)
+          @hive.working << @from
+        when @events.include?(:part)
+          @hive.working.delete(@from)
+        else
+          @hive.working << @from
+        end
+        @hive.log << JSON.generate({
+                                     timestamp: Time.now.to_i,
+                                     from: @from,
+                                     channel: @channel,
+                                     events: @events,
+                                     message: @message
+                                   })
+      end
+      log "irc#{@channel}", "#{@events} #{@message}"
+    end
+  end
+end
+
 def butler
   Redis.new( host: "vango.me", db: 1 )
 end

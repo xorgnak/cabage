@@ -6,6 +6,7 @@ require 'sinatra/base'
 require 'thin'
 require 'pry'
 require 'rqrcode'
+require 'cinch'
 #require 'twilio-ruby'
 begin
 def log t, m
@@ -20,6 +21,8 @@ log 'cabgo', 'running'
 CONF = JSON.parse(File.read('config.json'))
 log('CONF', CONF)
 Dir['lib/*'].each { |e| log('loaded', e);load e; log('loaded' ,e) }
+load 'bin/irc.rb'
+log 'irc', 'running'
 load 'bin/mqtt.rb'
 log 'mqtt', 'running'
 load 'bin/web.rb'

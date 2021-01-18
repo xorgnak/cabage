@@ -1,9 +1,0 @@
-#+TODO: TODO(t!/@) | DONE(d!/@)
-#+OPTIONS: stat:t html-postamble:nil H:6 num:nil toc:nil \n:nil ::nil |:t ^:t f:t tex:t
-#+TITLE: 
-
-* welcome to the road
-- You'll find useful tools like the organizer and profle editor in the menu on the top left.
-- Time, location stamps can be added to you organizer with their buttons above.
-- When an update is pending, add your status and click the green button to record your entry.
-- Safe travels!
